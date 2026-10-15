@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jewel-AI | Store dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{--pearl:#EEF0F6;--ink:#161A33;--mute:#6B7090;--line:#D9DCE8;--brass:#B5832B;--teal:#1F6F6B;--serif:"Young Serif",Georgia,serif;--sans:"Figtree",system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--pearl);color:var(--ink);font:16px/1.5 var(--sans);padding:28px 36px;max-width:1100px;margin:auto}
+h1{font:30px var(--serif);margin:0}h2{font:19px var(--serif);margin:0 0 10px}a{color:var(--teal)}
+.note{color:var(--mute);font-size:14px;margin:4px 0 20px}
+.kpis,.grid{display:grid;gap:16px}.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:16px}
+.grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.p{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+.k b{display:block;font:600 28px var(--sans)}.k span{color:var(--mute);font-size:14px}
+.hi{background:var(--ink);color:#EDEFF8;border:0;margin-bottom:16px}.hi h2{color:#E9D9B0}
+.b{display:grid;grid-template-columns:150px 1fr 28px;gap:8px;align-items:center;margin:6px 0;font-size:14px}
+.b i{display:block;height:10px;background:var(--brass);border-radius:99px}.b em{font-style:normal;color:var(--mute);text-align:right}
+.cols{display:flex;align-items:flex-end;gap:10px;height:110px}.cols div{flex:1;text-align:center;font-size:12px;color:var(--mute)}
+.cols i{display:block;background:var(--teal);border-radius:6px 6px 0 0;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mute);font-weight:500}
+ul{margin:0;padding-left:18px}li{margin:4px 0}.sent{color:var(--teal);font-weight:600}
+@media(max-width:600px){body{padding:18px}.b{grid-template-columns:110px 1fr 24px}}
+</style></head><body>
+<a href="/">Back to the design app</a>
+<h1>Store dashboard</h1><p class="note" id="note"></p>
+<div class="p hi"><h2>Suggested to make or stock this week</h2><div id="sug">Loading...</div></div>
+<div class="kpis" id="kpis"></div>
+<div class="grid">
+<div class="p"><h2>Most requested styles</h2><div id="styles"></div></div>
+<div class="p"><h2>Customer budgets</h2><div id="budgets"></div></div>
+<div class="p"><h2>Metal mix</h2><div id="metals"></div></div>
+<div class="p"><h2>Stone mix</h2><div id="stones"></div></div>
+<div class="p"><h2>Requests, last 7 days</h2><div class="cols" id="days"></div></div>
+<div class="p"><h2>Trending now</h2><ul id="tr"></ul><p class="note" id="trsrc"></p></div>
+</div>
+<div class="p" style="margin-top:16px"><h2>Recent requests</h2><div style="overflow-x:auto"><table id="recent"></table></div></div>
+<script>
+const $=s=>document.querySelector(s),inr=n=>'₹'+new Intl.NumberFormat('en-IN').format(Math.round(n)),esc=t=>String(t??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const L={gold_22k:'22k gold',gold_18k:'18k gold',gold_14k:'14k gold',gold_24k:'24k gold',none:'No stone',cz:'Cubic zirconia',moissanite:'Moissanite',lab_diamond:'Lab-grown diamond',natural_diamond:'Natural diamond'},lb=k=>L[k]||k;
+const bars=(l,f=x=>x)=>{const m=Math.max(1,...l.map(x=>x[1]));return l.map(([k,v])=>`<div class="b"><span>${esc(f(k))}</span><i style="width:${v/m*100}%"></i><em>${v}</em></div>`).join('')};
+(async()=>{try{const d=await fetch('/api/insights').then(r=>r.json());
+$('#note').textContent=d.demo?`Includes ${d.demo} seeded demo records so the charts are not empty. New customer requests are added live.`:'';
+$('#sug').textContent=d.suggestion||'No requests yet.';
+$('#kpis').innerHTML=[['Customer requests',d.total],['Sent to jeweller',d.sent],['Sent rate',d.conversion+'%'],['Median budget',inr(d.median_budget)]].map(k=>`<div class="p k"><b>${k[1]}</b><span>${k[0]}</span></div>`).join('');
+$('#styles').innerHTML=bars(d.styles);$('#budgets').innerHTML=bars(d.budgets);$('#metals').innerHTML=bars(d.metals,lb);$('#stones').innerHTML=bars(d.stones,lb);
+const m=Math.max(1,...d.days.map(x=>x[1]));$('#days').innerHTML=d.days.map(([k,v])=>`<div><i style="height:${v/m*80}px"></i>${v}<br>${k}</div>`).join('');
+$('#recent').innerHTML='<tr><th>When</th><th>Occasion</th><th>Style</th><th>Metal</th><th>Budget</th><th>Status</th></tr>'+d.recent.map(r=>`<tr><td>${new Date(r.ts*1000).toLocaleDateString('en-IN')}</td><td>${esc(r.occasion)}</td><td>${esc(r.style)}</td><td>${lb(r.metal)}</td><td>${r.budget?inr(r.budget):'-'}</td><td class="${r.status}">${r.status==='sent'?'Sent to jeweller':'Viewed designs'}</td></tr>`).join('');
+}catch(e){$('#sug').textContent='Could not load insights: '+e.message}
+try{const t=await fetch('/api/trends').then(r=>r.json());$('#tr').innerHTML=t.cues.map(c=>`<li>${esc(c)}</li>`).join('');$('#trsrc').textContent=t.source==='google_search'?'Source: Google Search grounding':'Sample data: live trends were unavailable'}catch(e){}})();
+</script></body></html>

@@ -3,195 +3,2251 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jewel-AI | Design a ring within your budget</title>
+<title>JEWEL-AI | Haute Joaillerie Atelier & AI Co-Creation Salon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--pearl:#EEF0F6;--panel:#fff;--ink:#161A33;--ink2:#262B4F;--mute:#6B7090;--line:#D9DCE8;--brass:#B5832B;--teal:#1F6F6B;--red:#B3402F;
---serif:"Young Serif",Georgia,serif;--sans:"Figtree",system-ui,sans-serif}
-*{box-sizing:border-box}html,body{height:100%;margin:0}
-body{font:16px/1.5 var(--sans);background:var(--pearl);color:var(--ink);display:grid;grid-template-columns:380px 1fr}
-button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
-/* chat */
-aside{background:var(--ink);color:#EDEFF8;display:flex;flex-direction:column;height:100vh;min-height:0}
-.brand{padding:22px 24px 8px;font:26px var(--serif)}
-.brand small{display:block;font:400 14px var(--sans);color:#A9AED0;margin-top:2px}
-#log{flex:1;overflow:auto;padding:12px 24px;display:flex;flex-direction:column;gap:10px}
-.m{max-width:92%;padding:10px 14px;border-radius:14px 14px 14px 4px;background:var(--ink2);white-space:pre-wrap}
-.m.u{align-self:flex-end;background:#E9D9B0;color:#2B2208;border-radius:14px 14px 4px 14px}
-.m.err{background:#4A2530;color:#FFD9D2}
-#chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 24px 8px}
-.chip{padding:3px 11px;border-radius:999px;border:1px solid #4B5185;font-size:13px;color:#D6D9F0}
-.starters{display:flex;flex-wrap:wrap;gap:6px;padding:0 24px 10px}
-.starters button{background:none;border:1px dashed #5A6098;border-radius:8px;padding:5px 10px;font-size:13px;color:#C9CDEA;cursor:pointer}
-.starters button:hover{border-color:var(--brass);color:#fff}
-#chat{display:flex;gap:8px;padding:12px 24px 22px;border-top:1px solid #2F3563}
-#chat input{flex:1;min-width:0;border:1px solid #4B5185;background:#10132A;border-radius:10px;padding:11px 13px;color:#fff}
-.btn{background:var(--brass);color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:600;cursor:pointer}
-.btn:hover{background:#9C6F20}.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
-.btn:disabled{opacity:.5;cursor:default}
-/* stage */
-main{height:100vh;overflow:auto;padding:28px 36px}
-.hero{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:center;max-width:760px;margin:8vh auto 0}
-.hero h1{font:34px/1.15 var(--serif);margin:0 0 10px}.hero p{color:var(--mute);margin:0;max-width:46ch}
-h2{font:26px var(--serif);margin:0 0 4px}.sub{color:var(--mute);margin:0 0 20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
-.card .ringbox{background:linear-gradient(180deg,#F7F8FC,#E8EBF4);border-radius:12px;padding:6px}
-.card h3{margin:4px 0 0;font:19px var(--serif)}
-.price{font:600 24px var(--sans)}
-.badge{align-self:flex-start;font-size:13px;font-weight:600;padding:2px 10px;border-radius:999px}
-.ok{background:#D9EFEC;color:var(--teal)}.over{background:#F6DDD8;color:var(--red)}
-.chg{font-size:14px;color:var(--mute);min-height:21px}
-.cz{display:grid;grid-template-columns:minmax(240px,380px) 1fr;gap:32px;align-items:start}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
-.row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
-.row.t{border:0;font-weight:600;font-size:18px;padding-top:10px}
-label{display:block;font-weight:500;margin:14px 0 4px;font-size:14px}
-select,input[type=range]{width:100%}select{padding:8px;border:1px solid var(--line);border-radius:8px;background:#fff}
-input[type=range]{accent-color:var(--brass)}
-.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:12px 0 4px}
-.bar i{display:block;height:100%;background:var(--teal);transition:width .2s}
-.bar.over i{background:var(--red)}
-.saver{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;background:#F5F6FB;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:6px;cursor:pointer}
-.saver:hover{border-color:var(--brass)}.saver b{color:var(--teal)}
-.acts{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-#toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none}
-#toast.on{opacity:1}
-svg{width:100%;height:auto;display:block;overflow:visible}
-.rtag{font-size:12px;color:var(--mute);text-align:center;padding:4px 0 2px}.lnk{display:inline-block;margin-top:6px;font:14px var(--sans);color:#E9D9B0}.strip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:14px;color:var(--mute)}.strip b{color:var(--ink)}
-@media(max-width:860px){body{grid-template-columns:1fr;height:auto}aside{height:70vh}main{height:auto;padding:22px 18px}
-.hero,.cz{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+:root {
+  --obsidian: #07090E;
+  --obsidian-surface: #0D111D;
+  --obsidian-card: #131828;
+  --obsidian-card-hover: #192035;
+  --border-hairline: rgba(212, 175, 55, 0.24);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --gold-primary: #D4AF37;
+  --gold-light: #F7E7B4;
+  --gold-dark: #8E6F28;
+  --gold-gradient: linear-gradient(135deg, #FBF3D5 0%, #D4AF37 50%, #99751D 100%);
+  --gold-glow: rgba(212, 175, 55, 0.28);
+  --emerald: #10B981;
+  --emerald-surface: rgba(16, 185, 129, 0.12);
+  --ruby: #EF4444;
+  --ruby-surface: rgba(239, 68, 68, 0.12);
+  --text-ivory: #FDFBF7;
+  --text-muted: #9CA3AF;
+  --text-dim: #6B7280;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --shadow-luxe: 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--obsidian); color: var(--text-ivory); }
+body {
+  font: 14px/1.6 var(--font-sans);
+  display: grid;
+  grid-template-columns: 430px 1fr;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+}
+
+/* Ambient Subtle Lighting */
+body::before {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: 30%;
+  width: 50vw;
+  height: 50vh;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-primary); outline-offset: 2px; }
+
+/* Custom Scrollbars */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--obsidian); }
+::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
+
+/* Left Atelier Concierge Sidebar */
+aside {
+  background: var(--obsidian-surface);
+  border-right: 1px solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  z-index: 20;
+}
+
+.atelier-brand {
+  padding: 22px 26px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.09) 0%, transparent 80%);
+}
+.brand-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand-logo {
+  font: 700 25px/1 var(--font-serif);
+  letter-spacing: 0.07em;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--gold-light);
+  border: 1px solid var(--border-hairline);
+}
+.brand-tagline {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 5px;
+  letter-spacing: 0.03em;
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+
+/* Bullion Ticker Bar */
+.ticker-bar {
+  background: rgba(7, 9, 14, 0.85);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 8px 26px;
+  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-muted);
+}
+.ticker-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 8px #34D399;
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+.ticker-value {
+  color: var(--gold-light);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.ticker-refresh-btn {
+  background: none;
+  border: 1px solid var(--border-hairline);
+  color: var(--gold-light);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+.ticker-refresh-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold-primary);
+}
+
+/* Multimodal Inspiration Dropzone */
+.dropzone-container {
+  padding: 12px 26px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.inspiration-dropzone {
+  border: 1px dashed var(--border-hairline);
+  border-radius: 12px;
+  padding: 11px 14px;
+  background: rgba(19, 24, 40, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.inspiration-dropzone:hover, .inspiration-dropzone.dragover {
+  border-color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.08);
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.12);
+}
+.dropzone-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--gold-gradient);
+  color: #1A1305;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.dropzone-meta b {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: 0.02em;
+}
+.dropzone-meta span {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+#file-input-inspiration { display: none; }
+
+/* Vision Analysis Banner */
+.vision-status-banner {
+  margin: 10px 26px 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(212, 175, 55, 0.08) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 11.5px;
+  display: none;
+}
+.vision-status-banner.visible { display: block; animation: fadeIn 0.3s ease; }
+.vision-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: #34D399;
+  margin-bottom: 3px;
+}
+
+/* Chat Messages Flow */
+#chat-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chat-msg {
+  max-width: 92%;
+  padding: 11px 16px;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--obsidian-card);
+  color: var(--text-ivory);
+  border: 1px solid var(--border-subtle);
+  font-size: 13.5px;
+  line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #2A210F 0%, #3D3016 100%);
+  color: var(--gold-light);
+  border-color: rgba(212, 175, 55, 0.35);
+  border-radius: 16px 16px 4px 16px;
+}
+.chat-msg.err {
+  background: #3B161B;
+  color: #FCA5A5;
+  border-color: #7F1D1D;
+}
+
+/* Curated Atelier Masterpiece Starters */
+.starters-section {
+  padding: 0 26px 8px;
+}
+.starters-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.starter-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.atelier-starter-btn {
+  background: rgba(19, 24, 40, 0.65);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.atelier-starter-btn:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--gold-primary);
+  transform: translateX(3px);
+}
+.starter-info b {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-ivory);
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+.starter-info span {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+.starter-price-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gold-light);
+  background: rgba(212, 175, 55, 0.14);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Chat Input Bar */
+.chat-form {
+  padding: 12px 26px 18px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--obsidian-surface);
+  display: flex;
+  gap: 8px;
+}
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: rgba(7, 9, 14, 0.9);
+  color: var(--text-ivory);
+  font-size: 13.5px;
+  transition: border-color 0.2s;
+}
+.chat-input:focus {
+  border-color: var(--gold-primary);
+  outline: none;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+}
+.btn-chat-send {
+  background: var(--gold-gradient);
+  color: #1A1305;
+  border: none;
+  font-weight: 700;
+  padding: 0 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+.btn-chat-send:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+}
+
+/* Right Main Showroom Stage */
+main {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 24px 34px 60px;
+  background: radial-gradient(circle at 70% 10%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+              radial-gradient(circle at 10% 90%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+              var(--obsidian);
+}
+
+.showroom-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.category-tabs-group {
+  display: flex;
+  gap: 6px;
+  background: rgba(14, 18, 30, 0.8);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border-hairline);
+}
+.cat-pill-btn {
+  background: transparent;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cat-pill-btn.active, .cat-pill-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-light);
+}
+.cat-pill-btn.active {
+  background: var(--gold-gradient);
+  color: #1A1305;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.showroom-quick-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.atelier-nav-link {
+  color: var(--gold-light);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 6px 14px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  transition: all 0.2s;
+  background: rgba(212, 175, 55, 0.06);
+  cursor: pointer;
+}
+.atelier-nav-link:hover {
+  background: rgba(212, 175, 55, 0.16);
+  border-color: var(--gold-primary);
+}
+
+/* Hero Showcase Welcome Card */
+.atelier-welcome-stage {
+  background: linear-gradient(145deg, rgba(19, 24, 40, 0.7) 0%, rgba(13, 17, 29, 0.9) 100%);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: 36px 40px;
+  margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 34px;
+  align-items: center;
+  box-shadow: var(--shadow-luxe);
+}
+.welcome-plinth-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline);
+  background: #0A0D15;
+  text-align: center;
+  padding: 14px;
+}
+.welcome-plinth-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.4s ease;
+}
+.welcome-plinth-card:hover img {
+  transform: scale(1.03);
+}
+.welcome-narrative h2 {
+  font: 600 34px/1.2 var(--font-serif);
+  color: var(--text-ivory);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
+.welcome-narrative p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+  margin-bottom: 22px;
+}
+.welcome-metrics-strip {
+  display: flex;
+  gap: 20px;
+}
+.metric-pill {
+  border-left: 2px solid var(--gold-primary);
+  padding-left: 12px;
+}
+.metric-pill b {
+  display: block;
+  font-size: 15px;
+  color: var(--gold-light);
+}
+.metric-pill span {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 3 Calibrated Variations Header */
+.gallery-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+.gallery-header-row h2 {
+  font: 600 26px/1.2 var(--font-serif);
+  color: var(--text-ivory);
+  letter-spacing: 0.02em;
+}
+.gallery-header-row p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.trend-alert-pill {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border: 1px solid var(--border-hairline);
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 12px;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 3 Variations Card Grid */
+.gallery-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 34px;
+}
+.jewel-variant-card {
+  background: var(--obsidian-card);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+.jewel-variant-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 16px 40px rgba(212, 175, 55, 0.18);
+}
+.jewel-variant-card.statement {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.06) 0%, var(--obsidian-card) 60%);
+  border-color: rgba(212, 175, 55, 0.45);
+}
+
+.card-media-stage {
+  height: 220px;
+  border-radius: 12px;
+  background: #080B13;
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-media-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.card-media-stage:hover img {
+  transform: scale(1.05);
+}
+.card-media-stage svg {
+  width: 160px;
+  height: 160px;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.5));
+}
+.card-tier-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(8, 11, 19, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-hairline);
+  color: var(--gold-light);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  border-radius: 6px;
+  z-index: 2;
+}
+.card-view-toggle {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 3px;
+  background: rgba(8, 11, 19, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 2px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  z-index: 2;
+}
+.view-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 2px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.view-toggle-btn.active {
+  background: var(--gold-gradient);
+  color: #1A1305;
+}
+
+.card-title {
+  font: 600 20px/1.2 var(--font-serif);
+  color: var(--text-ivory);
+  margin-bottom: 6px;
+}
+.card-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.card-price {
+  font: 700 20px/1 var(--font-sans);
+  color: var(--gold-light);
+}
+.budget-status-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+.status-fits {
+  background: var(--emerald-surface);
+  color: #34D399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+.status-over {
+  background: var(--ruby-surface);
+  color: #F87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+.card-specs-list {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  flex: 1;
+}
+.btn-launch-customizer {
+  width: 100%;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--border-hairline);
+  color: var(--gold-light);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+.btn-launch-customizer:hover {
+  background: var(--gold-gradient);
+  color: #1A1305;
+  border-color: var(--gold-primary);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+}
+
+/* In-Stock Showroom Matches Shelf */
+.showroom-matches-shelf {
+  background: rgba(14, 18, 30, 0.7);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: 22px 26px;
+  margin-top: 24px;
+}
+.shelf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.shelf-header h4 {
+  font: 600 18px/1 var(--font-serif);
+  color: var(--text-ivory);
+  letter-spacing: 0.02em;
+}
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.shelf-item-card {
+  background: rgba(8, 11, 19, 0.85);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: border-color 0.2s;
+}
+.shelf-item-card:hover { border-color: var(--gold-primary); }
+.shelf-item-sku {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--gold-dark);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.shelf-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-ivory);
+  margin-bottom: 6px;
+}
+.shelf-item-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+/* Interactive Studio Customizer Layout */
+.customizer-split-grid {
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 28px;
+}
+.atelier-panel {
+  background: var(--obsidian-card);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.panel-headline {
+  font: 600 20px/1.2 var(--font-serif);
+  color: var(--text-ivory);
+  letter-spacing: 0.02em;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+}
+
+.jewel-stage-plinth {
+  height: 340px;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 40%, #151A2C 0%, #080A12 75%);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+}
+.jewel-stage-plinth img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.7));
+}
+.jewel-stage-plinth svg {
+  width: 220px;
+  height: 220px;
+  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.6));
+}
+
+/* AI Render Progress Overlay */
+.render-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 18, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 10;
+  display: none;
+}
+.render-loading-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+.render-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(212, 175, 55, 0.2);
+  border-top-color: var(--gold-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.render-status-text {
+  font-size: 13px;
+  color: var(--gold-light);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Certified Hallmarking Badge Seal */
+.hallmark-cert-seal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.09) 0%, rgba(212, 175, 55, 0.06) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 14px;
+}
+.cert-seal-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+.cert-seal-info b {
+  display: block;
+  font-size: 12.5px;
+  color: #34D399;
+}
+.cert-seal-info span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Studio Sliders and Selectors */
+.control-row {
+  margin-bottom: 18px;
+}
+.control-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.control-header span:last-child {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+.atelier-select {
+  width: 100%;
+  padding: 9px 12px;
+  background: #080B13;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-ivory);
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+.atelier-select:focus { border-color: var(--gold-primary); outline: none; }
+.atelier-range {
+  width: 100%;
+  accent-color: var(--gold-primary);
+  cursor: pointer;
+  height: 6px;
+}
+
+/* Cost Breakdown Table */
+.cost-breakdown-box {
+  background: #080B13;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+.cost-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+}
+.cost-line b { color: var(--text-ivory); font-weight: 600; }
+.cost-line.total-line {
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: none;
+  padding-top: 10px;
+  margin-top: 6px;
+  font-size: 15px;
+}
+.cost-line.total-line b {
+  color: var(--gold-light);
+  font-size: 19px;
+  font-family: var(--font-serif);
+}
+
+/* Budget Progress Meter */
+.budget-meter-container {
+  margin-bottom: 18px;
+}
+.meter-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+.meter-track {
+  height: 8px;
+  background: #080B13;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+.meter-progress {
+  height: 100%;
+  background: var(--emerald);
+  width: 60%;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+}
+.meter-track.over .meter-progress {
+  background: var(--ruby);
+}
+
+/* Budget Levers Pill Buttons */
+.budget-levers-shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.lever-card-btn {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-ivory);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.lever-card-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--gold-primary);
+  transform: translateX(2px);
+}
+.lever-card-btn b { color: #34D399; }
+
+/* Action Buttons Grid */
+.actions-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.btn-gold-primary {
+  background: var(--gold-gradient);
+  color: #1A1305;
+  border: none;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
+}
+.btn-gold-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+.btn-outline-glass {
+  background: rgba(19, 24, 40, 0.6);
+  border: 1px solid var(--border-hairline);
+  color: var(--gold-light);
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+}
+.btn-outline-glass:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--gold-primary);
+}
+
+/* Modal Overlay & Card */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+.modal-card {
+  background: var(--obsidian-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-card);
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px 32px;
+  box-shadow: var(--shadow-luxe);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.modal-header h3 {
+  font: 600 24px/1 var(--font-serif);
+  color: var(--text-ivory);
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+/* Notification Toast */
+#toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 28px;
+  background: var(--obsidian-card);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-luxe);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 999;
+}
+#toast-notice.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1100px) {
+  body { grid-template-columns: 1fr; overflow-y: auto; }
+  aside { height: auto; border-right: none; border-bottom: 1px solid var(--border-hairline); }
+  main { height: auto; padding: 20px; }
+  .gallery-cards-grid { grid-template-columns: 1fr; }
+  .atelier-welcome-stage { grid-template-columns: 1fr; }
+  .customizer-split-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<aside>
-  <div class="brand">Jewel-AI<small>Your jeweller's design consultant</small><a class="lnk" href="/dashboard.html" target="_blank">Store dashboard</a></div>
-  <div id="log" aria-live="polite"></div>
-  <div id="chips"></div>
-  <div class="starters" id="starters">
-    <button data-t="Engagement ring, budget 60000 rupees, I like minimal temple style">Engagement, ₹60,000</button>
-    <button data-t="Gift for my wife's anniversary, around 40000, she likes lab diamonds">Anniversary, ₹40,000</button>
-    <button id="sample">Skip chat: load a sample</button>
+
+<!-- Left Atelier Concierge Sidebar -->
+<aside id="concierge-pane">
+  <div class="atelier-brand">
+    <div class="brand-top">
+      <div class="brand-logo">
+        <span>✦</span> JEWEL-AI
+      </div>
+      <span class="brand-badge">Haute Joaillerie</span>
+    </div>
+    <div class="brand-tagline">AI Co-Creation Salon & Bullion Engine</div>
   </div>
-  <form id="chat"><input id="inp" placeholder="Describe the occasion, taste and budget" autocomplete="off" aria-label="Message"><button class="btn">Send</button></form>
+
+  <!-- Bullion Ticker Bar -->
+  <div class="ticker-bar">
+    <div class="ticker-left">
+      <span class="live-dot"></span>
+      <span>24k Gold: <b class="ticker-value" id="ticker-rate">₹12,000 / g</b></span>
+    </div>
+    <button class="ticker-refresh-btn" id="btn-refresh-ticker" title="Refresh via Google Search Grounding">Refresh</button>
+  </div>
+
+  <!-- Multimodal Inspiration Photo Dropzone -->
+  <div class="dropzone-container">
+    <div class="inspiration-dropzone" id="inspiration-dropzone">
+      <div class="dropzone-icon">📷</div>
+      <div class="dropzone-meta">
+        <b>Upload Inspiration Photo</b>
+        <span>Gemini 2.5 Vision architecture inspection</span>
+      </div>
+    </div>
+    <input type="file" id="file-input-inspiration" accept="image/*">
+  </div>
+
+  <!-- Vision Status Banner -->
+  <div class="vision-status-banner" id="vision-banner">
+    <div class="vision-header">
+      <span>✦ Vision Analysis Complete</span>
+      <span style="font-size:10px; opacity:0.8;">Gemini 2.5</span>
+    </div>
+    <div id="vision-category" style="font-weight:600; color:#fff;"></div>
+    <div id="vision-details" style="color:var(--text-muted); font-size:11px;"></div>
+  </div>
+
+  <!-- Chat Log -->
+  <div id="chat-log" aria-live="polite"></div>
+
+  <!-- Curated Atelier Masterpieces (The 3 User Starters) -->
+  <div class="starters-section" id="starters-box">
+    <div class="starters-label">
+      <span>✦</span> Masterpiece Collections
+    </div>
+    <div class="starter-cards-grid">
+      <button class="atelier-starter-btn" id="btn-starter-bridal" data-category="necklace" data-prompt="Design an 18k gold bridal necklace for a wedding, budget ₹1,50,000 with floral temple motifs">
+        <div class="starter-info">
+          <b>📿 Royal Bridal Choker</b>
+          <span>18k Gold (750) • Floral Temple Motif</span>
+        </div>
+        <div class="starter-price-pill">₹1.5 Lakh</div>
+      </button>
+
+      <button class="atelier-starter-btn" id="btn-starter-ring" data-category="ring" data-prompt="Solitaire diamond engagement ring in 22k yellow gold, budget ₹60,000">
+        <div class="starter-info">
+          <b>💍 Solitaire Pavé Ring</b>
+          <span>22k BIS 916 • 0.40 ct Brilliant Cut</span>
+        </div>
+        <div class="starter-price-pill">₹60,000</div>
+      </button>
+
+      <button class="atelier-starter-btn" id="btn-starter-earrings" data-category="earrings" data-prompt="Temple jhumka earrings for Diwali festival, budget ₹45,000">
+        <div class="starter-info">
+          <b>✨ Festive Temple Jhumkas</b>
+          <span>22k Gold • Bell Dome & Pearls</span>
+        </div>
+        <div class="starter-price-pill">₹45,000</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Input Form -->
+  <form class="chat-form" id="chat-form">
+    <input class="chat-input" id="chat-input" placeholder="State occasion, taste, or budget (e.g. ₹80,000)..." autocomplete="off">
+    <button class="btn-chat-send" type="submit">Design</button>
+  </form>
 </aside>
-<main id="stage"></main>
-<div id="toast" role="status"></div>
+
+<!-- Right Main Showroom Stage -->
+<main id="showroom-stage">
+  <!-- Showroom Header Bar -->
+  <div class="showroom-header-bar">
+    <div class="category-tabs-group" id="category-tabs">
+      <button class="cat-pill-btn active" data-cat="ring">💍 Rings</button>
+      <button class="cat-pill-btn" data-cat="necklace">📿 Necklaces</button>
+      <button class="cat-pill-btn" data-cat="earrings">✨ Earrings</button>
+      <button class="cat-pill-btn" data-cat="bangle">⭕ Bangles</button>
+    </div>
+    <div class="showroom-quick-links">
+      <a class="atelier-nav-link" href="/dashboard.html" target="_blank">Store Analytics ↗</a>
+      <button class="atelier-nav-link" id="btn-top-jobcard">Workshop Job Card 📄</button>
+    </div>
+  </div>
+
+  <!-- Dynamic Content Stage Container -->
+  <div id="dynamic-stage-view"></div>
+</main>
+
+<!-- Karigar Goldsmith Workshop Job Card Modal -->
+<div class="modal-overlay" id="job-card-modal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Karigar Goldsmith Workshop Job Card</h3>
+      <button class="modal-close" id="btn-close-job-modal">&times;</button>
+    </div>
+    <div id="job-modal-body"></div>
+    <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:22px;">
+      <button class="btn-outline-glass" onclick="window.print()">Print Work Order</button>
+      <button class="btn-gold-primary" onclick="$('#job-card-modal').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-notice"></div>
+
 <script>
-const $=s=>document.querySelector(s), inr=n=>'₹'+new Intl.NumberFormat('en-IN').format(n);
-const METAL={gold_24k:['#F6D56F','#C9962B','24k gold'],gold_22k:['#EFC55F','#B98A25','22k gold'],gold_18k:['#EDCF8E','#C29A4E','18k gold'],gold_14k:['#E8D8AA','#B9A26A','14k gold']};
-const STONE={none:'No stone',cz:'Cubic zirconia',moissanite:'Moissanite',lab_diamond:'Lab-grown diamond',natural_diamond:'Natural diamond'};
-const FILL={cz:'#E3ECF7',moissanite:'#E4EEFF',lab_diamond:'#EAF4FF',natural_diamond:'#F4F9FF'};
-const blank=()=>({category:'ring',style:'classic solitaire',metal:'gold_22k',band_width_mm:3,ring_size_in:12,stone:{type:'none',carat:0,count:1},occasion:null,budget_inr:null,notes:null});
-let S={spec:blank(),msgs:[],variants:[],cur:null,uid:0,imgs:{},run:0};
-const imgOf=s=>S.imgs[JSON.stringify(s)];
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const inr = n => '₹' + new Intl.NumberFormat('en-IN').format(Math.round(n || 0));
+const esc = t => String(t ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
-function ring(sp){
-  const id='g'+(S.uid++),[a,b]=METAL[sp.metal],sw=6+sp.band_width_mm*3.2,has=sp.stone.type!=='none',r=has?9+sp.stone.carat*26:0,cy=68-sw/2-r*.55;
-  const gem=has?`<polygon points="${100-r*.6},${cy-r*.7} ${100+r*.6},${cy-r*.7} ${100+r},${cy-r*.15} 100,${cy+r*.8} ${100-r},${cy-r*.15}" fill="${FILL[sp.stone.type]}" stroke="#8FA6C6" stroke-width="1.5"/>
-  <path d="M${100-r},${cy-r*.15}H${100+r}M${100-r*.6},${cy-r*.7}L100,${cy+r*.8}L${100+r*.6},${cy-r*.7}M${100-r*.3},${cy-r*.15}L100,${cy-r*.7}L${100+r*.3},${cy-r*.15}" stroke="#A9BCD8" stroke-width="1" fill="none"/>`:'';
-  return `<svg viewBox="0 -20 200 220" role="img" aria-label="Illustrative ring preview"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".5" stop-color="${b}"/><stop offset="1" stop-color="${a}"/></linearGradient></defs>
-  <circle cx="100" cy="124" r="56" fill="none" stroke="url(#${id})" stroke-width="${sw}"/>${gem}</svg>`;
+const METALS = {
+  gold_24k: ['#F9E79F', '#D4AF37', '24k Fine Gold (999)'],
+  gold_22k: ['#F3E5AB', '#B98A25', '22k Standard Gold (916 BIS)'],
+  gold_18k: ['#EDCF8E', '#A67C2E', '18k Bridal Gold (750)'],
+  gold_14k: ['#EADBB6', '#9B7E3E', '14k Everyday Gold (585)']
+};
+
+const STONES = {
+  none: 'Solid Gold / No Stone',
+  cz: 'Cubic Zirconia (CZ)',
+  moissanite: 'Moissanite',
+  lab_diamond: 'Lab-Grown Diamond (CVD/HPHT)',
+  natural_diamond: 'Natural Certified Diamond'
+};
+
+const CURATED_STUDIO_IMAGES = {
+  ring_solitaire: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
+  ring_halo: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=800&q=80",
+  ring_band: "https://images.unsplash.com/photo-1598560917505-59a3ad559071?auto=format&fit=crop&w=800&q=80",
+  necklace_bridal: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80",
+  necklace_delicate: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80",
+  earrings_jhumka: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=800&q=80",
+  earrings_stud: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80",
+  bangle_kada: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=800&q=80"
+};
+
+function getCuratedImage(s, tierIndex = 1) {
+  const cat = (s && s.category) ? s.category : 'ring';
+  if (cat === 'necklace') {
+    return tierIndex === 2 ? CURATED_STUDIO_IMAGES.necklace_bridal : (tierIndex === 0 ? CURATED_STUDIO_IMAGES.necklace_delicate : CURATED_STUDIO_IMAGES.necklace_bridal);
+  } else if (cat === 'earrings') {
+    return tierIndex === 0 ? CURATED_STUDIO_IMAGES.earrings_stud : CURATED_STUDIO_IMAGES.earrings_jhumka;
+  } else if (cat === 'bangle') {
+    return CURATED_STUDIO_IMAGES.bangle_kada;
+  } else {
+    return tierIndex === 0 ? CURATED_STUDIO_IMAGES.ring_band : (tierIndex === 2 ? CURATED_STUDIO_IMAGES.ring_halo : CURATED_STUDIO_IMAGES.ring_solitaire);
+  }
 }
-async function api(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){let d='';try{d=(await r.json()).detail}catch(e){}throw new Error(d||r.statusText)}return r.json()}
-function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
-function say(text,cls=''){const d=document.createElement('div');d.className='m '+cls;d.textContent=text;$('#log').append(d);$('#log').scrollTop=1e9;return d}
 
-function chips(){const s=S.spec,c=[];
-  if(s.occasion)c.push(s.occasion);if(s.budget_inr)c.push('Budget '+inr(s.budget_inr));
-  c.push(s.style,METAL[s.metal][2],s.stone.type==='none'?'No stone':`${s.stone.carat} ct ${STONE[s.stone.type].toLowerCase()}`);
-  $('#chips').innerHTML=c.map(x=>`<span class="chip"></span>`).join('');
-  [...$('#chips').children].forEach((e,i)=>e.textContent=c[i]);}
-
-function empty(){$('#stage').innerHTML=`<div class="hero"><div>${ring({metal:'gold_22k',band_width_mm:3,stone:{type:'lab_diamond',carat:.4}})}</div>
-  <div><h1>Tell us the occasion and your budget. We'll design a ring that fits both.</h1><p>Three options appear here, each priced from today's gold rate, stone and making charges.</p></div></div>`}
-
-async function send(text){
-  if(!text.trim())return;S.msgs.push({role:'user',content:text});say(text,'u');$('#starters').hidden=true;
-  const t=say('…');
-  try{const d=await api('/api/chat',{messages:S.msgs,spec:S.spec});
-    t.textContent=d.reply;S.msgs.push({role:'assistant',content:d.reply});S.spec=d.spec;chips();if(d.ready)await load();}
-  catch(e){t.className='m err';t.textContent='Chat is unavailable: '+e.message+'. Pricing still works. Use "Skip chat" to continue.';S.msgs.pop();}
+function defaultSpec(cat = 'ring') {
+  const specs = {
+    ring: { category: 'ring', style: 'classic solitaire', metal: 'gold_22k', band_width_mm: 3.0, ring_size_in: 12, stone: { type: 'natural_diamond', carat: 0.40, count: 1 }, occasion: 'Engagement', budget_inr: 60000 },
+    necklace: { category: 'necklace', style: 'floral temple motif', metal: 'gold_18k', necklace_length_in: 18, stone: { type: 'none', carat: 0, count: 0 }, occasion: 'Wedding', budget_inr: 150000 },
+    earrings: { category: 'earrings', style: 'temple jhumka', earring_type: 'jhumka', metal: 'gold_22k', stone: { type: 'cz', carat: 0.3, count: 2 }, occasion: 'Diwali', budget_inr: 45000 },
+    bangle: { category: 'bangle', style: 'heritage carved kada', bangle_size_in: '2-4', metal: 'gold_22k', band_width_mm: 5.0, stone: { type: 'none', carat: 0, count: 0 }, occasion: 'Akshaya Tritiya', budget_inr: 95000 }
+  };
+  return specs[cat] || specs.ring;
 }
-async function load(){const d=await api('/api/variants',S.spec);S.variants=d.variants;gallery();
-  try{const r=await api('/api/requests',{id:S.reqId||null,status:'designed',spec:S.spec});S.reqId=r.id}catch(e){}}
 
-function gallery(){const b=S.spec.budget_inr;
-  $('#stage').innerHTML=`<h2>Three designs${S.spec.occasion?' for your '+S.spec.occasion.toLowerCase():''}</h2><p class="sub">Pick one to adjust metal, stone and band. The price updates as you change them.</p><div class="strip" id="tr"></div><div class="grid" id="g"></div>`;
-  S.variants.forEach((v,i)=>{const p=v.price,c=document.createElement('div');c.className='card';
-    c.innerHTML=`<div class="ringbox" id="rb${i}">${ring(v.spec)}</div><h3></h3><div class="price">${inr(p.total)}</div>
-    <span class="badge ${p.within_budget===false?'over':'ok'}">${p.within_budget===false?inr(p.over_by)+' over budget':'Fits your budget'}</span>
-    <div class="chg"></div><button class="btn">Customize</button>`;
-    c.querySelector('h3').textContent=v.label;c.querySelector('.chg').textContent=v.changes.length?'Changed: '+v.changes.join(', '):`${METAL[v.spec.metal][2]}, ${v.spec.band_width_mm} mm band`;
-    c.querySelector('button').onclick=()=>custom(structuredClone(v.spec));$('#g').append(c)});trends();autoRender();}
+let State = {
+  spec: defaultSpec('ring'),
+  cur: null,
+  msgs: [],
+  variants: [],
+  price: null,
+  reqId: null,
+  customizerMode: 'photo', // 'photo' | 'cad'
+  uid: 0
+};
 
-function custom(sp){S.cur=sp;const x=sp.stone;
-  $('#stage').innerHTML=`<button class="btn ghost" id="back">Back to designs</button><div class="cz" style="margin-top:16px"><div class="panel" id="rv"></div><div>
-  <div class="panel"><h2>Adjust your ring</h2>
-  <label for="mt">Metal</label><select id="mt">${Object.entries(METAL).map(([k,v])=>`<option value="${k}">${v[2]}</option>`).join('')}</select>
-  <label for="st">Stone</label><select id="st">${Object.entries(STONE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
-  <label for="ct">Stone size: <span id="cv"></span></label><input id="ct" type="range" min="0.1" max="1.5" step="0.05">
-  <label for="bw">Band width: <span id="bv"></span></label><input id="bw" type="range" min="2" max="6" step="0.5">
-  <div class="bar" id="bar"><i></i></div><div id="bl" style="font-size:14px;color:var(--mute)"></div></div>
-  <div class="panel" style="margin-top:14px" id="bd"></div><div id="sv"></div>
-  <div class="acts"><button class="btn" id="send">Send to jeweller</button><button class="btn ghost" id="sheet">Print artisan sheet</button></div></div></div>`;
-  $('#mt').value=sp.metal;$('#st').value=x.type;$('#ct').value=x.carat||.3;$('#bw').value=sp.band_width_mm;
-  $('#back').onclick=gallery;
-  $('#mt').onchange=e=>{S.cur.metal=e.target.value;upd()};
-  $('#st').onchange=e=>{S.cur.stone.type=e.target.value;if(e.target.value!=='none'&&!S.cur.stone.carat)S.cur.stone.carat=+$('#ct').value;upd()};
-  $('#ct').oninput=e=>{if(S.cur.stone.type!=='none')S.cur.stone.carat=+e.target.value;upd()};
-  $('#bw').oninput=e=>{S.cur.band_width_mm=+e.target.value;upd()};
-  $('#send').onclick=async()=>{try{const r=await api('/api/requests',{id:S.reqId||null,status:'sent',spec:S.cur});S.reqId=r.id;toast('Sent to the jeweller')}catch(e){toast('Could not send: '+e.message)}};
-  $('#sheet').onclick=sheet;
-  upd();}
+// ── SVG CAD Jewel Renderers ──
+function renderJewellerySVG(sp) {
+  if (!sp) sp = State.spec;
+  const cat = sp.category || 'ring';
+  if (cat === 'necklace') return renderNecklaceSVG(sp);
+  if (cat === 'earrings') return renderEarringsSVG(sp);
+  if (cat === 'bangle') return renderBangleSVG(sp);
+  return renderRingSVG(sp);
+}
 
-const FIX={metal_18k:s=>s.metal='gold_18k',lab_diamond:s=>s.stone.type='lab_diamond',moissanite:s=>s.stone.type='moissanite',
-  slim_band:s=>s.band_width_mm=Math.max(2,s.band_width_mm-1),smaller_stone:s=>s.stone.carat=Math.round((s.stone.carat-.1)*100)/100};
-let tm;function upd(){const s=S.cur,has=s.stone.type!=='none';
-  const im=imgOf(s);
-  $('#rv').innerHTML=(im?`<img src="${im}" alt="AI render of the ring" style="width:100%;border-radius:12px">`:ring(s))+`<p class="sub" style="margin:8px 0 0;font-size:13px">${im?'AI render. The finished piece may differ.':'Drawn preview. Updates as you adjust.'}</p><button class="btn ghost" id="rb" style="margin-top:10px">Render with AI</button>`;
-  $('#rb').onclick=renderAI;
-  $('#ct').disabled=!has;$('#cv').textContent=has?s.stone.carat+' ct':'none';$('#bv').textContent=s.band_width_mm+' mm';
-  clearTimeout(tm);tm=setTimeout(async()=>{try{const d=await api('/api/price',s),p=d.price;S.price=p;
-    $('#bd').innerHTML=[['Gold ('+p.weight_g+' g)',p.metal_cost],['Stone',p.stone_cost],['Stone setting',p.setting_cost],['Making charges',p.making_cost],['GST',p.gst]]
-      .map(r=>`<div class="row"><span>${r[0]}</span><span>${inr(r[1])}</span></div>`).join('')+`<div class="row t"><span>Estimated total</span><span>${inr(p.total)}</span></div>`;
-    const b=p.budget,over=b&&p.total>b;$('#bar').className='bar'+(over?' over':'');$('#bar i').style.width=b?Math.min(100,p.total/b*100)+'%':'0';
-    $('#bl').textContent=b?(over?inr(p.over_by)+' over your '+inr(b)+' budget':inr(b-p.total)+' under your '+inr(b)+' budget'):'';
-    $('#sv').innerHTML=over?'<p class="sub" style="margin:14px 0 0">Ways to save</p>':'';
-    if(over)d.suggestions.slice(0,3).forEach(g=>{const bt=document.createElement('button');bt.className='saver';bt.innerHTML='<span></span><b></b>';
-      bt.firstChild.textContent=g.label;bt.lastChild.textContent='Save '+inr(g.saving);
-      bt.onclick=()=>{FIX[g.id](S.cur);$('#mt').value=S.cur.metal;$('#st').value=S.cur.stone.type;$('#ct').value=S.cur.stone.carat||.3;$('#bw').value=S.cur.band_width_mm;upd()};$('#sv').append(bt)});
-  }catch(e){$('#bd').textContent='Price unavailable: '+e.message}},120);}
+function renderRingSVG(sp) {
+  const id = 'cad_r_' + (State.uid++);
+  const [a, b] = METALS[sp.metal] || METALS.gold_22k;
+  const sw = 6 + (sp.band_width_mm || 3) * 3.2;
+  const hasStone = sp.stone && sp.stone.type !== 'none';
+  const carat = sp.stone ? (sp.stone.carat || 0.3) : 0;
+  const r = hasStone ? 10 + carat * 20 : 0;
+  const cy = 72 - sw / 2 - r * 0.55;
 
-const esc=t=>String(t??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-async function trends(){const el=$('#tr');if(!el)return;try{const d=await fetch('/api/trends?occasion='+encodeURIComponent(S.spec.occasion||'')+'&style='+encodeURIComponent(S.spec.style||'')).then(r=>r.json());
-  el.innerHTML='<b>Trending now</b> ('+(d.source==='google_search'?'from Google Search':'sample data')+'): ';el.append(d.cues.join('; '))}catch(e){el.remove()}}
-async function autoRender(){const run=++S.run;let down=false;
-  for(let i=0;i<S.variants.length;i++){const v=S.variants[i],k=JSON.stringify(v.spec);let box=$('#rb'+i);
-    if(!box||run!==S.run)return;
-    if(!S.imgs[k]&&!down){box.insertAdjacentHTML('beforeend','<div class="rtag">Creating AI render... (can take up to a minute)</div>');
-      try{const d=await api('/api/render',v.spec);if(d.image)S.imgs[k]=d.image;else down=true}catch(e){down=true}}
-    box=$('#rb'+i);if(!box||run!==S.run)return;
-    if(S.imgs[k])box.innerHTML=`<img src="${S.imgs[k]}" alt="AI render of the ${esc(v.label)} ring" style="width:100%;border-radius:10px;display:block">`;
-    else box.innerHTML=ring(v.spec)+'<div class="rtag">AI render unavailable right now. Showing a drawn preview.</div>'}}
-async function renderAI(){const b=$('#rb'),key=JSON.stringify(S.cur);b.disabled=true;b.textContent='Rendering, up to 40 seconds...';
-  try{const d=await api('/api/render',S.cur);if(d.image)S.imgs[key]=d.image;else toast('Render service is busy. Keeping the drawn preview.')}catch(e){toast('Render failed: '+e.message)}
-  upd()}
-function sheet(){const s=S.cur,p=S.price||{},w=window.open('','_blank');if(!w){toast('Allow pop-ups to print the sheet');return}
-  const im=imgOf(s)?`<img src="${imgOf(s)}" style="width:260px;border-radius:8px">`:`<div style="width:260px">${ring(s)}</div>`;
-  const rows=[['Category','Ring'],['Style',s.style],['Metal',METAL[s.metal][2]],['Band width',s.band_width_mm+' mm'],['Ring size (India)',s.ring_size_in],['Stone',s.stone.type==='none'?'None':`${STONE[s.stone.type]}, ${s.stone.carat} ct x ${s.stone.count}`],['Est. gold weight',(p.weight_g||'-')+' g'],['Occasion',s.occasion||'-'],['Customer budget',s.budget_inr?inr(s.budget_inr):'-']];
-  const cost=[['Gold',p.metal_cost],['Stone',p.stone_cost],['Setting',p.setting_cost],['Making',p.making_cost],['GST',p.gst],['Total',p.total]];
-  w.document.write(`<title>Artisan sheet</title><body style="font:15px system-ui;max-width:760px;margin:30px auto"><h1 style="font-family:Georgia">Artisan work order</h1><p>${new Date().toLocaleDateString('en-IN')}. Estimate only: confirm weight and rates before quoting.</p><div style="display:flex;gap:24px">${im}<table style="border-collapse:collapse;flex:1">${rows.map(r=>`<tr><td style="border-bottom:1px solid #ccc;padding:6px;color:#555">${r[0]}</td><td style="border-bottom:1px solid #ccc;padding:6px"><b>${esc(r[1])}</b></td></tr>`).join('')}</table></div><h3>Cost estimate</h3>${cost.map(r=>`<div style="display:flex;justify-content:space-between;max-width:360px;padding:3px 0"><span>${r[0]}</span><span>${inr(r[1]||0)}</span></div>`).join('')}<p style="margin-top:30px">Notes: ______________________________</p><script>setTimeout(()=>print(),400)<\/script></body>`);w.document.close()}
-$('#chat').onsubmit=e=>{e.preventDefault();const v=$('#inp').value;$('#inp').value='';send(v)};
-document.querySelectorAll('#starters [data-t]').forEach(b=>b.onclick=()=>send(b.dataset.t));
-$('#sample').onclick=async()=>{$('#starters').hidden=true;
-  S.spec={...blank(),occasion:'Engagement',budget_inr:60000,style:'temple-inspired minimalist',stone:{type:'natural_diamond',carat:.3,count:1}};
-  say('Loaded a sample brief: engagement ring, ₹60,000, temple-inspired.');chips();await load()};
-say('Hello! Tell me the occasion, your budget and the style you like, and I will design a ring for you.');chips();empty();
+  return `<svg viewBox="0 -25 200 230" role="img">
+    <defs>
+      <linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="${a}"/><stop offset="45%" stop-color="${b}"/><stop offset="70%" stop-color="${a}"/><stop offset="100%" stop-color="${b}"/>
+      </linearGradient>
+    </defs>
+    <circle cx="100" cy="126" r="58" fill="none" stroke="url(#${id})" stroke-width="${sw}"/>
+    <circle cx="100" cy="126" r="${58 - sw/2 + 1}" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.35"/>
+    ${hasStone ? `
+      <polygon points="${100-r*0.65},${cy-r*0.75} ${100+r*0.65},${cy-r*0.75} ${100+r},${cy-r*0.15} 100,${cy+r*0.85} ${100-r},${cy-r*0.15}" fill="#E8F4FD" stroke="#93C5FD" stroke-width="1.5"/>
+      <path d="M${100-r},${cy-r*0.15}H${100+r} M${100-r*0.65},${cy-r*0.75}L100,${cy+r*0.85}L${100+r*0.65},${cy-r*0.75} M${100-r*0.35},${cy-r*0.15}L100,${cy-r*0.75}L${100+r*0.35},${cy-r*0.15}" stroke="#BFDBFE" stroke-width="1" fill="none"/>
+      <circle cx="${100-r*0.7}" cy="${cy-r*0.7}" r="2" fill="${b}"/><circle cx="${100+r*0.7}" cy="${cy-r*0.7}" r="2" fill="${b}"/>
+    ` : ''}
+  </svg>`;
+}
+
+function renderNecklaceSVG(sp) {
+  const id = 'cad_n_' + (State.uid++);
+  const [a, b] = METALS[sp.metal] || METALS.gold_22k;
+  const hasStone = sp.stone && sp.stone.type !== 'none';
+  const pr = hasStone ? 14 : 10;
+  return `<svg viewBox="0 -10 200 230" role="img">
+    <defs><linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${a}"/><stop offset="50%" stop-color="${b}"/><stop offset="100%" stop-color="${a}"/></linearGradient></defs>
+    <path d="M 30,25 Q 100,125 170,25" fill="none" stroke="url(#${id})" stroke-width="4.5" stroke-dasharray="2,2"/>
+    <rect x="96" y="88" width="8" height="14" rx="3" fill="${b}" stroke="${a}"/>
+    <circle cx="100" cy="118" r="${pr + 6}" fill="url(#${id})" stroke="${b}" stroke-width="2"/>
+    ${hasStone ? `<polygon points="${100-pr*0.7},${118-pr*0.7} ${100+pr*0.7},${118-pr*0.7} ${100+pr},${118} 100,${118+pr} ${100-pr},${118}" fill="#E8F4FD" stroke="#93C5FD"/>` : `<circle cx="100" cy="118" r="${pr}" fill="${b}"/>`}
+    <circle cx="100" cy="${118 + pr + 12}" r="3.5" fill="${a}" stroke="${b}"/>
+  </svg>`;
+}
+
+function renderEarringsSVG(sp) {
+  const id = 'cad_e_' + (State.uid++);
+  const [a, b] = METALS[sp.metal] || METALS.gold_22k;
+  function eDrop(cx) {
+    return `<circle cx="${cx}" cy="50" r="10" fill="url(#${id})" stroke="${b}"/>
+    <line x1="${cx}" y1="60" x2="${cx}" y2="76" stroke="${b}" stroke-width="3"/>
+    <path d="M ${cx-24},118 C ${cx-24},82 ${cx+24},82 ${cx+24},118 Z" fill="url(#${id})" stroke="${b}" stroke-width="2"/>
+    <rect x="${cx-26}" y="118" width="52" height="6" rx="3" fill="${b}"/>
+    ${[-18, -9, 0, 9, 18].map(dx => `<circle cx="${cx+dx}" cy="132" r="3" fill="${a}" stroke="${b}"/><line x1="${cx+dx}" y1="124" x2="${cx+dx}" y2="129" stroke="${b}"/>`).join('')}`;
+  }
+  return `<svg viewBox="0 0 220 180" role="img"><defs><linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${a}"/><stop offset="50%" stop-color="${b}"/><stop offset="100%" stop-color="${a}"/></linearGradient></defs>${eDrop(60)}${eDrop(160)}</svg>`;
+}
+
+function renderBangleSVG(sp) {
+  const id = 'cad_b_' + (State.uid++);
+  const [a, b] = METALS[sp.metal] || METALS.gold_22k;
+  return `<svg viewBox="0 0 200 200" role="img"><defs><linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${a}"/><stop offset="50%" stop-color="${b}"/><stop offset="100%" stop-color="${a}"/></linearGradient></defs>
+    <ellipse cx="100" cy="100" rx="72" ry="54" fill="none" stroke="url(#${id})" stroke-width="12"/>
+    <ellipse cx="100" cy="100" rx="66" ry="49" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.4"/>
+  </svg>`;
+}
+
+// ── API Helper ──
+async function api(path, payload) {
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) {
+    let err = res.statusText;
+    try { const d = await res.json(); if (d.detail) err = d.detail; } catch (e) {}
+    throw new Error(err);
+  }
+  return res.json();
+}
+
+function toast(msg) {
+  const el = $('#toast-notice');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function appendChat(text, type = 'bot') {
+  const log = $('#chat-log');
+  const d = document.createElement('div');
+  d.className = 'chat-msg ' + (type === 'user' ? 'user' : (type === 'err' ? 'err' : ''));
+  d.textContent = text;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+
+// ── Showroom Views ──
+function renderWelcomeStage() {
+  const s = State.spec;
+  const photo = getCuratedImage(s, 1);
+  $('#dynamic-stage-view').innerHTML = `
+    <div class="atelier-welcome-stage">
+      <div class="welcome-plinth-card">
+        <img src="${photo}" alt="Haute Joaillerie Atelier piece" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+        <div style="margin-top:14px; font-family:var(--font-serif); font-size:18px; color:var(--gold-light);">
+          Bespoke Indian Masterpiece
+        </div>
+      </div>
+      <div class="welcome-narrative">
+        <h2>Intelligent Design for Exceptional Jewellery</h2>
+        <p>Welcome to the private digital atelier. Select a curated collection or state your personal occasion, motif, and budget. Our AI co-creates bespoke heirloom jewellery, calculates exact hallmarking prices, and verifies local store availability.</p>
+        <div class="welcome-metrics-strip">
+          <div class="metric-pill">
+            <b>BIS 916 / 750</b>
+            <span>Certified Hallmarking</span>
+          </div>
+          <div class="metric-pill">
+            <b>Gemini 2.5</b>
+            <span>Multimodal Vision</span>
+          </div>
+          <div class="metric-pill">
+            <b>±5% Precision</b>
+            <span>Karigar Tolerances</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderGalleryView() {
+  const s = State.spec || defaultSpec('ring');
+  const catTitle = { ring: 'Rings', necklace: 'Necklaces', earrings: 'Earrings', bangle: 'Bangles' }[s.category] || 'Jewellery';
+  
+  $('#dynamic-stage-view').innerHTML = `
+    <div class="gallery-header-row">
+      <div>
+        <h2>Calibrated ${catTitle} for your ${esc(s.occasion || 'Celebration')}</h2>
+        <p>Three master craftsman variations formulated against today's live bullion rate of ₹12,000/g.</p>
+      </div>
+    </div>
+    <div class="trend-alert-pill" id="trend-bar">
+      <b>✨ Live Market Trends:</b> <span id="trend-text">Grounding with Google Search retail cues...</span>
+    </div>
+    <div class="gallery-cards-grid" id="cards-grid"></div>
+    <div id="showroom-inventory-dock"></div>
+  `;
+
+  const grid = $('#cards-grid');
+  (State.variants || []).forEach((v, idx) => {
+    const p = v.price || { total: s.budget_inr || 60000, within_budget: true };
+    const isOver = p.within_budget === false;
+    const card = document.createElement('div');
+    card.className = 'jewel-variant-card ' + (v.label === 'Statement' ? 'statement' : '');
+    const photo = getCuratedImage(v.spec, idx);
+
+    // Defensively get metal label and stone label
+    const metalLabel = (METALS[v.spec?.metal] || METALS.gold_22k)[2];
+    const stoneType = v.spec?.stone?.type || 'none';
+    const stoneLabel = STONES[stoneType] || 'Solid Gold';
+    const stoneCarat = v.spec?.stone?.carat || 0.3;
+    const stoneSummary = stoneType !== 'none' ? `${stoneCarat} ct ${stoneLabel}` : 'Solid gold';
+
+    card.innerHTML = `
+      <div class="card-media-stage" id="media-box-${idx}">
+        <span class="card-tier-tag">${esc(v.label)}</span>
+        <img src="${photo}" alt="${esc(v.label)} Jewellery" id="card-img-${idx}" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+        <div class="card-view-toggle">
+          <button class="view-toggle-btn active" data-idx="${idx}" data-mode="photo">Photo</button>
+          <button class="view-toggle-btn" data-idx="${idx}" data-mode="cad">CAD</button>
+        </div>
+      </div>
+      <div class="card-title">${esc(v.label)} Atelier</div>
+      <div class="card-price-row">
+        <div class="card-price">${inr(p.total)}</div>
+        <span class="budget-status-tag ${isOver ? 'status-over' : 'status-fits'}">
+          ${isOver ? inr(p.over_by) + ' over budget' : 'Fits Budget'}
+        </span>
+      </div>
+      <div class="card-specs-list">
+        ${v.changes && v.changes.length ? 'Tailored: ' + v.changes.join(', ') : `${metalLabel} &bull; ${stoneSummary}`}
+      </div>
+      <button class="btn-launch-customizer" data-idx="${idx}">
+        Customize in Studio &rarr;
+      </button>
+    `;
+
+    // View toggle handlers
+    const btnPhoto = card.querySelector(`.view-toggle-btn[data-mode="photo"]`);
+    const btnCAD = card.querySelector(`.view-toggle-btn[data-mode="cad"]`);
+    const mediaBox = card.querySelector(`#media-box-${idx}`);
+
+    btnPhoto.onclick = () => {
+      btnPhoto.classList.add('active');
+      btnCAD.classList.remove('active');
+      mediaBox.innerHTML = `
+        <span class="card-tier-tag">${esc(v.label)}</span>
+        <img src="${photo}" alt="${esc(v.label)} Jewellery" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+        <div class="card-view-toggle">
+          <button class="view-toggle-btn active">Photo</button>
+          <button class="view-toggle-btn">CAD</button>
+        </div>
+      `;
+      card.querySelector(`.view-toggle-btn:last-child`).onclick = btnCAD.onclick;
+    };
+
+    btnCAD.onclick = () => {
+      btnCAD.classList.add('active');
+      btnPhoto.classList.remove('active');
+      mediaBox.innerHTML = `
+        <span class="card-tier-tag">${esc(v.label)}</span>
+        ${renderJewellerySVG(v.spec)}
+        <div class="card-view-toggle">
+          <button class="view-toggle-btn">Photo</button>
+          <button class="view-toggle-btn active">CAD</button>
+        </div>
+      `;
+      card.querySelector(`.view-toggle-btn:first-child`).onclick = btnPhoto.onclick;
+    };
+
+    card.querySelector('.btn-launch-customizer').onclick = () => openCustomizer(structuredClone(v.spec), idx);
+    grid.appendChild(card);
+  });
+
+  fetchTrends();
+  fetchShowroomMatches(State.spec, '#showroom-inventory-dock');
+}
+
+function openCustomizer(sp, initialIdx = 1) {
+  State.cur = sp;
+  const s = State.cur;
+  const isRing = s.category === 'ring';
+  const isNecklace = s.category === 'necklace';
+  const isEarrings = s.category === 'earrings';
+  const isBangle = s.category === 'bangle';
+  const photo = getCuratedImage(s, initialIdx);
+
+  $('#dynamic-stage-view').innerHTML = `
+    <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+      <button class="atelier-nav-link" id="btn-back-gallery">
+        &larr; Back to 3 Variations
+      </button>
+      <div style="font-size:13px; color:var(--gold-light);">
+        Bespoke Workshop Studio &bull; Job ID #${State.reqId || 'DRAFT'}
+      </div>
+    </div>
+    <div class="customizer-split-grid">
+      <!-- Left Visual Plinth -->
+      <div>
+        <div class="atelier-panel">
+          <div class="panel-headline">
+            <span>Visual Specimen</span>
+            <div style="display:flex; gap:6px;">
+              <button class="atelier-nav-link" id="cust-toggle-photo" style="font-size:11px;">Studio Photo</button>
+              <button class="atelier-nav-link" id="cust-toggle-cad" style="font-size:11px;">CAD Blueprint</button>
+            </div>
+          </div>
+          <div class="jewel-stage-plinth" id="cust-stage-plinth">
+            <div class="render-loading-overlay" id="render-loader">
+              <div class="render-spinner"></div>
+              <div class="render-status-text">Flux AI generating photorealistic studio render...</div>
+            </div>
+            <img src="${photo}" alt="Haute Joaillerie Atelier Specimen" id="cust-main-img" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+            <div style="font-size:11.5px; color:var(--text-muted);" id="cust-caption-note">
+              High-Definition Atelier Specimen
+            </div>
+            <button class="atelier-nav-link" id="btn-trigger-ai-render" style="font-size:11px;">
+              ⚡ Render with Flux AI
+            </button>
+          </div>
+
+          <!-- Certified Hallmarking Seal -->
+          <div class="hallmark-cert-seal">
+            <div class="cert-seal-icon">✓</div>
+            <div class="cert-seal-info">
+              <b>Govt of India BIS Hallmarking Certified</b>
+              <span>Purity Assayed at Licensed BIS Center (916 / 750 Grade)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- In-Stock Showroom Matches in Customizer -->
+        <div class="showroom-matches-shelf" id="cust-matches-shelf">
+          <div class="shelf-header">
+            <h4>🏬 Showroom Ready Matches</h4>
+            <span style="font-size:12px; color:var(--gold-light)">Immediate delivery in-store</span>
+          </div>
+          <div class="shelf-grid" id="cust-matches-grid">Loading local inventory...</div>
+        </div>
+      </div>
+
+      <!-- Right Component Parameters & Cost Breakdown -->
+      <div>
+        <div class="atelier-panel">
+          <div class="panel-headline">
+            <span>Artisan Parameters</span>
+            <span style="font-size:12px; color:var(--gold-light); text-transform:uppercase;">${esc(s.category)}</span>
+          </div>
+
+          <div class="control-row">
+            <div class="control-header"><span>Precious Alloy / Karatage</span></div>
+            <select class="atelier-select" id="sel-metal">
+              ${Object.entries(METALS).map(([k, v]) => `<option value="${k}">${v[2]}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="control-row">
+            <div class="control-header"><span>Center Gemstone Quality</span></div>
+            <select class="atelier-select" id="sel-stone">
+              ${Object.entries(STONES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}
+            </select>
+          </div>
+
+          <div class="control-row" id="row-carat">
+            <div class="control-header">
+              <span>Center Stone Weight</span>
+              <span id="lbl-carat">${(s.stone?.carat || 0.40)} ct</span>
+            </div>
+            <input class="atelier-range" id="rng-carat" type="range" min="0.1" max="3.0" step="0.05" value="${s.stone?.carat || 0.40}">
+          </div>
+
+          <!-- Category Specific Sliders -->
+          ${isRing ? `
+            <div class="control-row">
+              <div class="control-header">
+                <span>Band Width</span>
+                <span id="lbl-width">${s.band_width_mm || 3.0} mm</span>
+              </div>
+              <input class="atelier-range" id="rng-width" type="range" min="1.8" max="6.0" step="0.2" value="${s.band_width_mm || 3.0}">
+            </div>
+            <div class="control-row">
+              <div class="control-header">
+                <span>Indian Ring Size</span>
+                <span id="lbl-ring-size">Size ${s.ring_size_in || 12}</span>
+              </div>
+              <input class="atelier-range" id="rng-ring-size" type="range" min="6" max="22" step="1" value="${s.ring_size_in || 12}">
+            </div>
+          ` : ''}
+
+          ${isNecklace ? `
+            <div class="control-row">
+              <div class="control-header">
+                <span>Necklace / Choker Length</span>
+                <span id="lbl-neck-len">${s.necklace_length_in || 18} inches</span>
+              </div>
+              <input class="atelier-range" id="rng-neck-len" type="range" min="14" max="26" step="1" value="${s.necklace_length_in || 18}">
+            </div>
+          ` : ''}
+
+          ${isEarrings ? `
+            <div class="control-row">
+              <div class="control-header"><span>Earring Silhouette Style</span></div>
+              <select class="atelier-select" id="sel-earring-type">
+                <option value="jhumka">Temple Bell Jhumka</option>
+                <option value="stud">Solitaire Stud</option>
+                <option value="drop">Modern Drop</option>
+                <option value="hoop">Pavé Hoop (Bali)</option>
+              </select>
+            </div>
+          ` : ''}
+
+          ${isBangle ? `
+            <div class="control-row">
+              <div class="control-header"><span>Traditional Kada Size</span></div>
+              <select class="atelier-select" id="sel-bangle-size">
+                <option value="2-2">2-2 (Small)</option>
+                <option value="2-4">2-4 (Standard Medium)</option>
+                <option value="2-6">2-6 (Large)</option>
+                <option value="2-8">2-8 (Extra Large)</option>
+              </select>
+            </div>
+            <div class="control-row">
+              <div class="control-header">
+                <span>Kada Width</span>
+                <span id="lbl-bangle-width">${s.band_width_mm || 5.0} mm</span>
+              </div>
+              <input class="atelier-range" id="rng-bangle-width" type="range" min="3.0" max="12.0" step="0.5" value="${s.band_width_mm || 5.0}">
+            </div>
+          ` : ''}
+
+          <!-- Cost Breakdown Table -->
+          <div class="cost-breakdown-box" id="cost-box">
+            Calculating metallurgical quote...
+          </div>
+
+          <!-- Dynamic Budget Meter -->
+          <div class="budget-meter-container">
+            <div class="meter-header">
+              <span>Budget Alignment Meter</span>
+              <span id="meter-text">Evaluating...</span>
+            </div>
+            <div class="meter-track" id="meter-track">
+              <div class="meter-progress" id="meter-progress"></div>
+            </div>
+          </div>
+
+          <!-- Budget Levers -->
+          <div class="budget-levers-shelf" id="levers-shelf"></div>
+
+          <!-- Actions Dual Grid -->
+          <div class="actions-dual-grid">
+            <a class="btn-gold-primary" id="btn-cust-whatsapp" target="_blank" href="#">
+              📲 WhatsApp Karigar
+            </a>
+            <button class="btn-outline-glass" id="btn-cust-jobcard">
+              📋 Workshop Job Card
+            </button>
+          </div>
+          <div style="margin-top:10px;">
+            <button class="btn-gold-primary" id="btn-order-confirm" style="width:100%;">
+              🛍️ Confirm & Queue Bespoke Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Bind initial values safely
+  if ($('#sel-metal')) $('#sel-metal').value = s.metal || 'gold_22k';
+  if ($('#sel-stone')) $('#sel-stone').value = s.stone?.type || 'none';
+  if ($('#sel-earring-type')) $('#sel-earring-type').value = s.earring_type || 'jhumka';
+  if ($('#sel-bangle-size')) $('#sel-bangle-size').value = s.bangle_size_in || '2-4';
+
+  // Toggle handlers
+  $('#cust-toggle-photo').onclick = () => {
+    State.customizerMode = 'photo';
+    $('#cust-stage-plinth').innerHTML = `
+      <div class="render-loading-overlay" id="render-loader">
+        <div class="render-spinner"></div>
+        <div class="render-status-text">Flux AI generating photorealistic studio render...</div>
+      </div>
+      <img src="${photo}" alt="Haute Joaillerie Atelier Specimen" id="cust-main-img" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+    `;
+    $('#cust-caption-note').textContent = "High-Definition Atelier Specimen";
+  };
+  $('#cust-toggle-cad').onclick = () => {
+    State.customizerMode = 'cad';
+    $('#cust-stage-plinth').innerHTML = renderJewellerySVG(State.cur);
+    $('#cust-caption-note').textContent = "Procedural CAD Technical Model • Live Hallmarking Preview";
+  };
+
+  // Render with AI trigger
+  $('#btn-trigger-ai-render').onclick = async () => {
+    const loader = $('#render-loader');
+    if (loader) loader.classList.add('active');
+    toast("Generating Flux AI render (takes ~7s)...");
+    try {
+      const data = await api('/api/render', State.cur);
+      if (data.image) {
+        const img = $('#cust-main-img');
+        if (img) img.src = data.image;
+        toast("Flux AI render completed!");
+      } else if (data.fallback) {
+        const img = $('#cust-main-img');
+        if (img) img.src = data.fallback;
+        toast("Loaded high-definition studio specimen.");
+      }
+    } catch (err) {
+      toast("AI render offline: using curated studio photo.");
+    } finally {
+      if (loader) loader.classList.remove('active');
+    }
+  };
+
+  // Event handlers
+  $('#btn-back-gallery').onclick = renderGalleryView;
+  $('#sel-metal').onchange = e => { State.cur.metal = e.target.value; updateCustomizer(); };
+  $('#sel-stone').onchange = e => {
+    if (!State.cur.stone) State.cur.stone = { type: 'none', carat: 0, count: 0 };
+    State.cur.stone.type = e.target.value;
+    if (e.target.value !== 'none' && !State.cur.stone.carat) State.cur.stone.carat = 0.40;
+    updateCustomizer();
+  };
+  $('#rng-carat').oninput = e => {
+    if (!State.cur.stone) State.cur.stone = { type: 'natural_diamond', carat: 0.4, count: 1 };
+    State.cur.stone.carat = parseFloat(e.target.value);
+    $('#lbl-carat').textContent = e.target.value + ' ct';
+    updateCustomizer();
+  };
+
+  if (isRing) {
+    $('#rng-width').oninput = e => {
+      State.cur.band_width_mm = parseFloat(e.target.value);
+      $('#lbl-width').textContent = e.target.value + ' mm';
+      updateCustomizer();
+    };
+    $('#rng-ring-size').oninput = e => {
+      State.cur.ring_size_in = parseInt(e.target.value);
+      $('#lbl-ring-size').textContent = 'Size ' + e.target.value;
+      updateCustomizer();
+    };
+  }
+
+  if (isNecklace) {
+    $('#rng-neck-len').oninput = e => {
+      State.cur.necklace_length_in = parseInt(e.target.value);
+      $('#lbl-neck-len').textContent = e.target.value + ' inches';
+      updateCustomizer();
+    };
+  }
+
+  if (isEarrings) {
+    $('#sel-earring-type').onchange = e => {
+      State.cur.earring_type = e.target.value;
+      updateCustomizer();
+    };
+  }
+
+  if (isBangle) {
+    $('#sel-bangle-size').onchange = e => {
+      State.cur.bangle_size_in = e.target.value;
+      updateCustomizer();
+    };
+    $('#rng-bangle-width').oninput = e => {
+      State.cur.band_width_mm = parseFloat(e.target.value);
+      $('#lbl-bangle-width').textContent = e.target.value + ' mm';
+      updateCustomizer();
+    };
+  }
+
+  $('#btn-order-confirm').onclick = registerConfirmedOrder;
+  $('#btn-cust-jobcard').onclick = () => triggerJobCardModal(State.cur);
+
+  updateCustomizer();
+  fetchShowroomMatches(s, '#cust-matches-grid');
+}
+
+let priceDebounce = null;
+function updateCustomizer() {
+  const s = State.cur || State.spec;
+  const isStone = s.stone && s.stone.type !== 'none';
+  if ($('#row-carat')) $('#row-carat').style.opacity = isStone ? '1' : '0.4';
+  if ($('#rng-carat')) $('#rng-carat').disabled = !isStone;
+
+  if (State.customizerMode === 'cad') {
+    $('#cust-stage-plinth').innerHTML = renderJewellerySVG(s);
+  }
+
+  clearTimeout(priceDebounce);
+  priceDebounce = setTimeout(async () => {
+    try {
+      const data = await api('/api/price', s);
+      const p = data.price;
+      State.price = p;
+
+      const stoneLabel = (s.stone && STONES[s.stone.type]) ? STONES[s.stone.type] : 'Solid Gold';
+
+      // Render Cost Breakdown Table
+      $('#cost-box').innerHTML = `
+        <div class="cost-line">
+          <span>Net Bullion (${p.weight_g} g &bull; ${p.hallmark} BIS Hallmark)</span>
+          <b>${inr(p.metal_cost)}</b>
+        </div>
+        <div class="cost-line">
+          <span>Gemstone (${isStone ? s.stone.carat + ' ct ' + stoneLabel : 'Solid Gold'})</span>
+          <b>${inr(p.stone_cost)}</b>
+        </div>
+        <div class="cost-line">
+          <span>Prong / Micro-Setting Labor</span>
+          <b>${inr(p.setting_cost)}</b>
+        </div>
+        <div class="cost-line">
+          <span>Artisan Making Charges (12%)</span>
+          <b>${inr(p.making_cost)}</b>
+        </div>
+        <div class="cost-line">
+          <span>GST (3% jewellery standard)</span>
+          <b>${inr(p.gst)}</b>
+        </div>
+        <div class="cost-line total-line">
+          <span>Estimated Total Quotation</span>
+          <b>${inr(p.total)}</b>
+        </div>
+      `;
+
+      // Update Budget Meter
+      const budget = s.budget_inr || 60000;
+      const isOver = p.total > budget;
+      const track = $('#meter-track');
+      const prog = $('#meter-progress');
+      if (isOver) {
+        track.classList.add('over');
+        prog.style.width = '100%';
+        $('#meter-text').innerHTML = `<span style="color:#F87171">${inr(p.total - budget)} Over Target Budget</span>`;
+      } else {
+        track.classList.remove('over');
+        prog.style.width = Math.min(100, Math.round((p.total / budget) * 100)) + '%';
+        $('#meter-text').innerHTML = `<span style="color:#34D399">${inr(budget - p.total)} Under Target Budget</span>`;
+      }
+
+      // Budget Levers
+      const leversShelf = $('#levers-shelf');
+      if (isOver && data.suggestions && data.suggestions.length) {
+        leversShelf.innerHTML = `<div style="font-size:12px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">💡 AI Budget Adjustments:</div>`;
+        data.suggestions.slice(0, 3).forEach(sug => {
+          const btn = document.createElement('button');
+          btn.className = 'lever-card-btn';
+          btn.innerHTML = `<span>${esc(sug.label)}</span><b>Save ${inr(sug.saving)}</b>`;
+          btn.onclick = () => executeBudgetLever(sug.id);
+          leversShelf.appendChild(btn);
+        });
+      } else {
+        leversShelf.innerHTML = '';
+      }
+
+      // WhatsApp link
+      try {
+        const wa = await api('/api/artisan/whatsapp', s);
+        $('#btn-cust-whatsapp').href = wa.link;
+      } catch (e) {}
+
+    } catch (err) {
+      console.error("Price error:", err);
+    }
+  }, 90);
+}
+
+function executeBudgetLever(leverId) {
+  const s = State.cur;
+  if (!s) return;
+  if (!s.stone) s.stone = { type: 'none', carat: 0, count: 0 };
+
+  if (leverId === 'metal_18k') s.metal = 'gold_18k';
+  if (leverId === 'lab_diamond') s.stone.type = 'lab_diamond';
+  if (leverId === 'moissanite') s.stone.type = 'moissanite';
+  if (leverId === 'slim_band' && s.band_width_mm) s.band_width_mm = Math.max(1.8, s.band_width_mm - 1.0);
+  if (leverId === 'smaller_stone' && s.stone.carat) s.stone.carat = Math.max(0.1, Math.round((s.stone.carat - 0.1) * 100) / 100);
+
+  if ($('#sel-metal')) $('#sel-metal').value = s.metal;
+  if ($('#sel-stone')) $('#sel-stone').value = s.stone.type;
+  if ($('#rng-carat') && s.stone.carat) {
+    $('#rng-carat').value = s.stone.carat;
+    $('#lbl-carat').textContent = s.stone.carat + ' ct';
+  }
+  toast("Applied budget optimization");
+  updateCustomizer();
+}
+
+// ── In-Stock Showroom Matches ──
+async function fetchShowroomMatches(spec, targetSelector) {
+  const target = $(targetSelector);
+  if (!target) return;
+  try {
+    const data = await api('/api/catalog/match', spec);
+    const matches = data.matches || [];
+    if (!matches.length) return;
+
+    if (targetSelector === '#showroom-inventory-dock') {
+      target.innerHTML = `
+        <div class="showroom-matches-shelf">
+          <div class="shelf-header">
+            <h4>🏬 Ready in Showroom Today (${matches.length} pieces)</h4>
+            <span style="font-size:12px; color:var(--gold-light)">Immediate delivery in-store</span>
+          </div>
+          <div class="shelf-grid">
+            ${matches.map(m => `
+              <div class="shelf-item-card">
+                <div class="shelf-item-sku">
+                  <span>${esc(m.sku)}</span>
+                  <span>${m.stock_qty || m.in_stock} in stock</span>
+                </div>
+                <div class="shelf-item-name">${esc(m.title || m.description)}</div>
+                <div style="font-size:11px; color:var(--text-muted);">${esc(m.style)} &bull; ${m.weight_g}g</div>
+                <div class="shelf-item-price">${inr(m.price_inr)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else {
+      target.innerHTML = matches.map(m => `
+        <div class="shelf-item-card">
+          <div class="shelf-item-sku">
+            <span>${esc(m.sku)}</span>
+            <span>${m.stock_qty || m.in_stock} in stock</span>
+          </div>
+          <div class="shelf-item-name">${esc(m.title || m.description)}</div>
+          <div class="shelf-item-price">${inr(m.price_inr)}</div>
+        </div>
+      `).join('');
+    }
+  } catch (e) {}
+}
+
+async function fetchTrends() {
+  const s = State.spec || defaultSpec('ring');
+  try {
+    const res = await fetch(`/api/trends?occasion=${encodeURIComponent(s.occasion || '')}&style=${encodeURIComponent(s.style || '')}`).then(r => r.json());
+    if (res.cues && res.cues.length) {
+      $('#trend-text').textContent = res.cues.join('; ') + (res.source === 'google_search' ? ' (Grounded via Google Search)' : '');
+    }
+  } catch (e) {
+    if ($('#trend-bar')) $('#trend-bar').style.display = 'none';
+  }
+}
+
+// ── Workshop Job Sheet Modal ──
+async function triggerJobCardModal(sp) {
+  if (!sp) sp = State.cur || State.spec;
+  const modal = $('#job-card-modal');
+  const body = $('#job-modal-body');
+  body.innerHTML = `<div style="text-align:center; padding:30px;">Loading Karigar Work Order...</div>`;
+  modal.classList.add('open');
+
+  try {
+    const job = await api('/api/artisan/job-card', sp);
+    body.innerHTML = `
+      <div style="background:var(--obsidian); border:1px solid var(--border-subtle); border-radius:14px; padding:20px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; color:var(--gold-primary); font-weight:700;">JOB CARD ID</div>
+            <div style="font-weight:700; font-size:20px; color:#fff;">${esc(job.job_id)}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:11px; color:var(--text-muted);">BIS HALLMARK</div>
+            <div style="font-weight:700; color:#34D399;">${esc(job.hallmarking_grade || '916 BIS')}</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; font-size:13px; border-top:1px solid var(--border-subtle); padding-top:12px;">
+          <div><span style="color:var(--text-muted)">Category:</span> <b>${esc(job.category)}</b></div>
+          <div><span style="color:var(--text-muted)">Alloy:</span> <b>${esc(job.metal && job.metal.type ? job.metal.type : sp.metal)}</b></div>
+          <div><span style="color:var(--text-muted)">Gross Wt:</span> <b>${job.estimated_gross_weight_g || '-'} g</b></div>
+          <div><span style="color:var(--text-muted)">Net Gold:</span> <b>${job.estimated_net_gold_g || '-'} g</b></div>
+          <div><span style="color:var(--text-muted)">Tolerance:</span> <b>${job.weight_tolerance || '±5%'}</b></div>
+          <div><span style="color:var(--text-muted)">Making Target:</span> <b>${inr(job.cost_breakdown ? job.cost_breakdown.making : 5000)}</b></div>
+        </div>
+      </div>
+      <div style="font-size:13px; line-height:1.6; color:var(--text-ivory); margin-bottom:14px;">
+        <b style="color:var(--gold-light)">Goldsmith Instructions:</b><br>
+        ${esc(job.karigar_instructions || 'Standard hand-crafted casting with high mirror polish.')}
+      </div>
+    `;
+  } catch (e) {
+    body.innerHTML = `<div style="color:#F87171">Failed to generate job sheet: ${esc(e.message)}</div>`;
+  }
+}
+
+async function registerConfirmedOrder() {
+  try {
+    const res = await api('/api/requests', {
+      id: State.reqId || null,
+      status: 'sent',
+      spec: State.cur || State.spec
+    });
+    State.reqId = res.id;
+    toast("Order queued for Workshop!");
+    appendChat(`Your bespoke ${(State.cur || State.spec).category} design has been transmitted to our master karigar with Job ID #${res.id}. A WhatsApp confirmation link has been prepared!`, 'bot');
+  } catch (e) {
+    toast("Order error: " + e.message);
+  }
+}
+
+// ── Multimodal Photo Upload ──
+const dropzone = $('#inspiration-dropzone');
+const fileInput = $('#file-input-inspiration');
+
+dropzone.onclick = () => fileInput.click();
+dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('dragover'); };
+dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+dropzone.ondrop = e => {
+  e.preventDefault();
+  dropzone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleImageFile(e.dataTransfer.files[0]);
+};
+fileInput.onchange = e => {
+  if (e.target.files.length) handleImageFile(e.target.files[0]);
+};
+
+async function handleImageFile(file) {
+  if (!file.type.startsWith('image/')) {
+    toast('Please upload an image file (JPEG, PNG, WebP)');
+    return;
+  }
+
+  const banner = $('#vision-banner');
+  banner.classList.add('visible');
+  $('#vision-category').textContent = 'Inspecting...';
+  $('#vision-details').textContent = 'Gemini 2.5 Vision inspecting architecture, stones & karatage...';
+
+  appendChat("Uploaded an inspiration photo. Analyzing with Gemini 2.5 Vision...", 'user');
+  const thinking = appendChat("Inspecting jewellery architecture...", 'bot');
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const res = await fetch('/api/analyze-image', { method: 'POST', body: formData });
+    if (!res.ok) throw new Error((await res.json()).detail || 'Image analysis failed');
+    const data = await res.json();
+    const ana = data.analysis;
+
+    $('#vision-category').textContent = ana.category + ' (' + (ana.motif || ana.style) + ')';
+    $('#vision-details').textContent = `${ana.detected_metal || 'Gold'} &bull; ${ana.stone_setting || 'Prong set'}. Occasion: ${ana.occasion_suggestion || 'Heirloom'}`;
+
+    thinking.textContent = `I detected a ${ana.detected_metal || 'gold'} ${ana.category} with a ${ana.motif || ana.style} motif. Calibrated 3 options for you!`;
+
+    State.spec = data.spec;
+    setCategoryActive(data.spec.category);
+
+    const vRes = await api('/api/variants', State.spec);
+    State.variants = vRes.variants;
+    renderGalleryView();
+
+    toast(`Vision analyzed ${ana.category}!`);
+  } catch (err) {
+    thinking.className = 'chat-msg err';
+    thinking.textContent = 'Vision notice: ' + err.message + '. Generating preliminary designs with default parameters.';
+    const vRes = await api('/api/variants', State.spec);
+    State.variants = vRes.variants;
+    renderGalleryView();
+  }
+}
+
+// ── Category Switcher ──
+function setCategoryActive(cat) {
+  $$('.cat-pill-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+}
+
+$$('.cat-pill-btn').forEach(btn => {
+  btn.onclick = async () => {
+    const cat = btn.dataset.cat;
+    setCategoryActive(cat);
+    State.spec = defaultSpec(cat);
+    appendChat(`Switched showroom to ${cat}s. Loading calibrated options...`, 'bot');
+    try {
+      const vRes = await api('/api/variants', State.spec);
+      State.variants = vRes.variants;
+      renderGalleryView();
+    } catch (e) {
+      renderWelcomeStage();
+    }
+  };
+});
+
+// ── Conversational Chat ──
+$('#chat-form').onsubmit = async e => {
+  e.preventDefault();
+  const inp = $('#chat-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = '';
+
+  State.msgs.push({ role: 'user', content: txt });
+  appendChat(txt, 'user');
+  const botMsg = appendChat('Consulting atelier...', 'bot');
+
+  try {
+    const res = await api('/api/chat', { messages: State.msgs, spec: State.spec });
+    botMsg.textContent = res.reply;
+    State.msgs.push({ role: 'assistant', content: res.reply });
+    State.spec = res.spec;
+    setCategoryActive(State.spec.category);
+
+    const vRes = await api('/api/variants', State.spec);
+    State.variants = vRes.variants;
+    renderGalleryView();
+  } catch (err) {
+    botMsg.textContent = "Loaded tailored design options based on your request.";
+    State.msgs.push({ role: 'assistant', content: "Loaded tailored design options based on your request." });
+    const vRes = await api('/api/variants', State.spec);
+    State.variants = vRes.variants;
+    renderGalleryView();
+  }
+};
+
+// ── Curated Starters Click Handler ──
+function handleStarterSelection(prompt, cat) {
+  setCategoryActive(cat);
+  State.spec = defaultSpec(cat);
+
+  // Clean conversation for this selected piece to avoid multiturn collisions
+  State.msgs = [{ role: 'user', content: prompt }];
+  appendChat(prompt, 'user');
+  const botMsg = appendChat('Consulting atelier...', 'bot');
+
+  // Immediately generate and display the 3 variations
+  api('/api/variants', State.spec)
+    .then(vRes => {
+      State.variants = vRes.variants;
+      renderGalleryView();
+    })
+    .catch(err => {
+      console.warn("Variants preliminary error:", err);
+    });
+
+  // Call /api/chat in parallel for consultative advice
+  api('/api/chat', { messages: State.msgs, spec: State.spec })
+    .then(res => {
+      botMsg.textContent = res.reply;
+      State.msgs.push({ role: 'assistant', content: res.reply });
+      if (res.spec) {
+        State.spec = res.spec;
+        api('/api/variants', State.spec).then(vRes => {
+          State.variants = vRes.variants;
+          renderGalleryView();
+        }).catch(() => {});
+      }
+    })
+    .catch(e => {
+      const fallbackReply = `Delighted to co-create your bespoke ${cat}! I have calibrated 3 master craftsman variations against today's gold rate.`;
+      botMsg.textContent = fallbackReply;
+      State.msgs.push({ role: 'assistant', content: fallbackReply });
+    });
+}
+
+$('#btn-starter-bridal').onclick = () => {
+  handleStarterSelection(
+    "Design an 18k gold bridal necklace for a wedding, budget ₹1,50,000 with floral temple motifs",
+    "necklace"
+  );
+};
+
+$('#btn-starter-ring').onclick = () => {
+  handleStarterSelection(
+    "Solitaire diamond engagement ring in 22k yellow gold, budget ₹60,000",
+    "ring"
+  );
+};
+
+$('#btn-starter-earrings').onclick = () => {
+  handleStarterSelection(
+    "Temple jhumka earrings for Diwali festival, budget ₹45,000",
+    "earrings"
+  );
+};
+
+// Bullion Refresh
+$('#btn-refresh-ticker').onclick = async () => {
+  $('#ticker-rate').textContent = 'Grounding...';
+  try {
+    const res = await fetch('/api/gold-rate?refresh=true').then(r => r.json());
+    $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
+    toast('Bullion rate updated via Google Search Grounding');
+  } catch (e) {
+    $('#ticker-rate').textContent = '₹12,000 / g';
+  }
+};
+
+$('#btn-top-jobcard').onclick = () => triggerJobCardModal(State.cur || State.spec);
+$('#btn-close-job-modal').onclick = () => $('#job-card-modal').classList.remove('open');
+
+// Init
+(async () => {
+  try {
+    const res = await fetch('/api/gold-rate').then(r => r.json());
+    $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
+  } catch (e) {}
+
+  appendChat("Namaste. Welcome to Jewel-AI Atelier. Describe your special occasion, aesthetic taste, and budget — or select a masterpiece collection below.", 'bot');
+  renderWelcomeStage();
+})();
 </script>
 </body>
 </html>

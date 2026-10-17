@@ -3,8 +3,11 @@ import os
 import time
 import base64
 import re
+import logging
 from typing import Optional
 from pydantic import BaseModel, field_validator
+
+logger = logging.getLogger("jewel-ai.ai")
 
 try:
     from dotenv import load_dotenv
@@ -16,7 +19,8 @@ from google import genai
 from google.genai import types
 from .models import DesignSpec, Stone
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+FALLBACKS = [m.strip() for m in os.getenv("GEMINI_FALLBACKS", "gemini-2.5-flash").split(",") if m.strip()]
 _client = None
 
 
@@ -25,13 +29,24 @@ def client():
     Deployed: Vertex AI via the Cloud Run service account."""
     global _client
     if _client is None:
-        if os.getenv("GEMINI_API_KEY"):
-            _client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in ("true", "1") or not bool(os.getenv("GEMINI_API_KEY"))
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key and not use_vertex:
+            logger.info("[Gemini Client] Initializing with Google AI Studio API key")
+            _client = genai.Client(api_key=api_key)
         else:
+            project = (
+                os.getenv("GOOGLE_CLOUD_PROJECT")
+                or os.getenv("GCP_PROJECT")
+                or os.getenv("PROJECT_ID")
+                or "jewel-ai-511914"
+            )
+            location = os.getenv("GOOGLE_CLOUD_LOCATION", "asia-south1")
+            logger.info("[Gemini Client] Initializing Vertex AI client | project: %s | location: %s", project, location)
             _client = genai.Client(
                 vertexai=True,
-                project=os.environ["GOOGLE_CLOUD_PROJECT"],
-                location=os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1"),
+                project=project,
+                location=location,
             )
     return _client
 
@@ -44,6 +59,8 @@ class ChatTurn(BaseModel):
     reply: str
     ready: bool = False
     is_off_topic: bool = False
+    engine: Optional[str] = "gemini"
+    fallback_reason: Optional[str] = None
     category: Optional[str] = None          # ring|necklace|earrings|bangle
     style: Optional[str] = None
     metal: Optional[str] = None             # gold_24k|gold_22k|gold_18k|gold_14k
@@ -231,8 +248,6 @@ Rules for jewelry requests:
 - For necklaces, consider if they want a simple chain with pendant or a heavier choker/set."""
 
 
-FALLBACKS = [m for m in os.getenv(
-    "GEMINI_FALLBACKS", "gemini-2.5-flash-lite").split(",") if m]
 
 
 OFF_TOPIC_PATTERNS = [
@@ -436,27 +451,38 @@ def chat_turn(messages: list[dict]) -> ChatTurn:
         system_instruction=SYSTEM, response_mime_type="application/json",
         response_schema=ChatTurn, temperature=0.4)
 
-    for model in [MODEL] + FALLBACKS:
+    last_err = None
+    for model in [MODEL] + [m for m in FALLBACKS if m != MODEL]:
+        logger.info("[Gemini AI] Attempting consultation with model '%s'...", model)
+        t0 = time.time()
         for attempt in range(2):
             try:
                 resp = client().models.generate_content(model=model, contents=contents, config=cfg)
+                elapsed = round(time.time() - t0, 3)
                 text = (resp.text or "").strip()
                 if text.startswith("```"):
                     text = re.sub(r"^```(?:json)?\s*", "", text)
                     text = re.sub(r"\s*```$", "", text)
                 turn = ChatTurn.model_validate_json(text)
+                turn.engine = model
+                logger.info("[Gemini AI] SUCCESS with '%s' in %.2fs (category=%s, ready=%s)", model, elapsed, turn.category, turn.ready)
                 if turn.is_off_topic:
                     return fallback_turn(last_text)
                 return turn
             except Exception as e:
-                msg = str(e)
-                transient = any(k in msg for k in ("503", "UNAVAILABLE", "429", "RESOURCE_EXHAUSTED", "500"))
-                if not transient:
+                last_err = str(e)
+                if "429" in last_err or "RESOURCE_EXHAUSTED" in last_err:
+                    logger.warning("[Gemini AI] Model '%s' Quota Exceeded (429 RESOURCE_EXHAUSTED). Daily free tier limit reached.", model)
                     break
-                time.sleep(1.0 * (attempt + 1))
-    
-    # Graceful fallback so chat never throws an error to the user
-    return fallback_turn(last_text)
+                logger.warning("[Gemini AI] Model '%s' attempt %d error: %s", model, attempt + 1, last_err[:120])
+                time.sleep(0.5)
+
+    reason = "429_quota_exhausted" if ("429" in (last_err or "") or "RESOURCE_EXHAUSTED" in (last_err or "")) else "api_unavailable"
+    logger.warning("[Gemini AI] All models failed (%s). Activating deterministic atelier concierge fallback.", reason)
+    fb = fallback_turn(last_text)
+    fb.engine = "concierge_fallback"
+    fb.fallback_reason = reason
+    return fb
 
 
 # ──────────────────────────────────────────────────────────
@@ -617,3 +643,60 @@ def merge(spec: DesignSpec, t: ChatTurn) -> DesignSpec:
     if t.stone_count is not None:
         d["stone"]["count"] = min(100, max(1, t.stone_count))
     return DesignSpec.model_validate(d)
+
+
+def check_gemini_diagnostics() -> dict:
+    """Run a live ping against Gemini to test connectivity, quota, and latency."""
+    use_vertex = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in ("true", "1") or not bool(os.getenv("GEMINI_API_KEY"))
+    provider = "Vertex AI (Ambient IAM)" if use_vertex else "Google AI Studio (API Key)"
+    project = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCP_PROJECT") or "jewel-ai-511914"
+    location = os.getenv("GOOGLE_CLOUD_LOCATION", "asia-south1")
+
+    models = [MODEL] + [m for m in FALLBACKS if m != MODEL]
+    results = {}
+    active_model = None
+    first_error = None
+
+    for m in models:
+        t0 = time.time()
+        try:
+            c = client()
+            resp = c.models.generate_content(model=m, contents="Ping. Reply with: PONG")
+            lat = int((time.time() - t0) * 1000)
+            text = (resp.text or "").strip()
+            results[m] = {"status": "ONLINE", "latency_ms": lat, "response": text}
+            if not active_model:
+                active_model = m
+        except Exception as e:
+            lat = int((time.time() - t0) * 1000)
+            err = str(e)
+            if "429" in err or "RESOURCE_EXHAUSTED" in err:
+                status = "QUOTA_EXHAUSTED (429 - 20 req/day free tier limit)"
+            elif "404" in err:
+                status = "MODEL_NOT_FOUND (404)"
+            elif "403" in err:
+                status = "PERMISSION_DENIED (403 - ensure roles/aiplatform.user is granted)"
+            else:
+                status = f"ERROR: {err[:80]}"
+            results[m] = {"status": status, "latency_ms": lat, "error": err[:120]}
+            if not first_error:
+                first_error = status
+
+    return {
+        "status": "online" if active_model else "fallback_active",
+        "provider": provider,
+        "active_model": active_model or "deterministic_concierge_fallback",
+        "project": project if use_vertex else "aistudio",
+        "location": location if use_vertex else "global",
+        "models": results,
+        "summary": (
+            f"Gemini API is ONLINE and responding via {active_model} ({provider})!"
+            if active_model
+            else f"Gemini is falling back to deterministic concierge because: {first_error}"
+        ),
+        "how_to_fix": (
+            "No action needed. Live AI models are answering."
+            if active_model
+            else "Free tier limit of 20 calls/day exceeded on Google AI Studio key, or Vertex AI permissions missing on Cloud Run."
+        )
+    }

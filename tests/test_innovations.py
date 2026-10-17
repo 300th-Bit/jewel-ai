@@ -164,4 +164,15 @@ def test_bigquery_export_and_schema_endpoints():
     assert "retail_jewel_ai.tradein_vouchers" in r_sch["sql"]
 
 
+def test_gemini_diagnostics_endpoint():
+    c = TestClient(app)
+    r = c.get("/api/diagnostics/gemini").json()
+    assert "status" in r
+    assert r["status"] in ("online", "fallback_active")
+    assert "provider" in r
+    assert "active_model" in r
+    assert "models" in r
+    assert "summary" in r
+
+
 

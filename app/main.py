@@ -41,9 +41,19 @@ def chat(req: ChatReq):
     except Exception as e:
         last_text = req.messages[-1].content if req.messages else ""
         turn = ai.fallback_turn(last_text)
+
+    is_off_topic = getattr(turn, "is_off_topic", False)
+    if is_off_topic:
+        return {
+            "reply": turn.reply,
+            "spec": req.spec.model_dump(),
+            "ready": False,
+            "is_off_topic": True
+        }
+
     spec = ai.merge(req.spec, turn)
     ready = bool(turn.ready and spec.budget_inr and spec.occasion)
-    return {"reply": turn.reply, "spec": spec.model_dump(), "ready": ready}
+    return {"reply": turn.reply, "spec": spec.model_dump(), "ready": ready, "is_off_topic": False}
 
 
 @app.post("/api/price")
@@ -109,8 +119,18 @@ async def analyze_image(file: UploadFile = File(...)):
         if len(data) > 10 * 1024 * 1024:
             raise HTTPException(400, "Image too large (max 10MB)")
         result = ai.analyze_inspiration(data, mime)
+        if not result.is_jewellery or result.confidence < 0.35:
+            return {
+                "ok": False,
+                "is_jewellery": False,
+                "error": "unrelated_image",
+                "message": result.rejection_reason or result.description or "The uploaded photo does not appear to be jewelry or a jewelry design sketch. Please upload a jewelry photo or sketch.",
+                "analysis": result.model_dump(),
+            }
         spec = ai.inspiration_to_spec(result)
         return {
+            "ok": True,
+            "is_jewellery": True,
             "analysis": result.model_dump(),
             "spec": spec.model_dump(),
             "price": pricing.price(spec),
@@ -133,8 +153,18 @@ def analyze_image_b64(req: AnalyzeBase64Req):
     try:
         data = base64.b64decode(req.image_b64)
         result = ai.analyze_inspiration(data, req.mime_type)
+        if not result.is_jewellery or result.confidence < 0.35:
+            return {
+                "ok": False,
+                "is_jewellery": False,
+                "error": "unrelated_image",
+                "message": result.rejection_reason or result.description or "The uploaded photo does not appear to be jewelry or a jewelry design sketch. Please upload a jewelry photo or sketch.",
+                "analysis": result.model_dump(),
+            }
         spec = ai.inspiration_to_spec(result)
         return {
+            "ok": True,
+            "is_jewellery": True,
             "analysis": result.model_dump(),
             "spec": spec.model_dump(),
             "price": pricing.price(spec),
@@ -223,33 +253,6 @@ def analyze_undertone_b64(req: UndertoneB64Req):
         raise HTTPException(503, f"Undertone analysis failed: {e}")
 
 
-class VTOReq(BaseModel):
-    spec: DesignSpec
-    skin_tone: str = "warm olive"
-    lighting: str = "studio softbox"
-    user_image_base64: str | None = None
-    user_image_mime: str = "image/jpeg"
-    perspective: str = "frontal"
-
-
-@app.post("/api/vto/ai-portrait")
-def vto_ai_portrait(req: VTOReq):
-    """Generate or retrieve a photorealistic AI editorial try-on photoshoot image."""
-    from . import render
-    img = render.render_vto_image(
-        req.spec,
-        req.skin_tone,
-        req.lighting,
-        req.user_image_base64,
-        req.user_image_mime,
-        req.perspective
-    )
-    if img:
-        src = "flux_neural_synthesis_uploaded" if req.user_image_base64 else "flux_neural_synthesis"
-        return {"image": img, "source": src}
-    fallback = render.get_curated_vto_image(req.spec, req.skin_tone, req.perspective)
-    src = "curated_editorial_uploaded_colorimetry" if req.user_image_base64 else "curated_editorial_atelier"
-    return {"image": fallback, "source": src}
 
 
 @app.post("/api/tradein/appraise")

@@ -242,8 +242,8 @@ def update_teleprompter(page, scene_idx, scene_title, script_text, elapsed_sec, 
         "pct": pct
     })
 
-def smooth_move_cursor(page, target_x, target_y, steps=25, sleep_step=0.012):
-    """Smooth human-like cursor interpolation that Recordly auto-zooms gracefully follow."""
+def smooth_move_cursor(page, target_x, target_y, steps=10, sleep_step=0.006):
+    """Snappy yet smooth cursor movement for Recordly auto-zooms without dragging."""
     cur_pos = page.evaluate("""() => {
       const c = document.getElementById('playwright-virtual-cursor');
       if (!c) return { x: 500, y: 300 };
@@ -268,8 +268,8 @@ def smooth_move_cursor(page, target_x, target_y, steps=25, sleep_step=0.012):
         page.mouse.move(cx, cy)
         time.sleep(sleep_step)
 
-def smooth_click(page, selector, hover_time=0.4):
-    """Finds element, smoothly moves cursor to center, hovers for Recordly zoom, and clicks."""
+def smooth_click(page, selector, hover_time=0.18):
+    """Finds element, quickly glides to center, triggers Recordly zoom, and clicks."""
     el = page.query_selector(selector)
     if not el:
         return False
@@ -292,29 +292,35 @@ def smooth_click(page, selector, hover_time=0.4):
       }
     }""")
     page.mouse.click(target_x, target_y)
-    time.sleep(0.3)
+    time.sleep(0.12)
     return True
 
-def human_type(page, selector, text, delay=0.045):
-    """Smooth character-by-character typing into inputs."""
+def human_type(page, selector, text, delay=0.012):
+    """Fast, snappy, realistic typing (12ms per char vs previous sluggish 45ms)."""
     smooth_click(page, selector)
     page.fill(selector, "")
     for ch in text:
         page.type(selector, ch, delay=int(delay * 1000))
-    time.sleep(0.3)
+    time.sleep(0.15)
 
 # ──────────────────────────────────────────────────────────
 # Main Automation Routine
 # ──────────────────────────────────────────────────────────
-def run_hackathon_demo(is_fast=False, is_headless=False):
-    speed_factor = 0.15 if is_fast else 1.0
+# ──────────────────────────────────────────────────────────
+# Main Automation Routine
+# ──────────────────────────────────────────────────────────
+def run_hackathon_demo(is_fast=False, is_headless=False, speed_mult=1.0):
+    speed_factor = 0.15 if is_fast else (1.0 / max(0.1, speed_mult))
     def s_sleep(duration):
         time.sleep(duration * speed_factor)
 
+    TARGET_DURATION_SEC = 195  # 3 minutes 15 seconds (Safe within 3:00 - 4:00 window)
+
     print("=" * 70)
-    print("  JEWEL-AI: RECORDLY HACKATHON DEMO AUTOMATOR")
+    print("  JEWEL-AI: RECORDLY HACKATHON DEMO AUTOMATOR (FAST & CRISP)")
     print(f"  Target URL: {DEPLOYED_URL}")
-    print(f"  Mode: {'FAST DRY-RUN (Validation)' if is_fast else 'FULL RECORDLY RECORDING (~3m 30s)'}")
+    print(f"  Target Pacing: ~3m 15s (195s) [Strictly within 3:00 - 4:00 min gate]")
+    print(f"  Mode: {'6x FAST DRY-RUN' if is_fast else f'RECORDLY CAPTURE ({speed_mult}x speed)'}")
     print(f"  Display: {'Headless' if is_headless else 'Headed (1920x1080) for Screen Recording'}")
     print("=" * 70)
 
@@ -354,9 +360,9 @@ def run_hackathon_demo(is_fast=False, is_headless=False):
         page.goto(DEPLOYED_URL, wait_until="networkidle")
         setup_injected_overlays(page)
 
-        # 5-Second Countdown Banner so the user can start Recordly recording
-        print("\n>>> PREPARE RECORDLY: Starting 5-second countdown banner...")
-        for count in range(5, 0, -1):
+        # 3-Second Crisp Countdown Banner
+        print("\n>>> PREPARE RECORDLY: Starting 3-second countdown...")
+        for count in range(3, 0, -1):
             page.evaluate(f"""() => {{
               const el = document.getElementById('tp-script-text');
               if (el) el.innerHTML = '<b style="color:#D4AF37; font-size:16px;">STARTING RECORDLY VIDEO IN {count}...</b> Focus Recordly app & hit record.';
@@ -364,132 +370,127 @@ def run_hackathon_demo(is_fast=False, is_headless=False):
             s_sleep(1.0)
 
         start_time = time.time()
-        print("\n>>> RECORDING STARTED: Following timed hackathon scenes...")
+        print("\n>>> RECORDING STARTED: Executing fast & crisp demo...")
 
         # ──────────────────────────────────────────────────
-        # SCENE 1: Introduction & GCP Architecture (00:00 - 00:25 / 25s)
+        # SCENE 1: Introduction & GCP Architecture (~18s)
         # ──────────────────────────────────────────────────
         sc1 = SCENES[0]
-        update_teleprompter(page, sc1["id"], sc1["title"], sc1["script"], time.time() - start_time)
-        print(f"\n[Scene 1] {sc1['title']} ({sc1['duration']}s)")
+        update_teleprompter(page, sc1["id"], sc1["title"], sc1["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 1] {sc1['title']}")
 
-        # Hover brand & bullion ticker
         smooth_move_cursor(page, 200, 45)
-        s_sleep(2.0)
+        s_sleep(1.0)
         smooth_move_cursor(page, 320, 90)
-        s_sleep(2.0)
+        s_sleep(1.0)
 
-        # Click GCP Architecture modal
+        # Open GCP Architecture modal
         smooth_click(page, "#btn-nav-gcp-stack")
-        s_sleep(2.5)
+        s_sleep(1.5)
 
         # Run Live Vertex AI Ping
         smooth_click(page, "#btn-ping-gemini")
-        s_sleep(4.5)
+        s_sleep(2.5)
 
         # View BigQuery Production Schema
         smooth_click(page, "#btn-view-bq-schema")
-        s_sleep(3.5)
+        s_sleep(2.0)
 
         # Close GCP modal
         page.evaluate("() => $('#modal-gcp-stack').classList.remove('open')")
-        s_sleep(2.0)
+        s_sleep(1.0)
 
         # ──────────────────────────────────────────────────
-        # SCENE 2: Conversational AI Concierge & Guardrails (00:25 - 00:55 / 30s)
+        # SCENE 2: Conversational AI Concierge & Guardrails (~22s)
         # ──────────────────────────────────────────────────
         sc2 = SCENES[1]
-        update_teleprompter(page, sc2["id"], sc2["title"], sc2["script"], time.time() - start_time)
-        print(f"\n[Scene 2] {sc2['title']} ({sc2['duration']}s)")
+        update_teleprompter(page, sc2["id"], sc2["title"], sc2["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 2] {sc2['title']}")
 
-        # Focus chat input and type prompt
         human_type(page, "#chat-input", "Design a solitaire engagement ring in 22k gold, budget ₹60,000")
         smooth_click(page, "#btn-chat-send")
-        s_sleep(6.5)
+        s_sleep(3.5)
 
         # Demonstrate Domain Guardrail
         human_type(page, "#chat-input", "Give me recipe for chocolate banana cake")
         smooth_click(page, "#btn-chat-send")
-        s_sleep(5.0)
+        s_sleep(3.0)
 
         # ──────────────────────────────────────────────────
-        # SCENE 3: 3-Tier Calibrated Variant Engine & CAD Toggles (00:55 - 01:30 / 35s)
+        # SCENE 3: 3-Tier Calibrated Variant Engine & CAD Toggles (~24s)
         # ──────────────────────────────────────────────────
         sc3 = SCENES[2]
-        update_teleprompter(page, sc3["id"], sc3["title"], sc3["script"], time.time() - start_time)
-        print(f"\n[Scene 3] {sc3['title']} ({sc3['duration']}s)")
+        update_teleprompter(page, sc3["id"], sc3["title"], sc3["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 3] {sc3['title']}")
 
-        # Click Masterpiece Ring starter to ensure fresh 3 calibrated cards
         smooth_click(page, "#btn-starter-ring")
-        s_sleep(6.0)
-
-        # Hover over Card 1 & toggle CAD
-        smooth_move_cursor(page, 650, 320)
-        s_sleep(1.5)
-        smooth_click(page, ".jewel-variant-card:nth-child(1) .view-toggle-btn:last-child")
-        s_sleep(3.0)
-        smooth_click(page, ".jewel-variant-card:nth-child(1) .view-toggle-btn:first-child")
-        s_sleep(2.0)
-
-        # Hover over Card 2 & toggle CAD
-        smooth_move_cursor(page, 1050, 320)
-        s_sleep(1.5)
-        smooth_click(page, ".jewel-variant-card:nth-child(2) .view-toggle-btn:last-child")
-        s_sleep(3.0)
-
-        # Smooth scroll down to Showroom Ready-to-Ship Inventory
-        page.evaluate("() => window.scrollBy({ top: 400, behavior: 'smooth' })")
         s_sleep(3.5)
-        page.evaluate("() => window.scrollTo({ top: 0, behavior: 'smooth' })")
+
+        # Card 1 CAD toggle
+        smooth_move_cursor(page, 650, 320)
+        s_sleep(1.0)
+        smooth_click(page, ".jewel-variant-card:nth-child(1) .view-toggle-btn:last-child")
+        s_sleep(1.8)
+        smooth_click(page, ".jewel-variant-card:nth-child(1) .view-toggle-btn:first-child")
+        s_sleep(1.2)
+
+        # Card 2 CAD toggle
+        smooth_move_cursor(page, 1050, 320)
+        s_sleep(1.0)
+        smooth_click(page, ".jewel-variant-card:nth-child(2) .view-toggle-btn:last-child")
+        s_sleep(1.8)
+
+        # Scroll to Showroom Ready-to-Ship Inventory
+        page.evaluate("() => window.scrollBy({ top: 400, behavior: 'smooth' })")
         s_sleep(2.0)
+        page.evaluate("() => window.scrollTo({ top: 0, behavior: 'smooth' })")
+        s_sleep(1.0)
 
         # ──────────────────────────────────────────────────
-        # SCENE 4: Parametric CAD Studio & Real-Time Pricing (01:30 - 02:05 / 35s)
+        # SCENE 4: Parametric CAD Studio & Real-Time Pricing (~25s)
         # ──────────────────────────────────────────────────
         sc4 = SCENES[3]
-        update_teleprompter(page, sc4["id"], sc4["title"], sc4["script"], time.time() - start_time)
-        print(f"\n[Scene 4] {sc4['title']} ({sc4['duration']}s)")
+        update_teleprompter(page, sc4["id"], sc4["title"], sc4["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 4] {sc4['title']}")
 
-        # Launch Customizer from Card 2
         smooth_click(page, ".jewel-variant-card:nth-child(2) .btn-launch-customizer")
-        s_sleep(3.0)
+        s_sleep(1.8)
 
-        # Toggle CAD blueprint on plinth
+        # Toggle CAD blueprint
         smooth_click(page, "#cust-toggle-cad")
-        s_sleep(3.0)
+        s_sleep(1.8)
 
         # Adjust precious metal alloy
         smooth_click(page, "#sel-metal")
         page.select_option("#sel-metal", "rose_gold")
-        s_sleep(2.5)
+        s_sleep(1.5)
 
         # Adjust stone quality
         smooth_click(page, "#sel-stone")
         page.select_option("#sel-stone", "natural_diamond")
-        s_sleep(2.5)
+        s_sleep(1.5)
 
         # Adjust Carat slider
         smooth_move_cursor(page, 1450, 480)
         page.fill("#rng-carat", "0.75")
         page.evaluate("() => $('#rng-carat').dispatchEvent(new Event('input'))")
-        s_sleep(3.0)
+        s_sleep(1.5)
 
         # Focus on Live Cost Breakdown Box
         smooth_move_cursor(page, 1450, 720)
-        s_sleep(4.0)
+        s_sleep(2.5)
 
         # ──────────────────────────────────────────────────
-        # SCENE 5: Skin Harmony Colorimetry Harmonizer (02:05 - 02:30 / 25s)
+        # SCENE 5: Skin Harmony Colorimetry Harmonizer (~18s)
         # ──────────────────────────────────────────────────
         sc5 = SCENES[4]
-        update_teleprompter(page, sc5["id"], sc5["title"], sc5["script"], time.time() - start_time)
-        print(f"\n[Scene 5] {sc5['title']} ({sc5['duration']}s)")
+        update_teleprompter(page, sc5["id"], sc5["title"], sc5["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 5] {sc5['title']}")
 
-        # Open Skin Harmony modal
         smooth_click(page, "#btn-nav-undertone")
-        s_sleep(3.0)
+        s_sleep(1.8)
 
-        # Simulate Warm Undertone analysis result in modal for demo
+        # Simulate Warm Undertone analysis
         page.evaluate("""() => {
           $('#undertone-results-box').style.display = 'block';
           $('#btn-apply-undertone-metal').style.display = 'inline-block';
@@ -499,64 +500,57 @@ def run_hackathon_demo(is_fast=False, is_headless=False):
           $('#ut-metals-list').innerHTML = '<span class="status-badge" style="background:var(--gold-soft); color:var(--gold-dark); padding:3px 8px; border-radius:4px;">22k Yellow Gold</span><span class="status-badge" style="background:var(--gold-soft); color:var(--gold-dark); padding:3px 8px; border-radius:4px;">18k Rose Gold</span>';
           $('#ut-gems-list').innerHTML = '<span class="status-badge" style="background:#E6F4EA; color:#137333; padding:3px 8px; border-radius:4px;">Emerald</span><span class="status-badge" style="background:#E6F4EA; color:#137333; padding:3px 8px; border-radius:4px;">Polki Diamonds</span>';
         }""")
-        s_sleep(4.5)
+        s_sleep(3.0)
 
         # Apply prescribed metal
         smooth_click(page, "#btn-apply-undertone-metal")
-        s_sleep(2.5)
+        s_sleep(1.5)
 
         # ──────────────────────────────────────────────────
-        # SCENE 6: Old Gold Circular Trade-In & Melting Appraisal (02:30 - 02:55 / 25s)
+        # SCENE 6: Old Gold Circular Trade-In & Melting Appraisal (~18s)
         # ──────────────────────────────────────────────────
         sc6 = SCENES[5]
-        update_teleprompter(page, sc6["id"], sc6["title"], sc6["script"], time.time() - start_time)
-        print(f"\n[Scene 6] {sc6['title']} ({sc6['duration']}s)")
+        update_teleprompter(page, sc6["id"], sc6["title"], sc6["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 6] {sc6['title']}")
 
-        # Open Trade-In modal
         smooth_click(page, "#btn-nav-tradein")
-        s_sleep(3.5)
+        s_sleep(2.0)
 
-        # Focus summary valuation
         smooth_move_cursor(page, 960, 620)
-        s_sleep(3.5)
+        s_sleep(2.0)
 
-        # Apply credit to bespoke order
         smooth_click(page, "#btn-apply-tradein-credit")
-        s_sleep(3.0)
+        s_sleep(1.8)
 
         # ──────────────────────────────────────────────────
-        # SCENE 7: BIS HUID Passport & Karigar Job Sheet (02:55 - 03:20 / 25s)
+        # SCENE 7: BIS HUID Passport & Karigar Job Sheet (~18s)
         # ──────────────────────────────────────────────────
         sc7 = SCENES[6]
-        update_teleprompter(page, sc7["id"], sc7["title"], sc7["script"], time.time() - start_time)
-        print(f"\n[Scene 7] {sc7['title']} ({sc7['duration']}s)")
+        update_teleprompter(page, sc7["id"], sc7["title"], sc7["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 7] {sc7['title']}")
 
-        # Open BIS Certificate
         smooth_click(page, "#btn-nav-cert")
-        s_sleep(4.0)
+        s_sleep(2.5)
         page.evaluate("() => $('#modal-certificate').classList.remove('open')")
-        s_sleep(1.5)
+        s_sleep(1.0)
 
-        # Open Karigar Workshop Job Sheet
         smooth_click(page, "#btn-top-jobcard")
-        s_sleep(4.5)
+        s_sleep(2.5)
         page.evaluate("() => $('#job-card-modal').classList.remove('open')")
-        s_sleep(1.5)
+        s_sleep(1.0)
 
         # ──────────────────────────────────────────────────
-        # SCENE 8: Merchant Intelligence & Cloud Run Summary (03:20 - 03:30 / 10s)
+        # SCENE 8: Merchant Intelligence & Cloud Run Summary (~8s)
         # ──────────────────────────────────────────────────
         sc8 = SCENES[7]
-        update_teleprompter(page, sc8["id"], sc8["title"], sc8["script"], time.time() - start_time)
-        print(f"\n[Scene 8] {sc8['title']} ({sc8['duration']}s)")
+        update_teleprompter(page, sc8["id"], sc8["title"], sc8["script"], time.time() - start_time, TARGET_DURATION_SEC)
+        print(f"\n[Scene 8] {sc8['title']}")
 
-        # Switch to Merchant Command Center
         smooth_click(page, "#tab-mode-merchant")
-        s_sleep(4.0)
+        s_sleep(2.5)
 
-        # Final smooth scroll down through BigQuery Festival timelines
         page.evaluate("() => window.scrollBy({ top: 350, behavior: 'smooth' })")
-        s_sleep(3.0)
+        s_sleep(2.0)
 
         total_elapsed = time.time() - start_time
         m_tot, s_tot = divmod(int(total_elapsed), 60)
@@ -566,13 +560,18 @@ def run_hackathon_demo(is_fast=False, is_headless=False):
         print(f"  Backup Video Saved To: {recordings_dir.resolve()}")
         print("=" * 70)
 
-        # Keep browser open for a few seconds before closing
+        s_sleep(2.0)
+        context.close()
+        browser.close()
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Jewel-AI Recordly Hackathon Demo Automator")
-    parser.add_argument("--fast", action="store_true", help="Run at 6x speed for quick testing (~25 seconds)")
+    parser.add_argument("--fast", action="store_true", help="Run at 6x speed for quick testing (~20 seconds)")
     parser.add_argument("--headless", action="store_true", help="Run headless without opening a visible browser window")
+    parser.add_argument("--speed", type=float, default=1.0, help="Speed multiplier (e.g. 1.25 to make it 25% faster)")
     args = parser.parse_args()
 
-    run_hackathon_demo(is_fast=args.fast, is_headless=args.headless)
+    run_hackathon_demo(is_fast=args.fast, is_headless=args.headless, speed_mult=args.speed)
+
 

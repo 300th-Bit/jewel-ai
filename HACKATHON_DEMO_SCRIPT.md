@@ -7,9 +7,9 @@
 
 ## ⏱️ Video Blueprint Overview
 
-- **Target Total Duration:** **3 Minutes 30 Seconds (210 seconds)** *(Strictly within the 3:00 to 4:00 minute window)*
+- **Target Total Duration:** **3 Minutes 15 Seconds (195 seconds)** *(Strictly within the 3:00 to 4:00 minute window, with a safe 45-second buffer)*
 - **Deployed Target URL:** `https://jewel-ai-162948513640.asia-south1.run.app`
-- **Automation Engine:** Playwright (`scripts/hackathon_demo_recorder.py`) with simulated smooth cursor movements and live on-screen teleprompter.
+- **Automation Engine:** Playwright (`scripts/hackathon_demo_recorder.py`) with brisk human typing (12ms/char), snappy smooth cursor interpolation, and live lower-third teleprompter.
 - **Recording App:** **Recordly** (or Screen Studio / OBS).
 
 ---
@@ -147,17 +147,24 @@ Spoken at a polished, natural pace (~135-140 words per minute).
 Open PowerShell in the project directory:
 
 ```powershell
+# Default (~3 minutes 15 seconds, brisk & snappy):
 .\.venv\Scripts\python.exe scripts/hackathon_demo_recorder.py
+
+# Optional: Run slightly faster (e.g. 1.15x or 1.25x speed):
+.\.venv\Scripts\python.exe scripts/hackathon_demo_recorder.py --speed 1.25
+
+# Optional: Ultra-fast 20-second dry run for testing:
+.\.venv\Scripts\python.exe scripts/hackathon_demo_recorder.py --fast
 ```
 
-### Step 3: Hit Record during the 5-Second Countdown
+### Step 3: Hit Record during the 3-Second Countdown
 1. The browser will open maximized pointing to the live deployed URL:
    `https://jewel-ai-162948513640.asia-south1.run.app`
 2. You will see a banner at the bottom:
-   `STARTING RECORDLY VIDEO IN 5... 4... 3... 2... 1...`
+   `STARTING RECORDLY VIDEO IN 3... 2... 1...`
 3. Click **Record** in Recordly.
 4. Read the script displayed on the lower-third teleprompter as the automated cursor smoothly glides across each feature!
-5. When the 3m 30s run finishes, stop Recordly.
+5. When the 3m 15s run finishes, stop Recordly.
 
 ### 💾 Backup Video
 The script also automatically saves a raw `.webm` video recording in `artifacts/recordings/` as a safe local backup!

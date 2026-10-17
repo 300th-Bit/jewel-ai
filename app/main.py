@@ -30,7 +30,14 @@ class ChatReq(BaseModel):
 
 @app.get("/api/health")
 def health():
-    return {"ok": True}
+    return {"ok": True, "service": "jewel-ai"}
+
+
+@app.get("/api/diagnostics/gemini")
+def diagnostics_gemini():
+    """Live diagnostic check of Gemini API / Vertex AI credentials, models, and quotas."""
+    from . import ai
+    return ai.check_gemini_diagnostics()
 
 
 @app.post("/api/chat")
@@ -41,6 +48,7 @@ def chat(req: ChatReq):
     except Exception as e:
         last_text = req.messages[-1].content if req.messages else ""
         turn = ai.fallback_turn(last_text)
+        turn.fallback_reason = str(e)[:100]
 
     is_off_topic = getattr(turn, "is_off_topic", False)
     if is_off_topic:
@@ -48,12 +56,21 @@ def chat(req: ChatReq):
             "reply": turn.reply,
             "spec": req.spec.model_dump(),
             "ready": False,
-            "is_off_topic": True
+            "is_off_topic": True,
+            "engine": getattr(turn, "engine", "gemini"),
+            "fallback_reason": getattr(turn, "fallback_reason", None)
         }
 
     spec = ai.merge(req.spec, turn)
     ready = bool(turn.ready and spec.budget_inr and spec.occasion)
-    return {"reply": turn.reply, "spec": spec.model_dump(), "ready": ready, "is_off_topic": False}
+    return {
+        "reply": turn.reply,
+        "spec": spec.model_dump(),
+        "ready": ready,
+        "is_off_topic": False,
+        "engine": getattr(turn, "engine", "gemini"),
+        "fallback_reason": getattr(turn, "fallback_reason", None)
+    }
 
 
 @app.post("/api/price")

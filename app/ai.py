@@ -19,8 +19,8 @@ from google import genai
 from google.genai import types
 from .models import DesignSpec, Stone
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
-FALLBACKS = [m.strip() for m in os.getenv("GEMINI_FALLBACKS", "gemini-2.5-flash").split(",") if m.strip()]
+MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+FALLBACKS = [m.strip() for m in os.getenv("GEMINI_FALLBACKS", "").split(",") if m.strip()]
 _client = None
 
 

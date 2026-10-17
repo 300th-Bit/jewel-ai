@@ -4,7 +4,7 @@
 [![Built with Gemini](https://img.shields.io/badge/Gemini-2.5%20Flash%20Vision-blue?logo=google-gemini&logoColor=white)](https://ai.google.dev/)
 [![Vertex AI Enabled](https://img.shields.io/badge/Vertex%20AI-Enterprise%20IAM-green?logo=google-cloud&logoColor=white)](https://cloud.google.com/vertex-ai)
 [![BigQuery Ready](https://img.shields.io/badge/BigQuery-Retail%20Warehouse-orange?logo=google-cloud&logoColor=white)](https://cloud.google.com/bigquery)
-[![Tests Passing](https://img.shields.io/badge/Tests-20%20%2F%2020%20Passed-10B981)](tests/)
+[![Tests Passing](https://img.shields.io/badge/Tests-21%20%2F%2021%20Passed-10B981)](tests/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%2B%20Python%203.12-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
 **Jewel-AI** is an enterprise-grade artificial intelligence commerce and demand intelligence platform engineered for independent fine jewellery retailers. It transforms how traditional jewellers co-create bespoke pieces with patrons, quote transparent prices with real-time bullion grounding, and protect profit margins using predictive demand analytics.
@@ -232,7 +232,7 @@ gcloud run deploy jewel-ai \
   --source . \
   --region asia-south1 \
   --allow-unauthenticated \
-  --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_LOCATION=asia-south1
+  --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_PROJECT=jewel-ai-511914,GOOGLE_CLOUD_LOCATION=asia-south1
 ```
 
 Once deployment completes, Cloud Run will print the live HTTPS service URL:
@@ -272,7 +272,7 @@ From your local terminal (or Cloud Shell in your repo directory):
 gcloud run deploy jewel-ai \
   --source . \
   --region asia-south1 \
-  --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_LOCATION=asia-south1
+  --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=true,GOOGLE_CLOUD_PROJECT=jewel-ai-511914,GOOGLE_CLOUD_LOCATION=asia-south1
 ```
 *Cloud Run will build a new container image using Cloud Build, deploy the revision with zero downtime, and switch 100% of traffic to the new revision.*
 
@@ -315,6 +315,7 @@ If you prefer working entirely in the browser:
 | `/api/forecast` | `GET` | 30-day predictive demand, raw material requirements, and procurement advice |
 | `/api/gold-rate` | `GET` | Live 24k gold rate grounded via Google Search with fallback |
 | `/api/trends` | `GET` | Real-time Indian jewellery fashion cues grounded via Google Search |
+| `/api/diagnostics/gemini` | `GET` | Live diagnostic check of Gemini API & Vertex AI models, quotas, and latency |
 | `/api/health` | `GET` | Service liveness and health probe |
 
 ---

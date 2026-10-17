@@ -10,10 +10,12 @@ from . import pricing
 HALLMARK_NAME = {
     "gold_24k": "24K Pure Gold (999)", "gold_22k": "22K BIS Hallmark (916)",
     "gold_18k": "18K BIS Hallmark (750)", "gold_14k": "14K BIS Hallmark (585)",
+    "rose_gold": "18K Rose Gold (750)", "platinum": "950 Pure Platinum (950)",
 }
 METAL_LABEL = {
     "gold_24k": "24 Karat Yellow Gold", "gold_22k": "22 Karat Yellow Gold",
     "gold_18k": "18 Karat Gold", "gold_14k": "14 Karat Gold",
+    "rose_gold": "18 Karat Rose Gold", "platinum": "Platinum 950",
 }
 STONE_LABEL = {
     "none": "No Stone", "cz": "Cubic Zirconia", "moissanite": "Moissanite",
@@ -46,17 +48,17 @@ def generate_job_card(spec: DesignSpec) -> dict:
         "date": time.strftime("%d-%b-%Y"),
         "category": CATEGORY_LABEL.get(spec.category, spec.category),
         "style": spec.style,
-        "hallmarking_grade": HALLMARK_NAME[spec.metal],
+        "hallmarking_grade": HALLMARK_NAME.get(spec.metal, "BIS Hallmark"),
         "estimated_gross_weight_g": w,
-        "estimated_net_gold_g": round(w * pricing.PURITY[spec.metal], 2),
+        "estimated_net_gold_g": round(w * pricing.PURITY.get(spec.metal, 0.75), 2),
         "weight_tolerance": f"±{round(w * 0.05, 2)}g (5%)",
         "customer_name": spec.customer_name or "Walk-in Customer",
         "customer_phone": spec.customer_phone or "—",
         "completion_target_days": "5-7 business days",
         "customer_order": {"occasion": spec.occasion, "budget": spec.budget_inr},
         "karigar_instructions": (
-            f"Cast in {HALLMARK_NAME[spec.metal]} ({spec.metal}). "
-            f"Net gold target {round(w * pricing.PURITY[spec.metal], 2)}g. "
+            f"Cast in {HALLMARK_NAME.get(spec.metal, 'BIS Hallmark')} ({spec.metal}). "
+            f"Net gold target {round(w * pricing.PURITY.get(spec.metal, 0.75), 2)}g. "
             f"{spec.artisan_notes or 'High polish mirror finish with BIS 916 laser hallmarking inspection.'}"
         ),
         "cost_breakdown": {
@@ -69,11 +71,11 @@ def generate_job_card(spec: DesignSpec) -> dict:
 
         # Metal specification
         "metal": {
-            "type": METAL_LABEL[spec.metal],
-            "hallmark": HALLMARK_NAME[spec.metal],
-            "purity": pricing.PURITY[spec.metal],
+            "type": METAL_LABEL.get(spec.metal, spec.metal),
+            "hallmark": HALLMARK_NAME.get(spec.metal, "BIS Hallmark"),
+            "purity": pricing.PURITY.get(spec.metal, 0.75),
             "estimated_gross_weight_g": w,
-            "estimated_net_gold_weight_g": round(w * pricing.PURITY[spec.metal], 2),
+            "estimated_net_gold_weight_g": round(w * pricing.PURITY.get(spec.metal, 0.75), 2),
             "tolerance_g": round(w * 0.05, 2),  # 5% manufacturing tolerance
         },
 
@@ -148,30 +150,30 @@ def generate_whatsapp_link(spec: DesignSpec) -> str:
     job_id = generate_job_id(spec)
 
     lines = [
-        f"✨ *Jewel-AI Design Quote* ✨",
+        f"*Jewel-AI Design Quote*",
         f"Job Ref: {job_id}",
         f"",
-        f"📿 *{CATEGORY_LABEL.get(spec.category, spec.category)}*",
+        f"*{CATEGORY_LABEL.get(spec.category, spec.category)}*",
         f"   Style: {spec.style}",
-        f"   Metal: {METAL_LABEL[spec.metal]}",
+        f"   Metal: {METAL_LABEL.get(spec.metal, spec.metal)}",
     ]
 
     if spec.stone.type != "none":
-        lines.append(f"   Stone: {STONE_LABEL[spec.stone.type]} ({spec.stone.carat}ct × {spec.stone.count})")
+        lines.append(f"   Stone: {STONE_LABEL.get(spec.stone.type, spec.stone.type)} ({spec.stone.carat}ct x {spec.stone.count})")
 
     lines.extend([
         f"",
-        f"💰 *Estimated Price: ₹{p['total']:,}*",
-        f"   (Gold: ₹{p['metal_cost']:,} + Stone: ₹{p['stone_cost']:,} + Making: ₹{p['making_cost']:,} + GST: ₹{p['gst']:,})",
+        f"*Estimated Price: INR {p['total']:,}*",
+        f"   (Gold: INR {p['metal_cost']:,} + Stone: INR {p['stone_cost']:,} + Making: INR {p['making_cost']:,} + GST: INR {p['gst']:,})",
     ])
 
     if spec.budget_inr:
-        status = "✅ Within budget" if p["total"] <= spec.budget_inr else f"⚠️ Over budget by ₹{p['total'] - spec.budget_inr:,}"
-        lines.append(f"   Budget: ₹{spec.budget_inr:,} — {status}")
+        status = "Within budget" if p["total"] <= spec.budget_inr else f"Over budget by INR {p['total'] - spec.budget_inr:,}"
+        lines.append(f"   Budget: INR {spec.budget_inr:,} — {status}")
 
     lines.extend([
         f"",
-        f"🔗 Powered by Jewel-AI",
+        f"Powered by Jewel-AI",
     ])
 
     msg = "\n".join(lines)

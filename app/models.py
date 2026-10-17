@@ -1,7 +1,7 @@
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
-Metal = Literal["gold_24k", "gold_22k", "gold_18k", "gold_14k"]
+Metal = Literal["gold_24k", "gold_22k", "gold_18k", "gold_14k", "rose_gold", "platinum"]
 StoneType = Literal["none", "cz", "moissanite", "lab_diamond", "natural_diamond"]
 Category = Literal["ring", "necklace", "earrings", "bangle"]
 EarringType = Literal["stud", "jhumka", "drop", "hoop"]

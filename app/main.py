@@ -12,7 +12,7 @@ except ImportError:
     pass
 
 from .models import DesignSpec
-from . import pricing, store, render, trends, catalog, artisan
+from . import pricing, store, render, trends, catalog, artisan, undertone, tradein, merchant, certification
 
 app = FastAPI(title="Jewel-AI", description="AI design and sales assistant for independent jewellers")
 
@@ -183,6 +183,81 @@ def gold_rate():
         "source": "live_grounded" if live else "fallback_placeholder",
         "rates": {m: round(rate * p, 2) for m, p in pricing.PURITY.items()},
     }
+
+
+# ── Game-Changing Pillars: Undertone, Circular Trade-In, Merchant Intelligence, Certification ──
+
+@app.post("/api/undertone/analyze")
+async def analyze_undertone_file(file: UploadFile = File(...)):
+    """Analyze customer portrait/skin tone using Gemini Vision for metal & gem harmony."""
+    try:
+        data = await file.read()
+        mime = file.content_type or "image/jpeg"
+        if not mime.startswith("image/"):
+            raise HTTPException(400, "Upload must be an image file")
+        result = undertone.analyze_skin_undertone(data, mime)
+        return result.model_dump()
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(503, f"Undertone analysis failed: {e}")
+
+
+class UndertoneB64Req(BaseModel):
+    image_b64: str
+    mime_type: str = "image/jpeg"
+
+
+@app.post("/api/undertone/analyze-b64")
+def analyze_undertone_b64(req: UndertoneB64Req):
+    """Analyze base64-encoded portrait image for skin undertone."""
+    try:
+        data = base64.b64decode(req.image_b64)
+        result = undertone.analyze_skin_undertone(data, req.mime_type)
+        return result.model_dump()
+    except Exception as e:
+        raise HTTPException(503, f"Undertone analysis failed: {e}")
+
+
+@app.post("/api/tradein/appraise")
+def appraise_old_gold(req: tradein.TradeInRequest):
+    """Calculate transparent old gold exchange valuation and generate credit voucher."""
+    return tradein.appraise_trade_in(req).model_dump()
+
+
+@app.get("/api/merchant/demand")
+def merchant_demand_intelligence():
+    """Predictive festival demand metrics and bullion targets."""
+    return merchant.get_demand_intelligence()
+
+
+@app.post("/api/merchant/stress-test")
+def merchant_stress_test(req: merchant.StressTestRequest):
+    """Simulate gold volatility (+/- 5%, 10%, 15%) on inventory and unhedged orders."""
+    return merchant.run_bullion_stress_test(req)
+
+
+@app.get("/api/merchant/dead-stock")
+def merchant_dead_stock_opportunities():
+    """Identifies aged showroom stock and models capital gains from remounting."""
+    return merchant.get_dead_stock_remount_opportunities()
+
+
+@app.post("/api/merchant/copilot")
+def merchant_copilot(req: merchant.MerchantCopilotReq):
+    """Ask executive jewellery merchandising questions to Gemini Copilot."""
+    return merchant.ask_merchant_copilot(req)
+
+
+class CertReq(BaseModel):
+    spec: DesignSpec
+    patron_name: Optional[str] = "Valued Patron"
+
+
+@app.post("/api/certificate/generate")
+def generate_certificate(req: CertReq):
+    """Generate tamper-proof digital certificate of authenticity with 6-digit BIS HUID."""
+    return certification.issue_certificate(req.spec, req.patron_name).model_dump()
 
 
 if os.path.isdir("static"):  # frontend goes here next

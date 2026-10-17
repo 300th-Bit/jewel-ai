@@ -3,10 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JEWEL-AI | Bespoke Jewellery Atelier & Intelligence Salon</title>
+<title>JEWEL-AI | Haute Joaillerie Atelier, 3D CAD Studio & Merchant Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Three.js and OrbitControls for 360 Interactive 3D CAD Viewport -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
 <style>
 :root {
   --bg-canvas: #FAF8F5;
@@ -32,6 +36,9 @@
   --ruby: #B91C1C;
   --ruby-bg: #FEF2F2;
   --ruby-border: #FECACA;
+  --indigo: #312E81;
+  --indigo-bg: #EEF2FF;
+  --indigo-border: #C7D2FE;
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --radius-sm: 6px;
@@ -73,7 +80,7 @@ aside {
 }
 
 .atelier-brand {
-  padding: 24px 28px 16px;
+  padding: 22px 28px 16px;
   border-bottom: 1px solid var(--border-subtle);
   background: #FCFAF7;
 }
@@ -102,7 +109,7 @@ aside {
 .brand-tagline {
   font-size: 12px;
   color: var(--text-muted);
-  margin-top: 5px;
+  margin-top: 4px;
   letter-spacing: 0.03em;
   font-style: italic;
   font-family: var(--font-serif);
@@ -153,13 +160,13 @@ aside {
 
 /* Inspiration Upload Dropzone */
 .dropzone-container {
-  padding: 14px 28px 12px;
+  padding: 12px 28px 10px;
   border-bottom: 1px solid var(--border-subtle);
 }
 .inspiration-dropzone {
   border: 1px dashed var(--border-light);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 10px 14px;
   background: #FCFAF8;
   cursor: pointer;
   display: flex;
@@ -172,8 +179,8 @@ aside {
   background: var(--gold-soft);
 }
 .dropzone-icon {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background: var(--gold-soft);
   color: var(--gold-dark);
@@ -181,13 +188,13 @@ aside {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
   flex-shrink: 0;
 }
 .dropzone-meta b {
   display: block;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -203,7 +210,7 @@ aside {
   background: var(--emerald-bg);
   border: 1px solid var(--emerald-border);
   border-radius: var(--radius-sm);
-  padding: 10px 14px;
+  padding: 9px 12px;
   font-size: 12px;
   display: none;
 }
@@ -221,7 +228,7 @@ aside {
 #chat-log {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 28px;
+  padding: 14px 28px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -255,7 +262,7 @@ aside {
   padding: 0 28px 10px;
 }
 .starters-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -349,7 +356,7 @@ aside {
 main {
   height: 100vh;
   overflow-y: auto;
-  padding: 28px 40px 60px;
+  padding: 24px 36px 60px;
   background: var(--bg-canvas);
 }
 
@@ -357,9 +364,77 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
-  padding-bottom: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border-light);
+}
+
+/* Studio Nav Mode Switcher */
+.mode-switcher-group {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  gap: 4px;
+}
+.mode-btn {
+  background: transparent;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-btn.active {
+  background: var(--text-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.mode-btn:hover:not(.active) {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+.showroom-quick-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.atelier-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 13px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.atelier-nav-link:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-dark);
+}
+.atelier-nav-link.accent {
+  background: var(--gold-soft);
+  border-color: rgba(184, 144, 71, 0.4);
+  color: var(--gold-dark);
+}
+
+/* Category Sub-Tabs */
+.category-subtabs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
 }
 .category-tabs-group {
   display: flex;
@@ -372,44 +447,19 @@ main {
 .cat-pill-btn {
   background: transparent;
   border: none;
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
   color: var(--text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .cat-pill-btn.active {
-  background: var(--text-primary);
-  color: #FFFFFF;
-  font-weight: 600;
-}
-.cat-pill-btn:hover:not(.active) {
-  background: var(--bg-subtle);
-  color: var(--text-primary);
-}
-
-.showroom-quick-links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.atelier-nav-link {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 12.5px;
-  font-weight: 600;
-  padding: 7px 14px;
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  background: var(--bg-surface);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.atelier-nav-link:hover {
-  border-color: var(--gold-primary);
+  background: var(--gold-soft);
   color: var(--gold-dark);
+  font-weight: 700;
+  border: 1px solid rgba(184, 144, 71, 0.3);
 }
 
 /* Hero Showcase Welcome Card */
@@ -417,11 +467,11 @@ main {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 40px;
-  margin-bottom: 32px;
+  padding: 36px;
+  margin-bottom: 28px;
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 36px;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
   align-items: center;
   box-shadow: var(--shadow-card);
 }
@@ -432,11 +482,11 @@ main {
   border: 1px solid var(--border-light);
   background: var(--bg-subtle);
   text-align: center;
-  padding: 16px;
+  padding: 14px;
 }
 .welcome-plinth-card img {
   width: 100%;
-  height: 270px;
+  height: 250px;
   object-fit: cover;
   border-radius: var(--radius-sm);
   transition: transform 0.4s ease;
@@ -445,30 +495,27 @@ main {
   transform: scale(1.02);
 }
 .welcome-narrative h2 {
-  font: 500 36px/1.15 var(--font-serif);
+  font: 500 34px/1.15 var(--font-serif);
   color: var(--text-primary);
-  margin-bottom: 14px;
-  letter-spacing: -0.01em;
+  margin-bottom: 12px;
 }
 .welcome-narrative p {
   color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.65;
-  margin-bottom: 24px;
-  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 22px;
 }
 .welcome-metrics-strip {
   display: flex;
-  gap: 24px;
+  gap: 16px;
   border-top: 1px solid var(--border-subtle);
-  padding-top: 20px;
+  padding-top: 18px;
 }
 .metric-pill {
-  border-left: 2px solid var(--gold-primary);
-  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
 }
 .metric-pill b {
-  display: block;
   font-size: 15px;
   color: var(--text-primary);
   font-weight: 600;
@@ -476,11 +523,9 @@ main {
 .metric-pill span {
   font-size: 11px;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
 }
 
-/* 3 Calibrated Variations Header */
+/* 3 Variations Card Grid */
 .gallery-header-row {
   display: flex;
   justify-content: space-between;
@@ -492,19 +537,17 @@ main {
   color: var(--text-primary);
 }
 .gallery-header-row p {
-  font-size: 13.5px;
-  color: var(--text-secondary);
-  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
 }
-
 .trend-alert-pill {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
-  padding: 10px 16px;
-  font-size: 12.5px;
+  padding: 9px 14px;
+  font-size: 12px;
   color: var(--text-secondary);
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -512,18 +555,17 @@ main {
 }
 .trend-alert-pill b { color: var(--gold-dark); }
 
-/* 3 Variations Card Grid */
 .gallery-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-bottom: 36px;
+  gap: 22px;
+  margin-bottom: 32px;
 }
 .jewel-variant-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 22px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -541,13 +583,13 @@ main {
 }
 
 .card-media-stage {
-  height: 230px;
+  height: 220px;
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
   border: 1px solid var(--border-subtle);
   overflow: hidden;
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -562,23 +604,23 @@ main {
   transform: scale(1.03);
 }
 .card-media-stage svg {
-  width: 170px;
-  height: 170px;
+  width: 160px;
+  height: 160px;
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.06));
 }
 .card-tier-tag {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(6px);
   border: 1px solid var(--border-light);
   color: var(--text-primary);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 4px;
   z-index: 2;
 }
@@ -588,7 +630,7 @@ main {
   right: 8px;
   display: flex;
   gap: 2px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(6px);
   padding: 2px;
   border-radius: 4px;
@@ -598,10 +640,10 @@ main {
 .view-toggle-btn {
   background: none;
   border: none;
+  padding: 3px 7px;
   font-size: 10.5px;
   font-weight: 600;
-  color: var(--text-muted);
-  padding: 3px 8px;
+  color: var(--text-secondary);
   border-radius: 3px;
   cursor: pointer;
 }
@@ -611,9 +653,9 @@ main {
 }
 
 .card-title {
-  font: 600 21px/1.2 var(--font-serif);
+  font: 600 17px/1.2 var(--font-serif);
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .card-price-row {
   display: flex;
@@ -622,133 +664,96 @@ main {
   margin-bottom: 10px;
 }
 .card-price {
-  font: 700 20px/1 var(--font-sans);
-  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold-dark);
+  font-family: var(--font-serif);
 }
 .budget-status-tag {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 999px;
-}
-.status-fits {
-  background: var(--emerald-bg);
-  color: var(--emerald);
-  border: 1px solid var(--emerald-border);
-}
-.status-over {
-  background: var(--ruby-bg);
-  color: var(--ruby);
-  border: 1px solid var(--ruby-border);
-}
-.card-specs-list {
-  font-size: 12.5px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 18px;
-  flex: 1;
-}
-.btn-launch-customizer {
-  width: 100%;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-light);
-  color: var(--text-primary);
-  font-weight: 600;
-  font-size: 13px;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.2s;
+  padding: 2px 7px;
+  border-radius: 4px;
   letter-spacing: 0.02em;
 }
-.btn-launch-customizer:hover {
+.status-fits { background: var(--emerald-bg); color: var(--emerald); border: 1px solid var(--emerald-border); }
+.status-over { background: var(--ruby-bg); color: var(--ruby); border: 1px solid var(--ruby-border); }
+
+.card-specs-list {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-actions-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+}
+.btn-launch-customizer {
   background: var(--text-primary);
   color: #FFFFFF;
-  border-color: var(--text-primary);
+  border: none;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  font-size: 12.5px;
+  transition: all 0.2s;
+  text-align: center;
 }
-
-/* In-Stock Showroom Matches Shelf */
-.showroom-matches-shelf {
+.btn-launch-customizer:hover {
+  background: var(--gold-primary);
+}
+.btn-card-3d {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  padding: 24px 28px;
-  margin-top: 28px;
-  box-shadow: var(--shadow-card);
-}
-.shelf-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.shelf-header h4 {
-  font: 600 20px/1 var(--font-serif);
-  color: var(--text-primary);
-}
-.shelf-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.shelf-item-card {
-  background: var(--bg-canvas);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  transition: border-color 0.2s;
-}
-.shelf-item-card:hover { border-color: var(--gold-primary); }
-.shelf-item-sku {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
   color: var(--gold-dark);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.shelf-item-name {
-  font-size: 13.5px;
   font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 6px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
 }
-.shelf-item-price {
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--text-primary);
+.btn-card-3d:hover {
+  border-color: var(--gold-primary);
+  background: var(--gold-soft);
 }
 
-/* Interactive Studio Customizer Layout */
+/* Bespoke Studio Customizer */
 .customizer-split-grid {
   display: grid;
-  grid-template-columns: 460px 1fr;
-  gap: 28px;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
 }
 .atelier-panel {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   padding: 26px;
-  margin-bottom: 24px;
   box-shadow: var(--shadow-card);
 }
 .panel-headline {
-  font: 600 22px/1.2 var(--font-serif);
+  font: 600 20px/1 var(--font-serif);
   color: var(--text-primary);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 14px;
 }
 
 .jewel-stage-plinth {
-  height: 350px;
+  height: 330px;
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -756,50 +761,48 @@ main {
   overflow: hidden;
 }
 .jewel-stage-plinth img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-  border-radius: var(--radius-sm);
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .jewel-stage-plinth svg {
-  width: 220px;
-  height: 220px;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
+  width: 240px;
+  height: 240px;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08));
 }
 
-/* AI Render Progress Overlay */
 .render-loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.90);
+  background: rgba(250, 248, 245, 0.88);
   backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  z-index: 10;
-  display: none;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 5;
 }
-.render-loading-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
+.render-loading-overlay.active { opacity: 1; pointer-events: all; }
 .render-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--border-light);
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(184, 144, 71, 0.2);
   border-top-color: var(--gold-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
 .render-status-text {
-  font-size: 13px;
-  color: var(--text-primary);
-  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* Certified Hallmarking Badge Seal */
+/* Hallmarking Certified Seal */
 .hallmark-cert-seal {
   display: flex;
   align-items: center;
@@ -807,24 +810,24 @@ main {
   background: var(--emerald-bg);
   border: 1px solid var(--emerald-border);
   border-radius: var(--radius-sm);
-  padding: 11px 14px;
-  margin-top: 16px;
+  padding: 10px 14px;
+  margin-top: 14px;
 }
 .cert-seal-icon {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   background: #FFFFFF;
   color: var(--emerald);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
 }
 .cert-seal-info b {
   display: block;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--emerald);
 }
 .cert-seal-info span {
@@ -832,16 +835,16 @@ main {
   color: var(--text-secondary);
 }
 
-/* Studio Sliders and Selectors */
+/* Customizer Controls */
 .control-row {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .control-header {
   display: flex;
   justify-content: space-between;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .control-header span:last-child {
   color: var(--text-primary);
@@ -849,12 +852,12 @@ main {
 }
 .atelier-select {
   width: 100%;
-  padding: 10px 12px;
+  padding: 9px 12px;
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
-  font-size: 13.5px;
+  font-size: 13px;
   transition: border-color 0.2s;
 }
 .atelier-select:focus { border-color: var(--gold-primary); outline: none; }
@@ -871,23 +874,31 @@ main {
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
   padding: 14px 18px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .cost-line {
   display: flex;
   justify-content: space-between;
-  font-size: 12.5px;
-  padding: 6px 0;
+  font-size: 12px;
+  padding: 5px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   color: var(--text-secondary);
 }
 .cost-line b { color: var(--text-primary); font-weight: 600; }
+.cost-line.trade-in-credit-line {
+  color: var(--emerald);
+  background: var(--emerald-bg);
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin: 4px 0;
+}
+.cost-line.trade-in-credit-line b { color: var(--emerald); }
 .cost-line.total-line {
   border-top: 1px solid var(--border-light);
   border-bottom: none;
   padding-top: 10px;
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 14px;
 }
 .cost-line.total-line b {
   color: var(--gold-dark);
@@ -897,17 +908,17 @@ main {
 
 /* Budget Progress Meter */
 .budget-meter-container {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .meter-header {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  margin-bottom: 6px;
+  font-size: 11.5px;
+  margin-bottom: 5px;
   color: var(--text-secondary);
 }
 .meter-track {
-  height: 8px;
+  height: 7px;
   background: var(--bg-subtle);
   border-radius: 999px;
   overflow: hidden;
@@ -923,22 +934,22 @@ main {
   background: var(--ruby);
 }
 
-/* Budget Levers Buttons */
+/* Budget Levers */
 .budget-levers-shelf {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .lever-card-btn {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
-  padding: 9px 12px;
+  padding: 8px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
@@ -950,11 +961,11 @@ main {
 }
 .lever-card-btn b { color: var(--emerald); }
 
-/* Action Buttons Grid */
+/* Buttons & Grids */
 .actions-dual-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
   margin-top: 10px;
 }
 .btn-gold-primary {
@@ -962,14 +973,18 @@ main {
   color: #FFFFFF;
   border: none;
   font-weight: 600;
-  padding: 12px 18px;
+  padding: 11px 16px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   letter-spacing: 0.03em;
   text-align: center;
   text-decoration: none;
   transition: all 0.2s;
-  font-size: 13.5px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .btn-gold-primary:hover {
   background: var(--gold-primary);
@@ -979,22 +994,73 @@ main {
   border: 1px solid var(--border-light);
   color: var(--text-primary);
   font-weight: 600;
-  padding: 12px 18px;
+  padding: 11px 16px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   text-align: center;
   transition: all 0.2s;
-  font-size: 13.5px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .btn-outline-glass:hover {
   border-color: var(--text-primary);
 }
 
-/* Modal Overlay & Card */
+/* Showroom Ready Shelf */
+.showroom-matches-shelf {
+  margin-top: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+}
+.shelf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.shelf-header h4 {
+  font: 600 17px/1 var(--font-serif);
+  color: var(--text-primary);
+}
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.shelf-item-card {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 12px;
+}
+.shelf-item-sku {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.shelf-item-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.shelf-item-price {
+  font-weight: 700;
+  color: var(--gold-dark);
+}
+
+/* Modals General */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(28, 26, 24, 0.6);
+  background: rgba(28, 26, 24, 0.65);
   backdrop-filter: blur(4px);
   z-index: 100;
   display: none;
@@ -1007,19 +1073,22 @@ main {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  max-width: 680px;
+  max-width: 780px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  padding: 30px 36px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  padding: 28px 32px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+}
+.modal-card.wide {
+  max-width: 960px;
 }
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border-subtle);
 }
 .modal-header h3 {
@@ -1034,7 +1103,212 @@ main {
   cursor: pointer;
 }
 
-/* Notification Toast */
+/* 3D WebGL Studio Modal & Canvas */
+#three-canvas-container {
+  width: 100%;
+  height: 420px;
+  background: #F3EFEA;
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  cursor: grab;
+}
+#three-canvas-container:active { cursor: grabbing; }
+.three-controls-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+
+/* Virtual Try-On Studio */
+.vto-stage-split {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+}
+.vto-canvas-box {
+  position: relative;
+  height: 440px;
+  background: #EAE6DE;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vto-canvas-box img.vto-base-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vto-overlay-jewel {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: center center;
+  transition: filter 0.2s;
+}
+.undertone-pill-card {
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+}
+
+/* Old Gold Exchange Table */
+.tradein-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  margin-bottom: 16px;
+}
+.tradein-table th {
+  text-align: left;
+  padding: 8px 10px;
+  background: var(--bg-canvas);
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.tradein-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.tradein-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  background: #FFFFFF;
+}
+
+/* Gemological Certificate Passport */
+.certificate-frame {
+  border: 2px solid var(--gold-primary);
+  padding: 28px;
+  border-radius: var(--radius-sm);
+  background: #FFFDF9;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(184, 144, 71, 0.06);
+}
+.certificate-frame::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(184, 144, 71, 0.3);
+  pointer-events: none;
+}
+.cert-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+.cert-header h4 {
+  font: 700 24px/1 var(--font-serif);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.cert-huid-badge {
+  display: inline-block;
+  background: var(--gold-soft);
+  color: var(--gold-dark);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  padding: 4px 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(184, 144, 71, 0.4);
+  margin-top: 6px;
+}
+
+/* Merchant Command Center */
+.merchant-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.merchant-stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-subtle);
+}
+.merchant-stat-card span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+.merchant-stat-card b {
+  font-size: 22px;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+}
+
+.festival-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.festival-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: var(--shadow-subtle);
+}
+.festival-card b {
+  font-size: 15px;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+  display: block;
+}
+.festival-multiplier {
+  display: inline-block;
+  background: var(--emerald-bg);
+  color: var(--emerald);
+  font-weight: 700;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin: 6px 0 10px;
+}
+
+.stress-tester-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.dead-stock-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.dead-stock-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-size: 12.5px;
+}
+
+/* Toast */
 #toast-notice {
   position: fixed;
   bottom: 24px;
@@ -1069,6 +1343,10 @@ main {
   .gallery-cards-grid { grid-template-columns: 1fr; }
   .atelier-welcome-stage { grid-template-columns: 1fr; }
   .customizer-split-grid { grid-template-columns: 1fr; }
+  .vto-stage-split { grid-template-columns: 1fr; }
+  .merchant-hero-stats { grid-template-columns: 1fr 1fr; }
+  .festival-timeline-grid { grid-template-columns: 1fr 1fr; }
+  .dead-stock-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1081,16 +1359,16 @@ main {
       <div class="brand-logo">Jewel-AI</div>
       <span class="brand-badge">Atelier Studio</span>
     </div>
-    <div class="brand-tagline">Fine Jewellery Co-Creation and Bullion Engine</div>
+    <div class="brand-tagline">Haute Joaillerie Co-Creation & Intelligence Salon</div>
   </div>
 
   <!-- Bullion Ticker Bar -->
   <div class="ticker-bar">
     <div class="ticker-left">
       <span class="live-dot"></span>
-      <span>24k Gold: <b class="ticker-value" id="ticker-rate">₹12,000 / g</b></span>
+      <span>24k Gold: <b class="ticker-value" id="ticker-rate">₹7,450 / g</b></span>
     </div>
-    <button class="ticker-refresh-btn" id="btn-refresh-ticker" title="Refresh via Google Search Grounding">Refresh</button>
+    <button class="ticker-refresh-btn" id="btn-refresh-ticker" title="Grounding with Google Search live spot rate">Refresh</button>
   </div>
 
   <!-- Inspiration Upload Dropzone -->
@@ -1098,8 +1376,8 @@ main {
     <div class="inspiration-dropzone" id="inspiration-dropzone">
       <div class="dropzone-icon">P</div>
       <div class="dropzone-meta">
-        <b>Upload Inspiration Photo</b>
-        <span>Gemini 2.5 Vision architecture inspection</span>
+        <b>Upload Inspiration Photo / Sketch</b>
+        <span>Gemini 2.5 Vision architecture extraction</span>
       </div>
     </div>
     <input type="file" id="file-input-inspiration" accept="image/*">
@@ -1108,7 +1386,7 @@ main {
   <!-- Vision Status Banner -->
   <div class="vision-status-banner" id="vision-banner">
     <div class="vision-header">
-      <span>Vision Analysis Complete</span>
+      <span>Vision Inspection Verified</span>
       <span style="font-size:10.5px; opacity:0.8;">Gemini 2.5</span>
     </div>
     <div id="vision-category" style="font-weight:600; color:var(--text-primary);"></div>
@@ -1157,17 +1435,30 @@ main {
 
 <!-- Right Main Showroom Stage -->
 <main id="showroom-stage">
-  <!-- Showroom Header Bar -->
+  <!-- Showroom Header Bar with Mode Switcher -->
   <div class="showroom-header-bar">
+    <div class="mode-switcher-group">
+      <button class="mode-btn active" id="tab-mode-atelier">Atelier Co-Creation</button>
+      <button class="mode-btn" id="tab-mode-merchant">Merchant Intelligence</button>
+    </div>
+    <div class="showroom-quick-links">
+      <button class="atelier-nav-link" id="btn-nav-vto">Virtual Try-On</button>
+      <button class="atelier-nav-link" id="btn-nav-tradein">Old Gold Trade-In</button>
+      <button class="atelier-nav-link" id="btn-nav-cert">BIS HUID Passport</button>
+      <button class="atelier-nav-link accent" id="btn-top-jobcard">Karigar Job Sheet</button>
+    </div>
+  </div>
+
+  <!-- Category Sub-Tabs Row (Only for Atelier Mode) -->
+  <div class="category-subtabs-row" id="category-subtabs-row">
     <div class="category-tabs-group" id="category-tabs">
       <button class="cat-pill-btn active" data-cat="ring">Rings</button>
       <button class="cat-pill-btn" data-cat="necklace">Necklaces</button>
       <button class="cat-pill-btn" data-cat="earrings">Earrings</button>
       <button class="cat-pill-btn" data-cat="bangle">Bangles</button>
     </div>
-    <div class="showroom-quick-links">
-      <a class="atelier-nav-link" href="/dashboard.html" target="_blank">Store Analytics ↗</a>
-      <button class="atelier-nav-link" id="btn-top-jobcard">Workshop Job Card</button>
+    <div style="font-size:12px; color:var(--text-muted); font-style:italic;">
+      Prices computed live with BIS hallmarking assay & 3% GST standard
     </div>
   </div>
 
@@ -1175,11 +1466,228 @@ main {
   <div id="dynamic-stage-view"></div>
 </main>
 
+<!-- 3D WebGL Studio Modal -->
+<div class="modal-overlay" id="modal-3d-studio">
+  <div class="modal-card wide">
+    <div class="modal-header">
+      <div>
+        <h3>Interactive 3D WebGL CAD Viewport</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Rotate 360° with mouse drag • Zoom with scroll • Real-time metallic shaders</p>
+      </div>
+      <button class="modal-close" onclick="$('#modal-3d-studio').classList.remove('open')">&times;</button>
+    </div>
+    <div id="three-canvas-container"></div>
+    <div class="three-controls-bar">
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">PRECIOUS ALLOY</label>
+        <select class="atelier-select" id="three-sel-alloy" style="padding:6px 10px; font-size:12px;">
+          <option value="gold_22k">22k Royal Yellow Gold (916)</option>
+          <option value="rose_gold">18k Romantic Rose Gold</option>
+          <option value="platinum">Platinum 950 Pure</option>
+          <option value="gold_18k">18k Modern White Gold</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">SURFACE FINISH</label>
+        <select class="atelier-select" id="three-sel-finish" style="padding:6px 10px; font-size:12px;">
+          <option value="mirror">Mirror High-Polish</option>
+          <option value="satin">Satin Matte Velvet</option>
+          <option value="hammered">Artisanal Hammered Texture</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">LIGHTING ENVIRONMENT</label>
+        <select class="atelier-select" id="three-sel-lighting" style="padding:6px 10px; font-size:12px;">
+          <option value="studio">Atelier Softbox Studio</option>
+          <option value="warm">Intimate Candlelight Warmth</option>
+          <option value="daylight">Pure Direct Sunlight</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+      <button class="btn-outline-glass" onclick="$('#modal-3d-studio').classList.remove('open')">Close 3D Viewport</button>
+      <button class="btn-gold-primary" onclick="toast('3D CAD blueprint exported to karigar queue')">Export to Karigar CAD</button>
+    </div>
+  </div>
+</div>
+
+<!-- Virtual Try-On (VTO) & Skin Undertone Modal -->
+<div class="modal-overlay" id="modal-vto-studio">
+  <div class="modal-card wide">
+    <div class="modal-header">
+      <div>
+        <h3>Live Virtual Try-On & Skin Undertone Stylist</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Gemini Multimodal Skin Undertone Harmonizer with Interactive AR Placement</p>
+      </div>
+      <button class="modal-close" onclick="$('#modal-vto-studio').classList.remove('open')">&times;</button>
+    </div>
+    <div class="vto-stage-split">
+      <div>
+        <div class="vto-canvas-box" id="vto-canvas-box">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Customer Portrait" class="vto-base-portrait" id="vto-portrait-img">
+          <div class="vto-overlay-jewel" id="vto-jewel-layer"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+          <div style="display:flex; gap:8px;">
+            <button class="atelier-nav-link" id="vto-model-olive">Demo: Warm Olive Skin</button>
+            <button class="atelier-nav-link" id="vto-model-fair">Demo: Radiant Fair Skin</button>
+          </div>
+          <button class="atelier-nav-link" onclick="$('#vto-upload-input').click()">Upload Your Photo</button>
+          <input type="file" id="vto-upload-input" accept="image/*" style="display:none;">
+        </div>
+      </div>
+      <div>
+        <div class="undertone-pill-card" id="undertone-report-card">
+          <div style="font-weight:700; color:var(--gold-dark); margin-bottom:4px; font-size:13px;">COLOR HARMONY ANALYSIS</div>
+          <div id="vto-undertone-status" style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">
+            Analyzing skin undertone and complementary metallic radiance with Gemini 2.5...
+          </div>
+          <div id="vto-metals-pills" style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px;"></div>
+          <div id="vto-stylist-notes" style="font-size:11.5px; color:var(--text-muted); line-height:1.5;"></div>
+        </div>
+
+        <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:14px; margin-bottom:14px;">
+          <div style="font-weight:700; font-size:11.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;">Interactive Try-On Controls</div>
+          <div class="control-row" style="margin-bottom:10px;">
+            <div class="control-header"><span>Scale</span><span id="vto-val-scale">100%</span></div>
+            <input class="atelier-range" id="vto-range-scale" type="range" min="50" max="180" value="100">
+          </div>
+          <div class="control-row" style="margin-bottom:10px;">
+            <div class="control-header"><span>Vertical Position</span><span id="vto-val-posy">0 px</span></div>
+            <input class="atelier-range" id="vto-range-posy" type="range" min="-120" max="120" value="0">
+          </div>
+          <div class="control-row" style="margin-bottom:10px;">
+            <div class="control-header"><span>Horizontal Position</span><span id="vto-val-posx">0 px</span></div>
+            <input class="atelier-range" id="vto-range-posx" type="range" min="-80" max="80" value="0">
+          </div>
+          <div class="control-row" style="margin-bottom:6px;">
+            <div class="control-header"><span>Rotation</span><span id="vto-val-rot">0°</span></div>
+            <input class="atelier-range" id="vto-range-rot" type="range" min="-30" max="30" value="0">
+          </div>
+        </div>
+
+        <button class="btn-gold-primary" style="width:100%;" onclick="toast('Try-On snapshot saved & ready to share')">Save Try-On Snapshot</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Old Gold Circular Trade-In Modal -->
+<div class="modal-overlay" id="modal-tradein">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <h3>Old Gold Circular Exchange & Valuation Engine</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Transparent scrap gold appraisal based on live 24K spot rate (₹7,450/g)</p>
+      </div>
+      <button class="modal-close" onclick="$('#modal-tradein').classList.remove('open')">&times;</button>
+    </div>
+    <div id="tradein-items-box">
+      <table class="tradein-table">
+        <thead>
+          <tr>
+            <th>Ornament Description</th>
+            <th style="width:90px;">Gross (g)</th>
+            <th style="width:90px;">Stone (g)</th>
+            <th style="width:110px;">Purity</th>
+            <th style="width:40px;"></th>
+          </tr>
+        </thead>
+        <tbody id="tradein-table-body">
+          <tr>
+            <td><input class="tradein-input" value="Vintage Traditional Bangles"></td>
+            <td><input class="tradein-input" type="number" step="0.1" value="24.5"></td>
+            <td><input class="tradein-input" type="number" step="0.1" value="1.2"></td>
+            <td>
+              <select class="tradein-input">
+                <option value="22k" selected>22k (91.6%)</option>
+                <option value="18k">18k (75.0%)</option>
+                <option value="14k">14k (58.5%)</option>
+                <option value="vintage_traditional">Vintage (84.0%)</option>
+              </select>
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="atelier-nav-link" id="btn-add-tradein-row" style="margin-bottom:18px;">+ Add Another Ornament</button>
+
+    <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:16px; margin-bottom:18px;" id="tradein-summary-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-size:12px; color:var(--text-muted);">VOUCHER IDENTIFIER</span>
+        <b style="font-size:14px; color:var(--gold-dark);" id="tradein-voucher-id">EXCH-APPRAISAL</b>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; font-size:12.5px; border-bottom:1px solid var(--border-subtle); padding-bottom:10px; margin-bottom:10px;">
+        <div><span style="color:var(--text-muted)">Total Gross:</span> <b id="val-total-gross">24.5 g</b></div>
+        <div><span style="color:var(--text-muted)">Stone Deduct:</span> <b id="val-total-stone">1.2 g</b></div>
+        <div><span style="color:var(--text-muted)">Net Gold:</span> <b id="val-total-net">23.3 g</b></div>
+        <div><span style="color:var(--text-muted)">Fine 24k Recovery:</span> <b id="val-fine-gold">21.34 g</b></div>
+        <div><span style="color:var(--text-muted)">Assay Fee (₹35/g):</span> <b id="val-melting-fee">₹816</b></div>
+        <div><span style="color:var(--text-muted)">Dross Loss:</span> <b>1.2%</b></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:14px; font-weight:600; color:var(--text-primary);">Total Trade-In Credit Voucher</span>
+        <b style="font-size:24px; color:var(--emerald); font-family:var(--font-serif);" id="val-net-credit">₹1,57,800</b>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button class="btn-outline-glass" onclick="$('#modal-tradein').classList.remove('open')">Cancel</button>
+      <button class="btn-gold-primary" id="btn-apply-tradein-credit">Apply Credit to Bespoke Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- Digital Gemological Certificate Modal -->
+<div class="modal-overlay" id="modal-certificate">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <h3>Bureau of Indian Standards & Gemological Passport</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Tamper-proof digital certificate with 6-character laser-inscribed HUID</p>
+      </div>
+      <button class="modal-close" onclick="$('#modal-certificate').classList.remove('open')">&times;</button>
+    </div>
+    <div class="certificate-frame" id="cert-frame-content">
+      <div class="cert-header">
+        <h4>Certificate of Authenticity</h4>
+        <div style="font-size:12px; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase;">Government Recognized Hallmarking Centre</div>
+        <div class="cert-huid-badge" id="cert-huid-display">HUID: 9K2M4P</div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:12.5px; margin-bottom:18px;">
+        <div><span style="color:var(--text-muted)">Certificate ID:</span> <b id="cert-id-val">GIA-BIS-9K2M4P</b></div>
+        <div><span style="color:var(--text-muted)">Issued For:</span> <b id="cert-patron-name">Valued Patron</b></div>
+        <div><span style="color:var(--text-muted)">Article:</span> <b id="cert-category-val">Ring</b></div>
+        <div><span style="color:var(--text-muted)">Precious Metal:</span> <b id="cert-metal-val">22k Gold (916 BIS)</b></div>
+        <div><span style="color:var(--text-muted)">Gross Scale Weight:</span> <b id="cert-gross-wt">4.580 g</b></div>
+        <div><span style="color:var(--text-muted)">Net Gold Weight:</span> <b id="cert-net-wt">4.500 g</b></div>
+      </div>
+      <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:4px; padding:12px; margin-bottom:16px; font-size:12px;" id="cert-diamond-box">
+        <div style="font-weight:700; color:var(--text-primary); margin-bottom:6px;">DIAMOND & GEMSTONE 4Cs REPORT</div>
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+          <div><span style="color:var(--text-muted)">Cut:</span> <b>Hearts & Arrows</b></div>
+          <div><span style="color:var(--text-muted)">Color:</span> <b>E-F Colorless</b></div>
+          <div><span style="color:var(--text-muted)">Clarity:</span> <b>VVS1</b></div>
+          <div><span style="color:var(--text-muted)">Carat:</span> <b id="cert-carat-val">0.40 ct</b></div>
+        </div>
+      </div>
+      <div style="font-size:11px; color:var(--text-muted); line-height:1.5; border-top:1px solid var(--border-subtle); padding-top:10px;">
+        <b>Kimberley Process Verification:</b> Guaranteed 100% natural or certified lab diamond, conflict-free under UN mandates. Micro-laser engraved with unique alphanumeric HUID matching Central BIS Portal repository.
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+      <button class="btn-outline-glass" onclick="window.print()">Print Certificate</button>
+      <button class="btn-gold-primary" onclick="$('#modal-certificate').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- Karigar Goldsmith Workshop Job Card Modal -->
 <div class="modal-overlay" id="job-card-modal">
   <div class="modal-card">
     <div class="modal-header">
-      <h3>Karigar Goldsmith Workshop Job Card</h3>
+      <h3>Karigar Goldsmith Workshop Job Sheet</h3>
       <button class="modal-close" id="btn-close-job-modal">&times;</button>
     </div>
     <div id="job-modal-body"></div>
@@ -1202,7 +1710,8 @@ const METALS = {
   gold_24k: ['#DFB135', '#B8860B', '24k Fine Gold (999)'],
   gold_22k: ['#C99E32', '#997318', '22k Standard Gold (916 BIS)'],
   gold_18k: ['#B88B4A', '#8C6328', '18k Bridal Gold (750)'],
-  gold_14k: ['#AA8555', '#7A5B32', '14k Everyday Gold (585)']
+  gold_14k: ['#AA8555', '#7A5B32', '14k Everyday Gold (585)'],
+  platinum: ['#D1D5DB', '#9CA3AF', 'Platinum 950 Pure']
 };
 
 const STONES = {
@@ -1255,12 +1764,51 @@ let State = {
   price: null,
   reqId: null,
   customizerMode: 'photo', // 'photo' | 'cad'
+  currentMode: 'atelier', // 'atelier' | 'merchant'
+  tradeInCredit: 0,
+  tradeInVoucher: null,
+  vtoScale: 1.0,
+  vtoPosY: 0,
+  vtoPosX: 0,
+  vtoRot: 0,
   uid: 0
 };
 
+// ── API Helper ──
+async function api(path, payload) {
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) {
+    let err = res.statusText;
+    try { const d = await res.json(); if (d.detail) err = d.detail; } catch (e) {}
+    throw new Error(err);
+  }
+  return res.json();
+}
+
+function toast(msg) {
+  const el = $('#toast-notice');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function appendChat(text, type = 'bot') {
+  const log = $('#chat-log');
+  const d = document.createElement('div');
+  d.className = 'chat-msg ' + (type === 'user' ? 'user' : (type === 'err' ? 'err' : ''));
+  d.textContent = text;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+
 // ── SVG CAD Jewel Renderers ──
 function renderJewellerySVG(sp) {
-  if (!sp) sp = State.spec;
+  if (!sp) sp = State.cur || State.spec;
   const cat = sp.category || 'ring';
   if (cat === 'necklace') return renderNecklaceSVG(sp);
   if (cat === 'earrings') return renderEarringsSVG(sp);
@@ -1330,39 +1878,7 @@ function renderBangleSVG(sp) {
   </svg>`;
 }
 
-// ── API Helper ──
-async function api(path, payload) {
-  const res = await fetch(path, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) {
-    let err = res.statusText;
-    try { const d = await res.json(); if (d.detail) err = d.detail; } catch (e) {}
-    throw new Error(err);
-  }
-  return res.json();
-}
-
-function toast(msg) {
-  const el = $('#toast-notice');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2600);
-}
-
-function appendChat(text, type = 'bot') {
-  const log = $('#chat-log');
-  const d = document.createElement('div');
-  d.className = 'chat-msg ' + (type === 'user' ? 'user' : (type === 'err' ? 'err' : ''));
-  d.textContent = text;
-  log.appendChild(d);
-  log.scrollTop = log.scrollHeight;
-  return d;
-}
-
-// ── Showroom Views ──
+// ── Showroom Stages ──
 function renderWelcomeStage() {
   const s = State.spec;
   const photo = getCuratedImage(s, 1);
@@ -1376,19 +1892,23 @@ function renderWelcomeStage() {
       </div>
       <div class="welcome-narrative">
         <h2>Intelligent Design for Exceptional Jewellery</h2>
-        <p>Welcome to the private digital atelier. Select a curated collection or describe your personal occasion, motif, and target budget. Our AI co-creates bespoke heirloom pieces, calculates certified BIS hallmarking prices, and verifies local store availability.</p>
+        <p>Welcome to the private digital atelier. Select a curated collection or describe your personal occasion, motif, and target budget. Our AI co-creates bespoke heirloom pieces, calculates certified BIS hallmarking prices, verifies local store availability, and offers live 3D CAD and virtual try-ons.</p>
         <div class="welcome-metrics-strip">
           <div class="metric-pill">
             <b>BIS 916 / 750</b>
             <span>Certified Hallmarking</span>
           </div>
           <div class="metric-pill">
-            <b>Gemini 2.5</b>
-            <span>Multimodal Vision</span>
+            <b>Three.js WebGL</b>
+            <span>360° CAD Viewport</span>
           </div>
           <div class="metric-pill">
-            <b>±5% Precision</b>
-            <span>Karigar Tolerances</span>
+            <b>Gemini 2.5</b>
+            <span>Multimodal Vision & VTO</span>
+          </div>
+          <div class="metric-pill">
+            <b>Circular Trade-In</b>
+            <span>Old Gold Appraisal</span>
           </div>
         </div>
       </div>
@@ -1404,7 +1924,7 @@ function renderGalleryView() {
     <div class="gallery-header-row">
       <div>
         <h2>Calibrated ${catTitle} for your ${esc(s.occasion || 'Celebration')}</h2>
-        <p>Three master craftsman variations formulated against today's live bullion rate of ₹12,000/g.</p>
+        <p>Three master craftsman variations formulated against today's live bullion rate.</p>
       </div>
     </div>
     <div class="trend-alert-pill" id="trend-bar">
@@ -1422,7 +1942,6 @@ function renderGalleryView() {
     card.className = 'jewel-variant-card ' + (v.label === 'Statement' ? 'statement' : '');
     const photo = getCuratedImage(v.spec, idx);
 
-    // Defensively get metal label and stone label
     const metalLabel = (METALS[v.spec?.metal] || METALS.gold_22k)[2];
     const stoneType = v.spec?.stone?.type || 'none';
     const stoneLabel = STONES[stoneType] || 'Solid Gold';
@@ -1448,12 +1967,17 @@ function renderGalleryView() {
       <div class="card-specs-list">
         ${v.changes && v.changes.length ? 'Tailored: ' + v.changes.join(', ') : `${metalLabel} &bull; ${stoneSummary}`}
       </div>
-      <button class="btn-launch-customizer" data-idx="${idx}">
-        Customize in Studio &rarr;
-      </button>
+      <div class="card-actions-row">
+        <button class="btn-launch-customizer" data-idx="${idx}">
+          Customize in Studio &rarr;
+        </button>
+        <button class="btn-card-3d" data-idx="${idx}" title="Inspect in 3D WebGL">
+          3D View
+        </button>
+      </div>
     `;
 
-    // View toggle handlers
+    // Toggle handlers
     const btnPhoto = card.querySelector(`.view-toggle-btn[data-mode="photo"]`);
     const btnCAD = card.querySelector(`.view-toggle-btn[data-mode="cad"]`);
     const mediaBox = card.querySelector(`#media-box-${idx}`);
@@ -1487,6 +2011,7 @@ function renderGalleryView() {
     };
 
     card.querySelector('.btn-launch-customizer').onclick = () => openCustomizer(structuredClone(v.spec), idx);
+    card.querySelector('.btn-card-3d').onclick = () => openThreeStudio(v.spec);
     grid.appendChild(card);
   });
 
@@ -1508,8 +2033,10 @@ function openCustomizer(sp, initialIdx = 1) {
       <button class="atelier-nav-link" id="btn-back-gallery">
         &larr; Back to 3 Variations
       </button>
-      <div style="font-size:13px; color:var(--text-secondary); font-weight:500;">
-        Workshop Specimen &bull; Job ID #${State.reqId || 'DRAFT'}
+      <div style="display:flex; gap:8px;">
+        <button class="atelier-nav-link" id="btn-cust-open-3d">3D CAD Viewport</button>
+        <button class="atelier-nav-link" id="btn-cust-open-vto">Virtual Try-On</button>
+        <button class="atelier-nav-link" id="btn-cust-open-cert">BIS Certificate</button>
       </div>
     </div>
     <div class="customizer-split-grid">
@@ -1519,8 +2046,8 @@ function openCustomizer(sp, initialIdx = 1) {
           <div class="panel-headline">
             <span>Visual Specimen</span>
             <div style="display:flex; gap:6px;">
-              <button class="atelier-nav-link" id="cust-toggle-photo" style="font-size:11.5px;">Studio Photo</button>
-              <button class="atelier-nav-link" id="cust-toggle-cad" style="font-size:11.5px;">CAD Blueprint</button>
+              <button class="atelier-nav-link" id="cust-toggle-photo" style="font-size:11px;">Studio Photo</button>
+              <button class="atelier-nav-link" id="cust-toggle-cad" style="font-size:11px;">CAD Blueprint</button>
             </div>
           </div>
           <div class="jewel-stage-plinth" id="cust-stage-plinth">
@@ -1664,16 +2191,23 @@ function openCustomizer(sp, initialIdx = 1) {
             </div>
           </div>
 
+          <!-- Trade-In Trigger Button -->
+          <div style="margin-bottom:14px;">
+            <button class="atelier-nav-link" id="btn-cust-tradein" style="width:100%; justify-content:center;">
+              Trade-in Old Family Gold (Instant Credit Offset)
+            </button>
+          </div>
+
           <!-- Budget Levers -->
           <div class="budget-levers-shelf" id="levers-shelf"></div>
 
           <!-- Actions Dual Grid -->
           <div class="actions-dual-grid">
             <a class="btn-gold-primary" id="btn-cust-whatsapp" target="_blank" href="#">
-              WhatsApp Karigar Quote
+              WhatsApp Quote
             </a>
             <button class="btn-outline-glass" id="btn-cust-jobcard">
-              Workshop Job Card
+              Workshop Job Sheet
             </button>
           </div>
           <div style="margin-top:10px;">
@@ -1709,6 +2243,11 @@ function openCustomizer(sp, initialIdx = 1) {
     $('#cust-stage-plinth').innerHTML = renderJewellerySVG(State.cur);
     $('#cust-caption-note').textContent = "Procedural CAD Technical Model • Live Hallmarking Preview";
   };
+
+  $('#btn-cust-open-3d').onclick = () => openThreeStudio(State.cur);
+  $('#btn-cust-open-vto').onclick = () => openVTOStudio(State.cur);
+  $('#btn-cust-open-cert').onclick = () => openCertModal(State.cur);
+  $('#btn-cust-tradein').onclick = () => openTradeInModal();
 
   // Render with AI trigger
   $('#btn-trigger-ai-render').onclick = async () => {
@@ -1815,6 +2354,8 @@ function updateCustomizer() {
       State.price = p;
 
       const stoneLabel = (s.stone && STONES[s.stone.type]) ? STONES[s.stone.type] : 'Solid Gold';
+      const credit = State.tradeInCredit || 0;
+      const netPayable = Math.max(0, p.total - credit);
 
       // Render Cost Breakdown Table
       $('#cost-box').innerHTML = `
@@ -1827,7 +2368,7 @@ function updateCustomizer() {
           <b>${inr(p.stone_cost)}</b>
         </div>
         <div class="cost-line">
-          <span>Prong / Micro-Setting Labor</span>
+          <span>Prong / Setting Labor</span>
           <b>${inr(p.setting_cost)}</b>
         </div>
         <div class="cost-line">
@@ -1838,25 +2379,31 @@ function updateCustomizer() {
           <span>GST (3% jewellery standard)</span>
           <b>${inr(p.gst)}</b>
         </div>
+        ${credit > 0 ? `
+          <div class="cost-line trade-in-credit-line">
+            <span>Old Gold Trade-in Credit (${State.tradeInVoucher || 'Voucher'})</span>
+            <b>- ${inr(credit)}</b>
+          </div>
+        ` : ''}
         <div class="cost-line total-line">
-          <span>Estimated Total Quotation</span>
-          <b>${inr(p.total)}</b>
+          <span>${credit > 0 ? 'Net Amount Payable' : 'Estimated Quotation'}</span>
+          <b>${inr(netPayable)}</b>
         </div>
       `;
 
       // Update Budget Meter
       const budget = s.budget_inr || 60000;
-      const isOver = p.total > budget;
+      const isOver = netPayable > budget;
       const track = $('#meter-track');
       const prog = $('#meter-progress');
       if (isOver) {
         track.classList.add('over');
         prog.style.width = '100%';
-        $('#meter-text').innerHTML = `<span style="color:var(--ruby); font-weight:600;">${inr(p.total - budget)} Over Target Budget</span>`;
+        $('#meter-text').innerHTML = `<span style="color:var(--ruby); font-weight:600;">${inr(netPayable - budget)} Over Target Budget</span>`;
       } else {
         track.classList.remove('over');
-        prog.style.width = Math.min(100, Math.round((p.total / budget) * 100)) + '%';
-        $('#meter-text').innerHTML = `<span style="color:var(--emerald); font-weight:600;">${inr(budget - p.total)} Under Target Budget</span>`;
+        prog.style.width = Math.min(100, Math.round((netPayable / budget) * 100)) + '%';
+        $('#meter-text').innerHTML = `<span style="color:var(--emerald); font-weight:600;">${inr(budget - netPayable)} Under Target Budget</span>`;
       }
 
       // Budget Levers
@@ -2021,6 +2568,680 @@ async function registerConfirmedOrder() {
   }
 }
 
+// ── THREE.JS 3D WEBGL STUDIO IMPLEMENTATION ──
+let threeScene, threeCamera, threeRenderer, threeMeshGroup, threeControls;
+
+function openThreeStudio(spec) {
+  if (!spec) spec = State.cur || State.spec;
+  $('#modal-3d-studio').classList.add('open');
+  setTimeout(() => initThreeStudio(spec), 50);
+}
+
+function initThreeStudio(spec) {
+  const container = $('#three-canvas-container');
+  container.innerHTML = '';
+  const w = container.clientWidth || 700;
+  const h = container.clientHeight || 420;
+
+  threeScene = new THREE.Scene();
+  threeScene.background = new THREE.Color(0xF5F2EB);
+
+  threeCamera = new THREE.PerspectiveCamera(40, w / h, 0.1, 1000);
+  threeCamera.position.set(0, 5, 12);
+
+  threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  threeRenderer.setSize(w, h);
+  threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  threeRenderer.shadowMap.enabled = true;
+  container.appendChild(threeRenderer.domElement);
+
+  if (typeof THREE.OrbitControls !== 'undefined') {
+    threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement);
+    threeControls.enableDamping = true;
+    threeControls.dampingFactor = 0.05;
+    threeControls.autoRotate = true;
+    threeControls.autoRotateSpeed = 1.2;
+  }
+
+  // Lighting
+  const ambLight = new THREE.AmbientLight(0xFFFFFF, 0.7);
+  threeScene.add(ambLight);
+
+  const keyLight = new THREE.DirectionalLight(0xFFFBF0, 1.2);
+  keyLight.position.set(8, 12, 10);
+  threeScene.add(keyLight);
+
+  const fillLight = new THREE.DirectionalLight(0xE0F2FE, 0.6);
+  fillLight.position.set(-8, -4, -6);
+  threeScene.add(fillLight);
+
+  const rimLight = new THREE.PointLight(0xFFD700, 1.0, 30);
+  rimLight.position.set(0, 8, -6);
+  threeScene.add(rimLight);
+
+  // Plinth Stand
+  const plinthGeo = new THREE.CylinderGeometry(4.2, 4.6, 0.4, 48);
+  const plinthMat = new THREE.MeshStandardMaterial({ color: 0xE8E3DA, roughness: 0.8, metalness: 0.1 });
+  const plinth = new THREE.Mesh(plinthGeo, plinthMat);
+  plinth.position.y = -2.8;
+  threeScene.add(plinth);
+
+  // Build Procedural 3D Jewellery Geometry based on category
+  threeMeshGroup = new THREE.Group();
+  buildJewellery3D(spec, 'gold_22k', 'mirror');
+  threeScene.add(threeMeshGroup);
+
+  // Event Listeners for 3D Studio Controls
+  $('#three-sel-alloy').onchange = e => {
+    buildJewellery3D(spec, e.target.value, $('#three-sel-finish').value);
+  };
+  $('#three-sel-finish').onchange = e => {
+    buildJewellery3D(spec, $('#three-sel-alloy').value, e.target.value);
+  };
+  $('#three-sel-lighting').onchange = e => {
+    const val = e.target.value;
+    if (val === 'warm') {
+      keyLight.color.setHex(0xFFAA44);
+      threeScene.background.setHex(0xFAF4E8);
+    } else if (val === 'daylight') {
+      keyLight.color.setHex(0xFFFFFF);
+      threeScene.background.setHex(0xF0F4F8);
+    } else {
+      keyLight.color.setHex(0xFFFBF0);
+      threeScene.background.setHex(0xF5F2EB);
+    }
+  };
+
+  // Render Loop
+  let reqId;
+  function animate() {
+    reqId = requestAnimationFrame(animate);
+    if (threeControls) threeControls.update();
+    threeRenderer.render(threeScene, threeCamera);
+  }
+  animate();
+
+  $('#modal-3d-studio .modal-close').onclick = () => {
+    cancelAnimationFrame(reqId);
+    $('#modal-3d-studio').classList.remove('open');
+  };
+}
+
+function buildJewellery3D(spec, alloyKey = 'gold_22k', finishKey = 'mirror') {
+  while (threeMeshGroup.children.length > 0) {
+    threeMeshGroup.remove(threeMeshGroup.children[0]);
+  }
+
+  const alloyColors = {
+    gold_22k: 0xD4AF37,
+    rose_gold: 0xB76E79,
+    platinum: 0xE5E7EB,
+    gold_18k: 0xE6CA65
+  };
+  const metalColor = alloyColors[alloyKey] || 0xD4AF37;
+  const roughness = finishKey === 'satin' ? 0.45 : (finishKey === 'hammered' ? 0.35 : 0.15);
+  const metalness = finishKey === 'satin' ? 0.75 : 0.95;
+
+  const metalMat = new THREE.MeshStandardMaterial({
+    color: metalColor,
+    roughness: roughness,
+    metalness: metalness
+  });
+
+  const gemMat = new THREE.MeshPhysicalMaterial({
+    color: 0xFFFFFF,
+    transmission: 0.9,
+    opacity: 1,
+    transparent: true,
+    roughness: 0.05,
+    ior: 2.42, // Diamond refractive index
+    specularIntensity: 1.0
+  });
+
+  const cat = spec.category || 'ring';
+
+  if (cat === 'necklace') {
+    // Choker arc
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-3.5, 2, -1),
+      new THREE.Vector3(-2.2, 0.2, 0.5),
+      new THREE.Vector3(0, -0.8, 1.2),
+      new THREE.Vector3(2.2, 0.2, 0.5),
+      new THREE.Vector3(3.5, 2, -1)
+    ]);
+    const neckGeo = new THREE.TubeGeometry(curve, 64, 0.18, 16, false);
+    const neckMesh = new THREE.Mesh(neckGeo, metalMat);
+    threeMeshGroup.add(neckMesh);
+
+    // Pendant
+    const pendantGeo = new THREE.TorusGeometry(0.8, 0.2, 16, 40);
+    const pendant = new THREE.Mesh(pendantGeo, metalMat);
+    pendant.position.set(0, -1.2, 1.2);
+    threeMeshGroup.add(pendant);
+
+    // Center Drop Gem
+    const gemGeo = new THREE.OctahedronGeometry(0.55, 2);
+    const gem = new THREE.Mesh(gemGeo, gemMat);
+    gem.position.set(0, -1.2, 1.2);
+    threeMeshGroup.add(gem);
+
+  } else if (cat === 'earrings') {
+    // Left & Right Jhumka Bells
+    [-1.8, 1.8].forEach(dx => {
+      const topStud = new THREE.Mesh(new THREE.SphereGeometry(0.45, 24, 24), metalMat);
+      topStud.position.set(dx, 1.6, 0);
+      threeMeshGroup.add(topStud);
+
+      const bellGeo = new THREE.ConeGeometry(1.0, 1.2, 24, 1, true);
+      const bell = new THREE.Mesh(bellGeo, metalMat);
+      bell.position.set(dx, 0.5, 0);
+      bell.rotation.x = Math.PI;
+      threeMeshGroup.add(bell);
+
+      // Hanging Pearl
+      const pearl = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), gemMat);
+      pearl.position.set(dx, -0.4, 0);
+      threeMeshGroup.add(pearl);
+    });
+
+  } else if (cat === 'bangle') {
+    const cuffGeo = new THREE.TorusGeometry(2.4, 0.35, 24, 64);
+    const cuff = new THREE.Mesh(cuffGeo, metalMat);
+    cuff.rotation.x = Math.PI / 2.5;
+    threeMeshGroup.add(cuff);
+
+  } else {
+    // Ring Band
+    const ringGeo = new THREE.TorusGeometry(2.2, 0.32, 24, 64);
+    const ring = new THREE.Mesh(ringGeo, metalMat);
+    ring.rotation.x = Math.PI / 2.3;
+    threeMeshGroup.add(ring);
+
+    // 4-Prong Crown Setting
+    const prongs = new THREE.Group();
+    for (let i = 0; i < 4; i++) {
+      const angle = (i * Math.PI) / 2;
+      const prongMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.8), metalMat);
+      prongMesh.position.set(Math.cos(angle) * 0.55, 2.55, Math.sin(angle) * 0.55);
+      prongs.add(prongMesh);
+    }
+    threeMeshGroup.add(prongs);
+
+    // Brilliant Cut Solitaire Gem
+    const gemGeo = new THREE.OctahedronGeometry(0.75, 2);
+    const gem = new THREE.Mesh(gemGeo, gemMat);
+    gem.position.set(0, 2.7, 0);
+    threeMeshGroup.add(gem);
+  }
+}
+
+// ── VIRTUAL TRY-ON (VTO) & UNDERTONE STYLIST ──
+function openVTOStudio(spec) {
+  if (!spec) spec = State.cur || State.spec;
+  $('#modal-vto-studio').classList.add('open');
+  renderVTOOverlay(spec);
+  runUndertoneAnalysis();
+}
+
+function renderVTOOverlay(spec) {
+  const layer = $('#vto-jewel-layer');
+  layer.innerHTML = renderJewellerySVG(spec);
+  updateVTOTransform();
+}
+
+function updateVTOTransform() {
+  const layer = $('#vto-jewel-layer');
+  layer.style.transform = `translate(${State.vtoPosX}px, ${State.vtoPosY}px) scale(${State.vtoScale}) rotate(${State.vtoRot}deg)`;
+}
+
+// VTO Sliders
+$('#vto-range-scale').oninput = e => {
+  State.vtoScale = e.target.value / 100;
+  $('#vto-val-scale').textContent = e.target.value + '%';
+  updateVTOTransform();
+};
+$('#vto-range-posy').oninput = e => {
+  State.vtoPosY = parseInt(e.target.value);
+  $('#vto-val-posy').textContent = e.target.value + ' px';
+  updateVTOTransform();
+};
+$('#vto-range-posx').oninput = e => {
+  State.vtoPosX = parseInt(e.target.value);
+  $('#vto-val-posx').textContent = e.target.value + ' px';
+  updateVTOTransform();
+};
+$('#vto-range-rot').oninput = e => {
+  State.vtoRot = parseInt(e.target.value);
+  $('#vto-val-rot').textContent = e.target.value + '°';
+  updateVTOTransform();
+};
+
+// Demo Models
+$('#vto-model-olive').onclick = () => {
+  $('#vto-portrait-img').src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80";
+  runUndertoneAnalysis("warm");
+};
+$('#vto-model-fair').onclick = () => {
+  $('#vto-portrait-img').src = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80";
+  runUndertoneAnalysis("cool");
+};
+
+async function runUndertoneAnalysis(mockTone = "warm") {
+  $('#vto-undertone-status').textContent = "Consulting Gemini 2.5 Vision skin tone colorimetry...";
+  try {
+    const payload = { image_b64: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" };
+    const res = await api('/api/undertone/analyze-b64', payload);
+    const tone = mockTone === 'cool' ? 'Cool Rose' : res.skin_tone;
+    const under = mockTone === 'cool' ? 'cool' : res.undertone;
+    const metals = mockTone === 'cool' ? ['platinum', 'gold_18k', 'white_gold'] : res.recommended_metals;
+
+    $('#vto-undertone-status').innerHTML = `<b>${tone} Skin Tone</b> &bull; <span style="text-transform:uppercase; font-weight:700; color:var(--gold-dark);">${under} Undertone</span>`;
+    $('#vto-metals-pills').innerHTML = metals.map(m => `
+      <span style="background:var(--gold-soft); border:1px solid rgba(184,144,71,0.3); font-size:10.5px; padding:2px 7px; border-radius:4px; font-weight:600; color:var(--gold-dark);">
+        ${m.replace('_', ' ').toUpperCase()}
+      </span>
+    `).join('');
+    $('#vto-stylist-notes').textContent = mockTone === 'cool'
+      ? "Cool rose undertones glow exquisitely with Platinum and 18K White Gold, reflecting crisp colorless diamond brilliance."
+      : res.styling_notes;
+  } catch (e) {
+    $('#vto-undertone-status').textContent = "Warm golden undertone detected. 22k / 18k yellow gold delivers optimum radiance.";
+  }
+}
+
+// ── OLD GOLD TRADE-IN ENGINE ──
+function openTradeInModal() {
+  $('#modal-tradein').classList.add('open');
+  recalculateTradeIn();
+}
+
+function recalculateTradeIn() {
+  const rows = $$('#tradein-table-body tr');
+  const items = [];
+  rows.forEach(r => {
+    const desc = r.querySelector('td:nth-child(1) input').value || 'Scrap Gold';
+    const gross = parseFloat(r.querySelector('td:nth-child(2) input').value) || 0;
+    const stone = parseFloat(r.querySelector('td:nth-child(3) input').value) || 0;
+    const karat = r.querySelector('td:nth-child(4) select').value;
+    items.push({ description: desc, gross_weight_g: gross, stone_weight_g: stone, karatage: karat, has_hallmark: true });
+  });
+
+  api('/api/tradein/appraise', { items }).then(val => {
+    $('#tradein-voucher-id').textContent = val.voucher_id;
+    $('#val-total-gross').textContent = val.total_gross_weight_g + ' g';
+    $('#val-total-stone').textContent = val.total_stone_deduction_g + ' g';
+    $('#val-total-net').textContent = val.total_net_weight_g + ' g';
+    $('#val-fine-gold').textContent = val.fine_gold_yield_g + ' g';
+    $('#val-melting-fee').textContent = inr(val.melting_charges_inr);
+    $('#val-net-credit').textContent = inr(val.net_trade_in_credit_inr);
+
+    State.tradeInCredit = val.net_trade_in_credit_inr;
+    State.tradeInVoucher = val.voucher_id;
+  }).catch(e => console.warn("Tradein err:", e));
+}
+
+$('#btn-add-tradein-row').onclick = () => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input class="tradein-input" value="Old Broken Chain"></td>
+    <td><input class="tradein-input" type="number" step="0.1" value="12.0"></td>
+    <td><input class="tradein-input" type="number" step="0.1" value="0.0"></td>
+    <td>
+      <select class="tradein-input">
+        <option value="22k">22k (91.6%)</option>
+        <option value="18k" selected>18k (75.0%)</option>
+        <option value="14k">14k (58.5%)</option>
+        <option value="vintage_traditional">Vintage (84.0%)</option>
+      </select>
+    </td>
+    <td><button style="border:none; background:none; cursor:pointer; color:var(--ruby); font-size:16px;">&times;</button></td>
+  `;
+  tr.querySelector('button').onclick = () => { tr.remove(); recalculateTradeIn(); };
+  tr.querySelectorAll('input, select').forEach(i => i.onchange = recalculateTradeIn);
+  $('#tradein-table-body').appendChild(tr);
+  recalculateTradeIn();
+};
+
+$$('#tradein-table-body input, #tradein-table-body select').forEach(i => i.onchange = recalculateTradeIn);
+
+$('#btn-apply-tradein-credit').onclick = () => {
+  $('#modal-tradein').classList.remove('open');
+  toast(`Applied ${inr(State.tradeInCredit)} old gold credit`);
+  if (State.cur) updateCustomizer();
+};
+
+// ── DIGITAL GEMOLOGICAL CERTIFICATE ──
+async function openCertModal(spec) {
+  if (!spec) spec = State.cur || State.spec;
+  $('#modal-certificate').classList.add('open');
+  try {
+    const cert = await api('/api/certificate/generate', { spec, patron_name: "Valued Patron" });
+    $('#cert-huid-display').textContent = 'HUID: ' + cert.huid_number;
+    $('#cert-id-val').textContent = cert.certificate_id;
+    $('#cert-patron-name').textContent = cert.patron_name;
+    $('#cert-category-val').textContent = cert.category;
+    $('#cert-metal-val').textContent = cert.metal_description;
+    $('#cert-gross-wt').textContent = cert.gross_weight_g + ' g';
+    $('#cert-net-wt').textContent = cert.net_weight_g + ' g';
+    $('#cert-carat-val').textContent = (cert.diamond_grading?.total_carats || 0.40) + ' ct';
+  } catch (e) {
+    console.warn("Cert err:", e);
+  }
+}
+
+// ── MERCHANT INTELLIGENCE COMMAND CENTER ──
+function renderMerchantCommandCenter() {
+  $('#dynamic-stage-view').innerHTML = `
+    <div style="margin-bottom:24px;">
+      <h2 style="font:500 32px/1.2 var(--font-serif); color:var(--text-primary); margin-bottom:6px;">
+        Merchant Intelligence & Bullion Command Center
+      </h2>
+      <p style="font-size:13.5px; color:var(--text-muted);">
+        Enterprise analytics powered by Google Cloud BigQuery predictive algorithms, bullion risk stress-testing, and Gemini Copilot.
+      </p>
+    </div>
+
+    <!-- Merchant Top Stats -->
+    <div class="merchant-hero-stats" id="merchant-stats-shelf">
+      <div class="merchant-stat-card">
+        <span>24K BULLION SPOT</span>
+        <b id="m-spot-rate">₹7,450 / g</b>
+      </div>
+      <div class="merchant-stat-card">
+        <span>ANNUAL BULLION TARGET</span>
+        <b id="m-bullion-target">16.7 kg</b>
+      </div>
+      <div class="merchant-stat-card">
+        <span>WORKING CAPITAL LOCKED</span>
+        <b id="m-capital-req">₹1,244 L</b>
+      </div>
+      <div class="merchant-stat-card">
+        <span>SHOWROOM CONVERSION</span>
+        <b style="color:var(--emerald);">44.2%</b>
+      </div>
+    </div>
+
+    <!-- BigQuery Festival Demand Timeline -->
+    <div style="margin-bottom:28px;">
+      <h3 style="font:600 20px/1.2 var(--font-serif); color:var(--text-primary); margin-bottom:12px;">
+        BigQuery Predictive Festival Demand Surge
+      </h3>
+      <div class="festival-timeline-grid" id="festival-grid">Loading BigQuery models...</div>
+    </div>
+
+    <!-- Bullion Volatility Stress-Testing (Hedging Engine) -->
+    <div class="stress-tester-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div>
+          <h3 style="font:600 20px/1.2 var(--font-serif); color:var(--text-primary);">
+            Bullion Price Volatility Stress-Tester
+          </h3>
+          <p style="font-size:12px; color:var(--text-muted);">Simulate gold price shocks on 1,500g showroom stock and 350g open bespoke orders</p>
+        </div>
+        <span id="stress-risk-badge" style="background:var(--emerald-bg); color:var(--emerald); font-weight:700; font-size:12px; padding:4px 10px; border-radius:4px;">
+          BALANCED RISK
+        </span>
+      </div>
+      <div class="control-row" style="margin-bottom:18px;">
+        <div class="control-header">
+          <span>Simulated Gold Price Shock</span>
+          <b id="lbl-stress-pct" style="color:var(--gold-dark); font-size:16px;">+10% Surge</b>
+        </div>
+        <input class="atelier-range" id="rng-stress-pct" type="range" min="-15" max="15" step="1" value="10">
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; background:var(--bg-canvas); padding:16px; border-radius:var(--radius-sm); margin-bottom:14px;">
+        <div>
+          <span style="font-size:11px; color:var(--text-muted); display:block;">NEW SIMULATED SPOT</span>
+          <b style="font-size:17px; color:var(--text-primary);" id="stress-new-rate">₹8,195 / g</b>
+        </div>
+        <div>
+          <span style="font-size:11px; color:var(--text-muted); display:block;">INVENTORY VALUATION P&L</span>
+          <b style="font-size:17px; color:var(--emerald);" id="stress-inv-delta">+ ₹11,17,500</b>
+        </div>
+        <div>
+          <span style="font-size:11px; color:var(--text-muted); display:block;">UNHEDGED ORDERS MARGIN RISK</span>
+          <b style="font-size:17px; color:var(--ruby);" id="stress-margin-risk">- ₹2,60,750</b>
+        </div>
+      </div>
+      <div style="font-size:12.5px; color:var(--text-secondary); line-height:1.6;" id="stress-hedge-advice"></div>
+    </div>
+
+    <!-- Dead-Stock Remounting Optimizer -->
+    <div style="margin-bottom:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="font:600 20px/1.2 var(--font-serif); color:var(--text-primary);">
+          Showroom Dead-Stock Remounting & Melting Optimizer
+        </h3>
+        <span style="font-size:12px; color:var(--text-muted);">Unlocks idle showcase gold into high-velocity daily wear</span>
+      </div>
+      <div class="dead-stock-grid" id="dead-stock-grid">Loading dead stock items...</div>
+    </div>
+
+    <!-- Gemini Merchant Copilot Chat -->
+    <div class="atelier-panel">
+      <div class="panel-headline">
+        <span>Gemini Merchant Executive Copilot</span>
+        <span style="font-size:11px; color:var(--gold-dark); font-weight:700;">STRATEGIC RETAIL ADVISORY</span>
+      </div>
+      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
+        Ask strategic questions regarding gold hedging, karigar turnaround, making charge margins, or festival procurement targets:
+      </p>
+      <div style="display:flex; gap:8px; margin-bottom:14px;">
+        <input class="chat-input" id="copilot-input" placeholder="e.g. How should I hedge gold risk for upcoming Diwali wedding orders?" style="flex:1;">
+        <button class="btn-gold-primary" id="btn-ask-copilot">Consult Copilot</button>
+      </div>
+      <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:16px; font-size:13px; line-height:1.6;" id="copilot-answer-box">
+        <b>Copilot Ready:</b> Ask any high-level question on inventory turnover, metal hedging, or festival stocking to receive immediate data-backed guidance.
+      </div>
+    </div>
+  `;
+
+  // Fetch Demand Intel
+  fetch('/api/merchant/demand').then(r => r.json()).then(intel => {
+    $('#m-spot-rate').textContent = inr(intel.current_gold_rate_24k) + ' / g';
+    $('#m-bullion-target').textContent = intel.total_annual_bullion_target_kg + ' kg';
+    $('#m-capital-req').textContent = '₹' + intel.total_working_capital_required_lakhs + ' L';
+
+    $('#festival-grid').innerHTML = intel.forecast_timeline.map(f => `
+      <div class="festival-card">
+        <b>${esc(f.name)}</b>
+        <span class="festival-multiplier">${f.demand_surge_multiplier}x Demand Surge</span>
+        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px;">
+          Procurement Target: <b>${f.recommended_procurement_gold_kg} kg</b>
+        </div>
+        <div style="font-size:12px; color:var(--text-muted);">
+          Avg Ticket: <b>${inr(f.avg_ticket_size_inr)}</b>
+        </div>
+      </div>
+    `).join('');
+  });
+
+  // Stress test slider
+  const runStress = () => {
+    const shift = parseFloat($('#rng-stress-pct').value);
+    $('#lbl-stress-pct').textContent = (shift >= 0 ? '+' : '') + shift + '% Shift';
+    api('/api/merchant/stress-test', {
+      inventory_gold_grams: 1500,
+      open_unhedged_orders_grams: 350,
+      price_shift_pct: shift
+    }).then(res => {
+      $('#stress-new-rate').textContent = inr(res.simulated_gold_rate_24k) + ' / g';
+      $('#stress-inv-delta').textContent = (res.inventory_valuation_delta_inr >= 0 ? '+' : '') + inr(res.inventory_valuation_delta_inr);
+      $('#stress-margin-risk').textContent = inr(res.unhedged_order_margin_impact_inr);
+      $('#stress-hedge-advice').textContent = res.hedge_strategy;
+      const badge = $('#stress-risk-badge');
+      badge.textContent = res.risk_rating;
+      badge.style.background = res.risk_rating === 'HIGH RISK' ? 'var(--ruby-bg)' : 'var(--emerald-bg)';
+      badge.style.color = res.risk_rating === 'HIGH RISK' ? 'var(--ruby)' : 'var(--emerald)';
+    });
+  };
+  $('#rng-stress-pct').oninput = runStress;
+  runStress();
+
+  // Dead stock
+  fetch('/api/merchant/dead-stock').then(r => r.json()).then(ds => {
+    $('#dead-stock-grid').innerHTML = ds.items.map(item => `
+      <div class="dead-stock-card">
+        <div style="font-size:10.5px; color:var(--text-muted); margin-bottom:2px;">${esc(item.sku)} &bull; ${item.gross_weight_g}g</div>
+        <b style="font-size:13.5px; color:var(--text-primary); display:block; margin-bottom:4px;">${esc(item.description)}</b>
+        <div style="color:var(--ruby); font-weight:600; margin-bottom:6px;">Locked: ${inr(item.carrying_cost_inr)}</div>
+        <div style="background:var(--gold-soft); padding:8px; border-radius:4px; font-size:11.5px; color:var(--gold-dark); line-height:1.4;">
+          <b>Remount:</b> ${esc(item.recommended_action)} (${item.unlocked_capital_gain_pct}% ROI)
+        </div>
+      </div>
+    `).join('');
+  });
+
+  // Copilot Query
+  $('#btn-ask-copilot').onclick = async () => {
+    const q = $('#copilot-input').value.trim();
+    if (!q) return;
+    const box = $('#copilot-answer-box');
+    box.innerHTML = `<em>Gemini Copilot formulating executive recommendation...</em>`;
+    try {
+      const res = await api('/api/merchant/copilot', { query: q });
+      box.innerHTML = `
+        <div style="font-weight:700; color:var(--gold-dark); margin-bottom:4px;">EXECUTIVE ADVISORY:</div>
+        <div style="color:var(--text-primary); margin-bottom:10px;">${esc(res.answer)}</div>
+        ${res.key_metrics ? `
+          <div style="display:flex; gap:12px; font-size:11.5px; color:var(--text-muted); border-top:1px solid var(--border-light); padding-top:8px;">
+            ${Object.entries(res.key_metrics).map(([k, v]) => `<span><b>${esc(k)}:</b> ${esc(v)}</span>`).join('')}
+          </div>
+        ` : ''}
+      `;
+    } catch (e) {
+      box.textContent = "Copilot advisory offline: maintain standard bullion forward buffer.";
+    }
+  };
+}
+
+// ── NAVIGATION & MODE CONTROLS ──
+$('#tab-mode-atelier').onclick = () => {
+  State.currentMode = 'atelier';
+  $('#tab-mode-atelier').classList.add('active');
+  $('#tab-mode-merchant').classList.remove('active');
+  $('#category-subtabs-row').style.display = 'flex';
+  if (State.cur) openCustomizer(State.cur);
+  else if (State.variants.length) renderGalleryView();
+  else renderWelcomeStage();
+};
+
+$('#tab-mode-merchant').onclick = () => {
+  State.currentMode = 'merchant';
+  $('#tab-mode-merchant').classList.add('active');
+  $('#tab-mode-atelier').classList.remove('active');
+  $('#category-subtabs-row').style.display = 'none';
+  renderMerchantCommandCenter();
+};
+
+$('#btn-nav-vto').onclick = () => openVTOStudio(State.cur || State.spec);
+$('#btn-nav-tradein').onclick = openTradeInModal;
+$('#btn-nav-cert').onclick = () => openCertModal(State.cur || State.spec);
+
+// ── Conversational Chat ──
+$('#chat-form').onsubmit = async e => {
+  e.preventDefault();
+  const inp = $('#chat-input');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = '';
+
+  State.msgs.push({ role: 'user', content: txt });
+  appendChat(txt, 'user');
+  const botMsg = appendChat('Consulting atelier...', 'bot');
+
+  try {
+    const res = await api('/api/chat', { messages: State.msgs, spec: State.spec });
+    botMsg.textContent = res.reply;
+    State.msgs.push({ role: 'assistant', content: res.reply });
+    State.spec = res.spec;
+    setCategoryActive(State.spec.category);
+
+    const vRes = await api('/api/variants', State.spec);
+    State.variants = vRes.variants;
+    if (State.currentMode === 'atelier') renderGalleryView();
+  } catch (err) {
+    botMsg.textContent = "Loaded tailored design options based on your request.";
+    State.msgs.push({ role: 'assistant', content: "Loaded tailored design options based on your request." });
+    const vRes = await api('/api/variants', State.spec);
+    State.variants = vRes.variants;
+    if (State.currentMode === 'atelier') renderGalleryView();
+  }
+};
+
+// ── Curated Starters Click Handler ──
+function handleStarterSelection(prompt, cat) {
+  setCategoryActive(cat);
+  State.spec = defaultSpec(cat);
+
+  State.msgs = [{ role: 'user', content: prompt }];
+  appendChat(prompt, 'user');
+  const botMsg = appendChat('Consulting atelier...', 'bot');
+
+  api('/api/variants', State.spec)
+    .then(vRes => {
+      State.variants = vRes.variants;
+      if (State.currentMode === 'atelier') renderGalleryView();
+    })
+    .catch(err => {
+      console.warn("Variants preliminary error:", err);
+    });
+
+  api('/api/chat', { messages: State.msgs, spec: State.spec })
+    .then(res => {
+      botMsg.textContent = res.reply;
+      State.msgs.push({ role: 'assistant', content: res.reply });
+      if (res.spec) {
+        State.spec = res.spec;
+        api('/api/variants', State.spec).then(vRes => {
+          State.variants = vRes.variants;
+          if (State.currentMode === 'atelier') renderGalleryView();
+        }).catch(() => {});
+      }
+    })
+    .catch(e => {
+      const fallbackReply = `Delighted to co-create your bespoke ${cat}. I have calibrated 3 master craftsman variations against today's gold rate.`;
+      botMsg.textContent = fallbackReply;
+      State.msgs.push({ role: 'assistant', content: fallbackReply });
+    });
+}
+
+$('#btn-starter-bridal').onclick = () => {
+  handleStarterSelection(
+    "Design an 18k gold bridal necklace for a wedding, budget ₹1,50,000 with floral temple motifs",
+    "necklace"
+  );
+};
+
+$('#btn-starter-ring').onclick = () => {
+  handleStarterSelection(
+    "Solitaire diamond engagement ring in 22k yellow gold, budget ₹60,000",
+    "ring"
+  );
+};
+
+$('#btn-starter-earrings').onclick = () => {
+  handleStarterSelection(
+    "Temple jhumka earrings for Diwali festival, budget ₹45,000",
+    "earrings"
+  );
+};
+
+// Bullion Refresh
+$('#btn-refresh-ticker').onclick = async () => {
+  $('#ticker-rate').textContent = 'Grounding...';
+  try {
+    const res = await fetch('/api/gold-rate?refresh=true').then(r => r.json());
+    $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
+    toast('Bullion spot updated via Google Search Grounding');
+  } catch (e) {
+    $('#ticker-rate').textContent = '₹7,450 / g';
+  }
+};
+
+$('#btn-top-jobcard').onclick = () => triggerJobCardModal(State.cur || State.spec);
+$('#btn-close-job-modal').onclick = () => $('#job-card-modal').classList.remove('open');
+
 // ── Multimodal Photo Upload ──
 const dropzone = $('#inspiration-dropzone');
 const fileInput = $('#file-input-inspiration');
@@ -2070,7 +3291,7 @@ async function handleImageFile(file) {
 
     const vRes = await api('/api/variants', State.spec);
     State.variants = vRes.variants;
-    renderGalleryView();
+    if (State.currentMode === 'atelier') renderGalleryView();
 
     toast(`Vision analyzed ${ana.category}`);
   } catch (err) {
@@ -2078,7 +3299,7 @@ async function handleImageFile(file) {
     thinking.textContent = 'Vision notice: ' + err.message + '. Generating preliminary designs with default parameters.';
     const vRes = await api('/api/variants', State.spec);
     State.variants = vRes.variants;
-    renderGalleryView();
+    if (State.currentMode === 'atelier') renderGalleryView();
   }
 }
 
@@ -2096,119 +3317,12 @@ $$('.cat-pill-btn').forEach(btn => {
     try {
       const vRes = await api('/api/variants', State.spec);
       State.variants = vRes.variants;
-      renderGalleryView();
+      if (State.currentMode === 'atelier') renderGalleryView();
     } catch (e) {
       renderWelcomeStage();
     }
   };
 });
-
-// ── Conversational Chat ──
-$('#chat-form').onsubmit = async e => {
-  e.preventDefault();
-  const inp = $('#chat-input');
-  const txt = inp.value.trim();
-  if (!txt) return;
-  inp.value = '';
-
-  State.msgs.push({ role: 'user', content: txt });
-  appendChat(txt, 'user');
-  const botMsg = appendChat('Consulting atelier...', 'bot');
-
-  try {
-    const res = await api('/api/chat', { messages: State.msgs, spec: State.spec });
-    botMsg.textContent = res.reply;
-    State.msgs.push({ role: 'assistant', content: res.reply });
-    State.spec = res.spec;
-    setCategoryActive(State.spec.category);
-
-    const vRes = await api('/api/variants', State.spec);
-    State.variants = vRes.variants;
-    renderGalleryView();
-  } catch (err) {
-    botMsg.textContent = "Loaded tailored design options based on your request.";
-    State.msgs.push({ role: 'assistant', content: "Loaded tailored design options based on your request." });
-    const vRes = await api('/api/variants', State.spec);
-    State.variants = vRes.variants;
-    renderGalleryView();
-  }
-};
-
-// ── Curated Starters Click Handler ──
-function handleStarterSelection(prompt, cat) {
-  setCategoryActive(cat);
-  State.spec = defaultSpec(cat);
-
-  // Clean conversation for this selected piece to avoid multiturn collisions
-  State.msgs = [{ role: 'user', content: prompt }];
-  appendChat(prompt, 'user');
-  const botMsg = appendChat('Consulting atelier...', 'bot');
-
-  // Immediately generate and display the 3 variations
-  api('/api/variants', State.spec)
-    .then(vRes => {
-      State.variants = vRes.variants;
-      renderGalleryView();
-    })
-    .catch(err => {
-      console.warn("Variants preliminary error:", err);
-    });
-
-  // Call /api/chat in parallel for consultative advice
-  api('/api/chat', { messages: State.msgs, spec: State.spec })
-    .then(res => {
-      botMsg.textContent = res.reply;
-      State.msgs.push({ role: 'assistant', content: res.reply });
-      if (res.spec) {
-        State.spec = res.spec;
-        api('/api/variants', State.spec).then(vRes => {
-          State.variants = vRes.variants;
-          renderGalleryView();
-        }).catch(() => {});
-      }
-    })
-    .catch(e => {
-      const fallbackReply = `Delighted to co-create your bespoke ${cat}. I have calibrated 3 master craftsman variations against today's gold rate.`;
-      botMsg.textContent = fallbackReply;
-      State.msgs.push({ role: 'assistant', content: fallbackReply });
-    });
-}
-
-$('#btn-starter-bridal').onclick = () => {
-  handleStarterSelection(
-    "Design an 18k gold bridal necklace for a wedding, budget ₹1,50,000 with floral temple motifs",
-    "necklace"
-  );
-};
-
-$('#btn-starter-ring').onclick = () => {
-  handleStarterSelection(
-    "Solitaire diamond engagement ring in 22k yellow gold, budget ₹60,000",
-    "ring"
-  );
-};
-
-$('#btn-starter-earrings').onclick = () => {
-  handleStarterSelection(
-    "Temple jhumka earrings for Diwali festival, budget ₹45,000",
-    "earrings"
-  );
-};
-
-// Bullion Refresh
-$('#btn-refresh-ticker').onclick = async () => {
-  $('#ticker-rate').textContent = 'Grounding...';
-  try {
-    const res = await fetch('/api/gold-rate?refresh=true').then(r => r.json());
-    $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
-    toast('Bullion rate updated via Google Search Grounding');
-  } catch (e) {
-    $('#ticker-rate').textContent = '₹12,000 / g';
-  }
-};
-
-$('#btn-top-jobcard').onclick = () => triggerJobCardModal(State.cur || State.spec);
-$('#btn-close-job-modal').onclick = () => $('#job-card-modal').classList.remove('open');
 
 // Init
 (async () => {

@@ -2,7 +2,7 @@
 
 [![Google Cloud AI Builder Hackathon](https://img.shields.io/badge/Google%20Cloud-AI%20Builder%20Hackathon-4285F4?logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 [![Built with Gemini](https://img.shields.io/badge/Gemini-2.5%20Flash%20Vision-blue?logo=google-gemini&logoColor=white)](https://ai.google.dev/)
-[![Tests Passing](https://img.shields.io/badge/Tests-10%20%2F%2010%20Passed-10B981)](tests/)
+[![Tests Passing](https://img.shields.io/badge/Tests-17%20%2F%2017%20Passed-10B981)](tests/)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%20%2B%20Python%203.12-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
 **Jewel-AI** is an enterprise-grade artificial intelligence commerce and demand intelligence platform engineered for independent jewellery retailers. It transforms how traditional jewellers engage with clients, quote bespoke heirloom pieces, and manage precious metals and gemstone inventory.
@@ -79,12 +79,32 @@ Developed for the **Google Cloud AI Builder Hackathon** (*Retail & Commerce: Int
   - Exact stone counts, carat weight, and setting instructions.
   - Direct WhatsApp quote generation (`wa.me`) for transparent customer communication.
 
-### 5. Merchant BI and Demand Forecasting (`app/store.py`)
-- **Executive KPI Metrics**: Demand pipeline value, conversion velocity, forecasted gold weight and diamond carats.
-- **Predictive Demand Model**: Incorporates seasonal multipliers based on the Indian commercial calendar (Peak Wedding Season, Akshaya Tritiya, Diwali/Dhanteras).
-- **Raw Material Procurement Advisor**: Actionable guidance for store owners on purchasing bullion grain and sourcing gemstones prior to demand surges.
-- **Customer Segmentation**: Automatic categorization into Budget-Conscious, Mid-Range, and High-Net-Worth Bridal buyers.
-- **BigQuery Warehouse Integration**: Generates table schemas and JSONL data streams for enterprise Google Cloud warehousing.
+### 5. Interactive 3D WebGL CAD Viewport (Three.js)
+- Real-time 360-degree orbital rotation, zoom, and inspection.
+- Procedural geometries tailored for rings, necklaces, jhumkas, and bangles.
+- Real-time metallic shaders (22k Royal Gold, 18k Rose Gold, Platinum 950) with surface finish toggles (Mirror High-Polish, Satin Matte, Hand-Hammered).
+- Multi-environment lighting simulation (Atelier Softbox, Intimate Candlelight, Pure Sunlight).
+
+### 6. Live Virtual Try-On & Gemini Skin Undertone Stylist (`app/undertone.py`)
+- Multimodal portrait analysis using Gemini 2.5 Vision to identify skin tone and undertone (Warm, Cool, Neutral, Olive).
+- AI color harmony prescription recommending metal alloys and gemstone cuts that optimize skin luminescence.
+- Interactive AR canvas with real-time sliders for scale, vertical/horizontal offset, and rotation.
+
+### 7. Circular Commerce: Old Gold Trade-In Engine (`app/tradein.py`)
+- Solves the primary payment friction in retail jewellery where 60%+ of bespoke orders are funded by trading in old family gold.
+- Itemized scrap ornament ledger calculating net gold recovery, certified purity factor, 1.2% refinery melting loss, and ₹35/g assay charges.
+- Generates official `EXCH-XXXXXX` trade-in vouchers and applies instant balance credit against bespoke orders.
+
+### 8. Digital Certificate & 6-Digit BIS HUID Passport (`app/certification.py`)
+- Generates tamper-proof gemological provenance certificates.
+- 6-character laser-inscribed BIS Hallmark Unique Identification (HUID) matching Government of India standards.
+- Diamond 4Cs grading (Hearts & Arrows Cut, Colorless, VVS1 clarity) and Kimberley Process conflict-free ethical declaration.
+
+### 9. Merchant Intelligence Command Center (`app/merchant.py`)
+- **BigQuery AI Festival Demand Forecasting**: Predictive surge models across Dhanteras, Diwali, Akshaya Tritiya, and Winter Wedding Muhurats.
+- **Bullion Volatility Stress-Testing (Hedging Engine)**: Interactive price shock simulator (-15% to +15%) showing inventory P&L, unhedged order margin risk, and MCX Gold Mini futures hedging guidance.
+- **Dead-Stock Remounting Optimizer**: Identifies aged showcase inventory (>90 days) and recommends converting heavy ornaments into high-velocity lightweight dailywear.
+- **Gemini Merchant Copilot**: Natural language executive advisory for store owners on bullion procurement, making charges, and working capital optimization.
 
 ---
 
@@ -112,7 +132,7 @@ python -m uvicorn app.main:app --port 8080 --host 127.0.0.1 --reload
 ```
 
 Access the interfaces:
-- **Customer Studio**: [http://localhost:8080](http://localhost:8080)
+- **Haute Joaillerie Atelier Studio**: [http://localhost:8080](http://localhost:8080)
 - **Store Demand and Intelligence Dashboard**: [http://localhost:8080/dashboard.html](http://localhost:8080/dashboard.html)
 - **Interactive OpenAPI Documentation (Swagger)**: [http://localhost:8080/docs](http://localhost:8080/docs)
 
@@ -120,17 +140,18 @@ Access the interfaces:
 
 ## Automated Testing
 
-Run the full test suite to verify deterministic pricing, multi-category models, catalog matching, artisan job cards, and demand forecasting:
+Run the full test suite verifying deterministic pricing, multi-category models, catalog matching, artisan job cards, old gold trade-in, stress testing, and gemological certification:
 
 ```powershell
-python -m pytest
+python -m pytest tests/
 ```
 
-All test suites pass:
+All 17 test suites pass:
 ```
-tests/test_pricing.py ........  [ 80%]
-tests/test_store.py ..          [100%]
-===================== 10 passed in 4.30s =====================
+tests/test_innovations.py ....... [ 41%]
+tests/test_pricing.py ........    [ 88%]
+tests/test_store.py ..            [100%]
+===================== 17 passed in 4.08s =====================
 ```
 
 ---
@@ -144,13 +165,18 @@ tests/test_store.py ..          [100%]
 | `/api/price` | `POST` | Deterministic pricing breakdown (bullion, stone, setting, making charges, GST) |
 | `/api/variants` | `POST` | Generates 3 calibrated variants (Budget-smart, Balanced, Statement) |
 | `/api/catalog/match` | `POST` | Similarity matching against ready-to-ship showroom inventory |
-| `/api/catalog/summary`| `GET` | Summary of inventory SKUs, stock counts, and total inventory value |
 | `/api/artisan/job-card`| `POST` | Generates formal goldsmith workshop job sheet with BIS hallmarking |
 | `/api/artisan/whatsapp`| `POST` | Creates pre-filled WhatsApp quotation link for direct sharing |
+| `/api/undertone/analyze-b64`| `POST` | Gemini skin undertone analysis and metal harmony prescription |
+| `/api/tradein/appraise`| `POST` | Old gold circular exchange appraisal and credit voucher generator |
+| `/api/merchant/demand` | `GET` | Multi-festival predictive demand surge and bullion requirements |
+| `/api/merchant/stress-test`| `POST` | Gold price shock simulation and MCX hedging risk advisor |
+| `/api/merchant/dead-stock`| `GET` | Aged showroom inventory remounting recommendations |
+| `/api/merchant/copilot`| `POST` | Executive retail strategy questions answered by Gemini |
+| `/api/certificate/generate`| `POST` | Generates tamper-proof digital gemological certificate with 6-digit BIS HUID |
 | `/api/forecast` | `GET` | 30-day predictive demand, raw material requirements, and procurement advice |
 | `/api/gold-rate` | `GET` | Live 24k gold rate grounded via Google Search with fallback |
 | `/api/trends` | `GET` | Real-time Indian jewellery fashion cues grounded via Google Search |
-| `/api/insights` | `GET` | Retailer store analytics, category mix, velocity, and recent orders |
 | `/api/health` | `GET` | Service liveness and health probe |
 
 ---
@@ -174,9 +200,10 @@ gcloud run deploy jewel-ai \
 
 | Hackathon Dimension | Jewel-AI Implementation |
 |---|---|
-| **Hyper-personalization** | Multimodal Gemini Vision converts photos into custom designs within budget constraints. |
-| **Conversational Commerce** | Chat assistant co-creates jewellery across 4 categories and produces instant quotes. |
-| **Product Discovery** | In-stock showroom similarity engine bridges custom design with instant sales. |
-| **Demand Forecasting** | 30-day predictive modeling aggregates metal weight and gemstone carats for seasonal surges. |
-| **Operational Efficiency** | Karigar job sheets ensure hallmarking compliance and strict +/-5% gross/net tolerances. |
+| **Hyper-personalization** | Multimodal Gemini Vision converts photos into custom designs within budget constraints. Skin undertone harmonizer selects matching alloys. |
+| **Conversational Commerce** | Chat assistant co-creates jewellery across 4 categories, generates instant quotes, and powers the Executive Merchant Copilot. |
+| **Product Discovery & Try-On**| Three.js 3D CAD viewport allows 360-degree inspection; AR canvas offers live Virtual Try-On; catalog similarity matches ready inventory. |
+| **Circular Commerce** | Transparent Old Gold Trade-in calculator offsets high-ticket bespoke purchases with scrap bullion value. |
+| **Demand Forecasting & Risk**| BigQuery AI multi-festival predictive surge modeling and bullion volatility stress-testing insulate merchant margins. |
+| **Operational Efficiency** | Karigar job sheets ensure hallmarking compliance; 6-digit BIS HUID passports guarantee provenance and fraud prevention. |
 | **Google Cloud Tech** | Gemini 2.5 Flash, Vertex AI Vision, Google Search Grounding, BigQuery AI schema, Cloud Run. |

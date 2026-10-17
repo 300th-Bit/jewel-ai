@@ -36,3 +36,7 @@ data/*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Hackathon recordings & artifacts
+artifacts/
+*.webm

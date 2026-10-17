@@ -3,58 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JEWEL-AI | Haute Joaillerie Atelier & AI Co-Creation Salon</title>
+<title>JEWEL-AI | Bespoke Jewellery Atelier & Intelligence Salon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --obsidian: #07090E;
-  --obsidian-surface: #0D111D;
-  --obsidian-card: #131828;
-  --obsidian-card-hover: #192035;
-  --border-hairline: rgba(212, 175, 55, 0.24);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --gold-primary: #D4AF37;
-  --gold-light: #F7E7B4;
-  --gold-dark: #8E6F28;
-  --gold-gradient: linear-gradient(135deg, #FBF3D5 0%, #D4AF37 50%, #99751D 100%);
-  --gold-glow: rgba(212, 175, 55, 0.28);
-  --emerald: #10B981;
-  --emerald-surface: rgba(16, 185, 129, 0.12);
-  --ruby: #EF4444;
-  --ruby-surface: rgba(239, 68, 68, 0.12);
-  --text-ivory: #FDFBF7;
-  --text-muted: #9CA3AF;
-  --text-dim: #6B7280;
+  --bg-canvas: #FAF8F5;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F3EFEA;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FCFAF8;
+  --border-light: #E8E3DA;
+  --border-subtle: #F0ECE4;
+  --border-focus: #B89047;
+  --gold-primary: #B89047;
+  --gold-dark: #8F6E2E;
+  --gold-light: #DFCA9B;
+  --gold-soft: #F7F2E7;
+  --gold-pill: #F3ECDC;
+  --text-primary: #1C1A18;
+  --text-secondary: #57524C;
+  --text-muted: #827C74;
+  --text-light: #ABA49C;
+  --emerald: #0D7A53;
+  --emerald-bg: #EDF7F2;
+  --emerald-border: #A7F3D0;
+  --ruby: #B91C1C;
+  --ruby-bg: #FEF2F2;
+  --ruby-border: #FECACA;
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --radius-card: 16px;
-  --radius-pill: 999px;
-  --shadow-luxe: 0 12px 36px rgba(0, 0, 0, 0.45);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-subtle: 0 2px 8px rgba(28, 26, 24, 0.04);
+  --shadow-card: 0 4px 18px rgba(28, 26, 24, 0.06);
+  --shadow-hover: 0 10px 30px rgba(28, 26, 24, 0.10);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; background: var(--obsidian); color: var(--text-ivory); }
+html, body { height: 100%; background: var(--bg-canvas); color: var(--text-primary); }
 body {
   font: 14px/1.6 var(--font-sans);
   display: grid;
-  grid-template-columns: 430px 1fr;
+  grid-template-columns: 420px 1fr;
   overflow: hidden;
   letter-spacing: 0.01em;
-}
-
-/* Ambient Subtle Lighting */
-body::before {
-  content: "";
-  position: fixed;
-  top: -20%;
-  left: 30%;
-  width: 50vw;
-  height: 50vh;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
 }
 
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -62,14 +57,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--obsidian); }
-::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.25); border-radius: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-canvas); }
+::-webkit-scrollbar-thumb { background: #DDD6CA; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold-primary); }
 
 /* Left Atelier Concierge Sidebar */
 aside {
-  background: var(--obsidian-surface);
-  border-right: 1px solid var(--border-hairline);
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -78,9 +73,9 @@ aside {
 }
 
 .atelier-brand {
-  padding: 22px 26px 14px;
+  padding: 24px 28px 16px;
   border-bottom: 1px solid var(--border-subtle);
-  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.09) 0%, transparent 80%);
+  background: #FCFAF7;
 }
 .brand-top {
   display: flex;
@@ -88,25 +83,21 @@ aside {
   justify-content: space-between;
 }
 .brand-logo {
-  font: 700 25px/1 var(--font-serif);
-  letter-spacing: 0.07em;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font: 600 24px/1 var(--font-serif);
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+  text-transform: uppercase;
 }
 .brand-badge {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: var(--radius-pill);
-  background: rgba(212, 175, 55, 0.12);
-  color: var(--gold-light);
-  border: 1px solid var(--border-hairline);
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--gold-soft);
+  color: var(--gold-dark);
+  border: 1px solid rgba(184, 144, 71, 0.25);
 }
 .brand-tagline {
   font-size: 12px;
@@ -119,14 +110,14 @@ aside {
 
 /* Bullion Ticker Bar */
 .ticker-bar {
-  background: rgba(7, 9, 14, 0.85);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 8px 26px;
-  font-size: 11.5px;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-light);
+  padding: 9px 28px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 .ticker-left {
   display: flex;
@@ -134,152 +125,142 @@ aside {
   gap: 8px;
 }
 .live-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #34D399;
-  box-shadow: 0 0 8px #34D399;
-  animation: pulseDot 2s infinite;
-}
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
+  background: var(--emerald);
+  box-shadow: 0 0 6px var(--emerald);
 }
 .ticker-value {
-  color: var(--gold-light);
+  color: var(--text-primary);
   font-weight: 600;
-  letter-spacing: 0.02em;
 }
 .ticker-refresh-btn {
-  background: none;
-  border: 1px solid var(--border-hairline);
-  color: var(--gold-light);
-  padding: 2px 7px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  padding: 2px 8px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 11px;
   cursor: pointer;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   transition: all 0.2s;
 }
 .ticker-refresh-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
   border-color: var(--gold-primary);
+  color: var(--gold-dark);
 }
 
-/* Multimodal Inspiration Dropzone */
+/* Inspiration Upload Dropzone */
 .dropzone-container {
-  padding: 12px 26px 10px;
+  padding: 14px 28px 12px;
   border-bottom: 1px solid var(--border-subtle);
 }
 .inspiration-dropzone {
-  border: 1px dashed var(--border-hairline);
-  border-radius: 12px;
-  padding: 11px 14px;
-  background: rgba(19, 24, 40, 0.4);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  background: #FCFAF8;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
 }
 .inspiration-dropzone:hover, .inspiration-dropzone.dragover {
   border-color: var(--gold-primary);
-  background: rgba(212, 175, 55, 0.08);
-  box-shadow: 0 0 18px rgba(212, 175, 55, 0.12);
+  background: var(--gold-soft);
 }
 .dropzone-icon {
   width: 34px;
   height: 34px;
-  border-radius: 9px;
-  background: var(--gold-gradient);
-  color: #1A1305;
+  border-radius: 8px;
+  background: var(--gold-soft);
+  color: var(--gold-dark);
+  border: 1px solid rgba(184, 144, 71, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: bold;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 .dropzone-meta b {
   display: block;
   font-size: 12.5px;
   font-weight: 600;
-  color: var(--gold-light);
-  letter-spacing: 0.02em;
+  color: var(--text-primary);
 }
 .dropzone-meta span {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--text-muted);
 }
 #file-input-inspiration { display: none; }
 
-/* Vision Analysis Banner */
+/* Vision Status Banner */
 .vision-status-banner {
-  margin: 10px 26px 0;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(212, 175, 55, 0.08) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  border-radius: 10px;
+  margin: 10px 28px 0;
+  background: var(--emerald-bg);
+  border: 1px solid var(--emerald-border);
+  border-radius: var(--radius-sm);
   padding: 10px 14px;
-  font-size: 11.5px;
+  font-size: 12px;
   display: none;
 }
-.vision-status-banner.visible { display: block; animation: fadeIn 0.3s ease; }
+.vision-status-banner.visible { display: block; animation: fadeIn 0.25s ease; }
 .vision-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: 700;
-  color: #34D399;
-  margin-bottom: 3px;
+  color: var(--emerald);
+  margin-bottom: 2px;
 }
 
 /* Chat Messages Flow */
 #chat-log {
   flex: 1;
   overflow-y: auto;
-  padding: 14px 26px;
+  padding: 16px 28px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 .chat-msg {
-  max-width: 92%;
-  padding: 11px 16px;
-  border-radius: 16px 16px 16px 4px;
-  background: var(--obsidian-card);
-  color: var(--text-ivory);
-  border: 1px solid var(--border-subtle);
+  max-width: 90%;
+  padding: 12px 16px;
+  border-radius: 14px 14px 14px 4px;
+  background: #FCFAF8;
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
   font-size: 13.5px;
-  line-height: 1.5;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  line-height: 1.55;
+  box-shadow: var(--shadow-subtle);
 }
 .chat-msg.user {
   align-self: flex-end;
-  background: linear-gradient(135deg, #2A210F 0%, #3D3016 100%);
-  color: var(--gold-light);
-  border-color: rgba(212, 175, 55, 0.35);
-  border-radius: 16px 16px 4px 16px;
+  background: var(--gold-soft);
+  color: var(--text-primary);
+  border-color: rgba(184, 144, 71, 0.3);
+  border-radius: 14px 14px 4px 14px;
 }
 .chat-msg.err {
-  background: #3B161B;
-  color: #FCA5A5;
-  border-color: #7F1D1D;
+  background: var(--ruby-bg);
+  color: var(--ruby);
+  border-color: var(--ruby-border);
 }
 
-/* Curated Atelier Masterpiece Starters */
+/* Curated Atelier Masterpieces Starters */
 .starters-section {
-  padding: 0 26px 8px;
+  padding: 0 28px 10px;
 }
 .starters-label {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--gold-dark);
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  margin-bottom: 7px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  margin-bottom: 8px;
 }
 .starter-cards-grid {
   display: flex;
@@ -287,200 +268,200 @@ aside {
   gap: 6px;
 }
 .atelier-starter-btn {
-  background: rgba(19, 24, 40, 0.65);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 8px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
   text-align: left;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
 }
 .atelier-starter-btn:hover {
-  background: rgba(212, 175, 55, 0.12);
   border-color: var(--gold-primary);
-  transform: translateX(3px);
+  background: #FCFAF7;
+  transform: translateX(2px);
 }
 .starter-info b {
   display: block;
-  font-size: 12.5px;
-  color: var(--text-ivory);
+  font-size: 13px;
+  color: var(--text-primary);
   font-family: var(--font-serif);
   font-weight: 600;
 }
 .starter-info span {
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--text-muted);
 }
 .starter-price-pill {
   font-size: 11.5px;
   font-weight: 700;
-  color: var(--gold-light);
-  background: rgba(212, 175, 55, 0.14);
+  color: var(--gold-dark);
+  background: var(--gold-pill);
   padding: 3px 8px;
   border-radius: 6px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(184, 144, 71, 0.2);
 }
 
 /* Chat Input Bar */
 .chat-form {
-  padding: 12px 26px 18px;
-  border-top: 1px solid var(--border-subtle);
-  background: var(--obsidian-surface);
+  padding: 14px 28px 20px;
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-surface);
   display: flex;
   gap: 8px;
 }
 .chat-input {
   flex: 1;
   min-width: 0;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
   padding: 10px 14px;
-  background: rgba(7, 9, 14, 0.9);
-  color: var(--text-ivory);
+  background: #FCFAF8;
+  color: var(--text-primary);
   font-size: 13.5px;
   transition: border-color 0.2s;
 }
 .chat-input:focus {
   border-color: var(--gold-primary);
   outline: none;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+  background: #FFFFFF;
 }
 .btn-chat-send {
-  background: var(--gold-gradient);
-  color: #1A1305;
+  background: var(--text-primary);
+  color: #FFFFFF;
   border: none;
-  font-weight: 700;
+  font-weight: 600;
   padding: 0 16px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   letter-spacing: 0.04em;
+  font-size: 13px;
   transition: all 0.2s;
 }
 .btn-chat-send:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+  background: var(--gold-primary);
 }
 
 /* Right Main Showroom Stage */
 main {
   height: 100vh;
   overflow-y: auto;
-  padding: 24px 34px 60px;
-  background: radial-gradient(circle at 70% 10%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
-              radial-gradient(circle at 10% 90%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
-              var(--obsidian);
+  padding: 28px 40px 60px;
+  background: var(--bg-canvas);
 }
 
 .showroom-header-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
 }
 .category-tabs-group {
   display: flex;
   gap: 6px;
-  background: rgba(14, 18, 30, 0.8);
+  background: var(--bg-surface);
   padding: 4px;
-  border-radius: 12px;
-  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
 }
 .cat-pill-btn {
   background: transparent;
   border: none;
-  padding: 7px 15px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
   font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
+  font-weight: 500;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.cat-pill-btn.active, .cat-pill-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
-  color: var(--gold-light);
+  transition: all 0.2s ease;
 }
 .cat-pill-btn.active {
-  background: var(--gold-gradient);
-  color: #1A1305;
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  background: var(--text-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.cat-pill-btn:hover:not(.active) {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
 }
 
 .showroom-quick-links {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 .atelier-nav-link {
-  color: var(--gold-light);
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 12.5px;
   font-weight: 600;
-  letter-spacing: 0.03em;
-  padding: 6px 14px;
-  border: 1px solid var(--border-hairline);
-  border-radius: 8px;
-  transition: all 0.2s;
-  background: rgba(212, 175, 55, 0.06);
+  padding: 7px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
   cursor: pointer;
+  transition: all 0.2s;
 }
 .atelier-nav-link:hover {
-  background: rgba(212, 175, 55, 0.16);
   border-color: var(--gold-primary);
+  color: var(--gold-dark);
 }
 
 /* Hero Showcase Welcome Card */
 .atelier-welcome-stage {
-  background: linear-gradient(145deg, rgba(19, 24, 40, 0.7) 0%, rgba(13, 17, 29, 0.9) 100%);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-card);
-  padding: 36px 40px;
-  margin-bottom: 28px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  margin-bottom: 32px;
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 34px;
+  grid-template-columns: 340px 1fr;
+  gap: 36px;
   align-items: center;
-  box-shadow: var(--shadow-luxe);
+  box-shadow: var(--shadow-card);
 }
 .welcome-plinth-card {
   position: relative;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  border: 1px solid var(--border-hairline);
-  background: #0A0D15;
+  border: 1px solid var(--border-light);
+  background: var(--bg-subtle);
   text-align: center;
-  padding: 14px;
+  padding: 16px;
 }
 .welcome-plinth-card img {
   width: 100%;
-  height: 260px;
+  height: 270px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   transition: transform 0.4s ease;
 }
 .welcome-plinth-card:hover img {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 .welcome-narrative h2 {
-  font: 600 34px/1.2 var(--font-serif);
-  color: var(--text-ivory);
-  margin-bottom: 12px;
-  letter-spacing: 0.02em;
+  font: 500 36px/1.15 var(--font-serif);
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
 }
 .welcome-narrative p {
-  color: var(--text-muted);
-  font-size: 14.5px;
+  color: var(--text-secondary);
+  font-size: 15px;
   line-height: 1.65;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
+  font-weight: 300;
 }
 .welcome-metrics-strip {
   display: flex;
-  gap: 20px;
+  gap: 24px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 20px;
 }
 .metric-pill {
   border-left: 2px solid var(--gold-primary);
@@ -489,13 +470,14 @@ main {
 .metric-pill b {
   display: block;
   font-size: 15px;
-  color: var(--gold-light);
+  color: var(--text-primary);
+  font-weight: 600;
 }
 .metric-pill span {
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
 /* 3 Calibrated Variations Header */
@@ -506,61 +488,62 @@ main {
   margin-bottom: 16px;
 }
 .gallery-header-row h2 {
-  font: 600 26px/1.2 var(--font-serif);
-  color: var(--text-ivory);
-  letter-spacing: 0.02em;
+  font: 500 28px/1.2 var(--font-serif);
+  color: var(--text-primary);
 }
 .gallery-header-row p {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 3px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-top: 4px;
 }
 
 .trend-alert-pill {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(16, 185, 129, 0.05) 100%);
-  border: 1px solid var(--border-hairline);
-  border-radius: 10px;
-  padding: 9px 16px;
-  font-size: 12px;
-  color: var(--gold-light);
-  margin-bottom: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 10px;
+  box-shadow: var(--shadow-subtle);
 }
+.trend-alert-pill b { color: var(--gold-dark); }
 
 /* 3 Variations Card Grid */
 .gallery-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 34px;
+  gap: 24px;
+  margin-bottom: 36px;
 }
 .jewel-variant-card {
-  background: var(--obsidian-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-card);
-  padding: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 22px;
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-card);
 }
 .jewel-variant-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--gold-primary);
-  box-shadow: 0 16px 40px rgba(212, 175, 55, 0.18);
+  transform: translateY(-3px);
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-hover);
 }
 .jewel-variant-card.statement {
-  background: linear-gradient(180deg, rgba(212, 175, 55, 0.06) 0%, var(--obsidian-card) 60%);
-  border-color: rgba(212, 175, 55, 0.45);
+  background: #FCFAF7;
+  border-color: rgba(184, 144, 71, 0.4);
 }
 
 .card-media-stage {
-  height: 220px;
-  border-radius: 12px;
-  background: #080B13;
+  height: 230px;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
   border: 1px solid var(--border-subtle);
   overflow: hidden;
   position: relative;
@@ -576,27 +559,27 @@ main {
   transition: transform 0.4s ease;
 }
 .card-media-stage:hover img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 .card-media-stage svg {
-  width: 160px;
-  height: 160px;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.5));
+  width: 170px;
+  height: 170px;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.06));
 }
 .card-tier-tag {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(8, 11, 19, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--border-hairline);
-  color: var(--gold-light);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 3px 9px;
-  border-radius: 6px;
+  border-radius: 4px;
   z-index: 2;
 }
 .card-view-toggle {
@@ -604,32 +587,32 @@ main {
   bottom: 8px;
   right: 8px;
   display: flex;
-  gap: 3px;
-  background: rgba(8, 11, 19, 0.85);
-  backdrop-filter: blur(8px);
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
   padding: 2px;
-  border-radius: 6px;
-  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  border: 1px solid var(--border-light);
   z-index: 2;
 }
 .view-toggle-btn {
   background: none;
   border: none;
-  font-size: 10px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--text-muted);
-  padding: 2px 7px;
-  border-radius: 4px;
+  padding: 3px 8px;
+  border-radius: 3px;
   cursor: pointer;
 }
 .view-toggle-btn.active {
-  background: var(--gold-gradient);
-  color: #1A1305;
+  background: var(--text-primary);
+  color: #FFFFFF;
 }
 
 .card-title {
-  font: 600 20px/1.2 var(--font-serif);
-  color: var(--text-ivory);
+  font: 600 21px/1.2 var(--font-serif);
+  color: var(--text-primary);
   margin-bottom: 6px;
 }
 .card-price-row {
@@ -640,58 +623,58 @@ main {
 }
 .card-price {
   font: 700 20px/1 var(--font-sans);
-  color: var(--gold-light);
+  color: var(--text-primary);
 }
 .budget-status-tag {
   font-size: 11px;
   font-weight: 600;
   padding: 2px 8px;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
 }
 .status-fits {
-  background: var(--emerald-surface);
-  color: #34D399;
-  border: 1px solid rgba(52, 211, 153, 0.3);
+  background: var(--emerald-bg);
+  color: var(--emerald);
+  border: 1px solid var(--emerald-border);
 }
 .status-over {
-  background: var(--ruby-surface);
-  color: #F87171;
-  border: 1px solid rgba(248, 113, 113, 0.3);
+  background: var(--ruby-bg);
+  color: var(--ruby);
+  border: 1px solid var(--ruby-border);
 }
 .card-specs-list {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 12.5px;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 18px;
   flex: 1;
 }
 .btn-launch-customizer {
   width: 100%;
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid var(--border-hairline);
-  color: var(--gold-light);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 13px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 .btn-launch-customizer:hover {
-  background: var(--gold-gradient);
-  color: #1A1305;
-  border-color: var(--gold-primary);
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+  background: var(--text-primary);
+  color: #FFFFFF;
+  border-color: var(--text-primary);
 }
 
 /* In-Stock Showroom Matches Shelf */
 .showroom-matches-shelf {
-  background: rgba(14, 18, 30, 0.7);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-card);
-  padding: 22px 26px;
-  margin-top: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-top: 28px;
+  box-shadow: var(--shadow-card);
 }
 .shelf-header {
   display: flex;
@@ -700,41 +683,40 @@ main {
   margin-bottom: 16px;
 }
 .shelf-header h4 {
-  font: 600 18px/1 var(--font-serif);
-  color: var(--text-ivory);
-  letter-spacing: 0.02em;
+  font: 600 20px/1 var(--font-serif);
+  color: var(--text-primary);
 }
 .shelf-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 16px;
 }
 .shelf-item-card {
-  background: rgba(8, 11, 19, 0.85);
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
-  padding: 12px 14px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
   transition: border-color 0.2s;
 }
 .shelf-item-card:hover { border-color: var(--gold-primary); }
 .shelf-item-sku {
   display: flex;
   justify-content: space-between;
-  font-size: 10.5px;
+  font-size: 11px;
   color: var(--gold-dark);
   font-weight: 700;
   margin-bottom: 4px;
 }
 .shelf-item-name {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
-  color: var(--text-ivory);
+  color: var(--text-primary);
   margin-bottom: 6px;
 }
 .shelf-item-price {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 700;
-  color: var(--gold-light);
+  color: var(--text-primary);
 }
 
 /* Interactive Studio Customizer Layout */
@@ -744,57 +726,55 @@ main {
   gap: 28px;
 }
 .atelier-panel {
-  background: var(--obsidian-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-card);
-  padding: 24px;
-  margin-bottom: 22px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
 }
 .panel-headline {
-  font: 600 20px/1.2 var(--font-serif);
-  color: var(--text-ivory);
-  letter-spacing: 0.02em;
-  margin-bottom: 18px;
+  font: 600 22px/1.2 var(--font-serif);
+  color: var(--text-primary);
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 12px;
+  padding-bottom: 14px;
 }
 
 .jewel-stage-plinth {
-  height: 340px;
-  border-radius: 14px;
-  background: radial-gradient(circle at 50% 40%, #151A2C 0%, #080A12 75%);
-  border: 1px solid var(--border-subtle);
+  height: 350px;
+  border-radius: var(--radius-md);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
 }
 .jewel-stage-plinth img {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.7));
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
 }
 .jewel-stage-plinth svg {
   width: 220px;
   height: 220px;
-  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.6));
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
 }
 
 /* AI Render Progress Overlay */
 .render-loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 10, 18, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -803,11 +783,11 @@ main {
   z-index: 10;
   display: none;
 }
-.render-loading-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+.render-loading-overlay.active { display: flex; animation: fadeIn 0.25s ease; }
 .render-spinner {
-  width: 44px;
-  height: 44px;
-  border: 3px solid rgba(212, 175, 55, 0.2);
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-light);
   border-top-color: var(--gold-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -815,9 +795,8 @@ main {
 @keyframes spin { to { transform: rotate(360deg); } }
 .render-status-text {
   font-size: 13px;
-  color: var(--gold-light);
+  color: var(--text-primary);
   font-weight: 600;
-  letter-spacing: 0.02em;
 }
 
 /* Certified Hallmarking Badge Seal */
@@ -825,32 +804,32 @@ main {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.09) 0%, rgba(212, 175, 55, 0.06) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 10px;
-  padding: 10px 14px;
-  margin-top: 14px;
+  background: var(--emerald-bg);
+  border: 1px solid var(--emerald-border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  margin-top: 16px;
 }
 .cert-seal-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(16, 185, 129, 0.15);
-  color: #34D399;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--emerald);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
 }
 .cert-seal-info b {
   display: block;
   font-size: 12.5px;
-  color: #34D399;
+  color: var(--emerald);
 }
 .cert-seal-info span {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 /* Studio Sliders and Selectors */
@@ -861,21 +840,21 @@ main {
   display: flex;
   justify-content: space-between;
   font-size: 12.5px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   margin-bottom: 6px;
 }
 .control-header span:last-child {
-  color: var(--gold-light);
+  color: var(--text-primary);
   font-weight: 600;
 }
 .atelier-select {
   width: 100%;
-  padding: 9px 12px;
-  background: #080B13;
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  color: var(--text-ivory);
-  font-size: 13px;
+  padding: 10px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13.5px;
   transition: border-color 0.2s;
 }
 .atelier-select:focus { border-color: var(--gold-primary); outline: none; }
@@ -888,9 +867,9 @@ main {
 
 /* Cost Breakdown Table */
 .cost-breakdown-box {
-  background: #080B13;
-  border: 1px solid var(--border-subtle);
-  border-radius: 10px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
   padding: 14px 18px;
   margin-bottom: 18px;
 }
@@ -898,21 +877,21 @@ main {
   display: flex;
   justify-content: space-between;
   font-size: 12.5px;
-  padding: 5px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--text-muted);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  color: var(--text-secondary);
 }
-.cost-line b { color: var(--text-ivory); font-weight: 600; }
+.cost-line b { color: var(--text-primary); font-weight: 600; }
 .cost-line.total-line {
-  border-top: 1px solid var(--border-hairline);
+  border-top: 1px solid var(--border-light);
   border-bottom: none;
   padding-top: 10px;
   margin-top: 6px;
   font-size: 15px;
 }
 .cost-line.total-line b {
-  color: var(--gold-light);
-  font-size: 19px;
+  color: var(--gold-dark);
+  font-size: 20px;
   font-family: var(--font-serif);
 }
 
@@ -925,26 +904,26 @@ main {
   justify-content: space-between;
   font-size: 12px;
   margin-bottom: 6px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 .meter-track {
   height: 8px;
-  background: #080B13;
-  border-radius: var(--radius-pill);
+  background: var(--bg-subtle);
+  border-radius: 999px;
   overflow: hidden;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-light);
 }
 .meter-progress {
   height: 100%;
   background: var(--emerald);
   width: 60%;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+  transition: width 0.3s ease, background 0.3s;
 }
 .meter-track.over .meter-progress {
   background: var(--ruby);
 }
 
-/* Budget Levers Pill Buttons */
+/* Budget Levers Buttons */
 .budget-levers-shelf {
   display: flex;
   flex-direction: column;
@@ -952,25 +931,24 @@ main {
   margin-bottom: 20px;
 }
 .lever-card-btn {
-  background: rgba(212, 175, 55, 0.08);
-  border: 1px solid var(--border-hairline);
-  border-radius: 8px;
-  padding: 8px 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
-  color: var(--text-ivory);
+  font-size: 12.5px;
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
-  text-align: left;
 }
 .lever-card-btn:hover {
-  background: rgba(212, 175, 55, 0.2);
   border-color: var(--gold-primary);
+  background: var(--gold-soft);
   transform: translateX(2px);
 }
-.lever-card-btn b { color: #34D399; }
+.lever-card-btn b { color: var(--emerald); }
 
 /* Action Buttons Grid */
 .actions-dual-grid {
@@ -980,74 +958,73 @@ main {
   margin-top: 10px;
 }
 .btn-gold-primary {
-  background: var(--gold-gradient);
-  color: #1A1305;
+  background: var(--text-primary);
+  color: #FFFFFF;
   border: none;
-  font-weight: 700;
+  font-weight: 600;
   padding: 12px 18px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   letter-spacing: 0.03em;
   text-align: center;
   text-decoration: none;
   transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.25);
+  font-size: 13.5px;
 }
 .btn-gold-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  background: var(--gold-primary);
 }
 .btn-outline-glass {
-  background: rgba(19, 24, 40, 0.6);
-  border: 1px solid var(--border-hairline);
-  color: var(--gold-light);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
   font-weight: 600;
   padding: 12px 18px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   text-align: center;
   transition: all 0.2s;
+  font-size: 13.5px;
 }
 .btn-outline-glass:hover {
-  background: rgba(212, 175, 55, 0.12);
-  border-color: var(--gold-primary);
+  border-color: var(--text-primary);
 }
 
 /* Modal Overlay & Card */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 7, 12, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(28, 26, 24, 0.6);
+  backdrop-filter: blur(4px);
   z-index: 100;
   display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
 }
-.modal-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+.modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
 .modal-card {
-  background: var(--obsidian-surface);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   max-width: 680px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  padding: 28px 32px;
-  box-shadow: var(--shadow-luxe);
+  padding: 30px 36px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding-bottom: 12px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--border-subtle);
 }
 .modal-header h3 {
   font: 600 24px/1 var(--font-serif);
-  color: var(--text-ivory);
+  color: var(--text-primary);
 }
 .modal-close {
   background: none;
@@ -1062,17 +1039,16 @@ main {
   position: fixed;
   bottom: 24px;
   right: 28px;
-  background: var(--obsidian-card);
-  border: 1px solid var(--gold-primary);
-  color: var(--gold-light);
+  background: var(--text-primary);
+  color: #FFFFFF;
   padding: 12px 20px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
-  font-weight: 600;
-  box-shadow: var(--shadow-luxe);
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   opacity: 0;
   transform: translateY(10px);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s ease;
   pointer-events: none;
   z-index: 999;
 }
@@ -1088,7 +1064,7 @@ main {
 
 @media (max-width: 1100px) {
   body { grid-template-columns: 1fr; overflow-y: auto; }
-  aside { height: auto; border-right: none; border-bottom: 1px solid var(--border-hairline); }
+  aside { height: auto; border-right: none; border-bottom: 1px solid var(--border-light); }
   main { height: auto; padding: 20px; }
   .gallery-cards-grid { grid-template-columns: 1fr; }
   .atelier-welcome-stage { grid-template-columns: 1fr; }
@@ -1102,12 +1078,10 @@ main {
 <aside id="concierge-pane">
   <div class="atelier-brand">
     <div class="brand-top">
-      <div class="brand-logo">
-        <span>✦</span> JEWEL-AI
-      </div>
-      <span class="brand-badge">Haute Joaillerie</span>
+      <div class="brand-logo">Jewel-AI</div>
+      <span class="brand-badge">Atelier Studio</span>
     </div>
-    <div class="brand-tagline">AI Co-Creation Salon & Bullion Engine</div>
+    <div class="brand-tagline">Fine Jewellery Co-Creation and Bullion Engine</div>
   </div>
 
   <!-- Bullion Ticker Bar -->
@@ -1119,10 +1093,10 @@ main {
     <button class="ticker-refresh-btn" id="btn-refresh-ticker" title="Refresh via Google Search Grounding">Refresh</button>
   </div>
 
-  <!-- Multimodal Inspiration Photo Dropzone -->
+  <!-- Inspiration Upload Dropzone -->
   <div class="dropzone-container">
     <div class="inspiration-dropzone" id="inspiration-dropzone">
-      <div class="dropzone-icon">📷</div>
+      <div class="dropzone-icon">P</div>
       <div class="dropzone-meta">
         <b>Upload Inspiration Photo</b>
         <span>Gemini 2.5 Vision architecture inspection</span>
@@ -1134,25 +1108,23 @@ main {
   <!-- Vision Status Banner -->
   <div class="vision-status-banner" id="vision-banner">
     <div class="vision-header">
-      <span>✦ Vision Analysis Complete</span>
-      <span style="font-size:10px; opacity:0.8;">Gemini 2.5</span>
+      <span>Vision Analysis Complete</span>
+      <span style="font-size:10.5px; opacity:0.8;">Gemini 2.5</span>
     </div>
-    <div id="vision-category" style="font-weight:600; color:#fff;"></div>
-    <div id="vision-details" style="color:var(--text-muted); font-size:11px;"></div>
+    <div id="vision-category" style="font-weight:600; color:var(--text-primary);"></div>
+    <div id="vision-details" style="color:var(--text-secondary); font-size:11px;"></div>
   </div>
 
   <!-- Chat Log -->
   <div id="chat-log" aria-live="polite"></div>
 
-  <!-- Curated Atelier Masterpieces (The 3 User Starters) -->
+  <!-- Curated Masterpieces (The 3 Starters) -->
   <div class="starters-section" id="starters-box">
-    <div class="starters-label">
-      <span>✦</span> Masterpiece Collections
-    </div>
+    <div class="starters-label">Masterpiece Collections</div>
     <div class="starter-cards-grid">
       <button class="atelier-starter-btn" id="btn-starter-bridal" data-category="necklace" data-prompt="Design an 18k gold bridal necklace for a wedding, budget ₹1,50,000 with floral temple motifs">
         <div class="starter-info">
-          <b>📿 Royal Bridal Choker</b>
+          <b>Royal Bridal Choker</b>
           <span>18k Gold (750) • Floral Temple Motif</span>
         </div>
         <div class="starter-price-pill">₹1.5 Lakh</div>
@@ -1160,7 +1132,7 @@ main {
 
       <button class="atelier-starter-btn" id="btn-starter-ring" data-category="ring" data-prompt="Solitaire diamond engagement ring in 22k yellow gold, budget ₹60,000">
         <div class="starter-info">
-          <b>💍 Solitaire Pavé Ring</b>
+          <b>Solitaire Pave Ring</b>
           <span>22k BIS 916 • 0.40 ct Brilliant Cut</span>
         </div>
         <div class="starter-price-pill">₹60,000</div>
@@ -1168,7 +1140,7 @@ main {
 
       <button class="atelier-starter-btn" id="btn-starter-earrings" data-category="earrings" data-prompt="Temple jhumka earrings for Diwali festival, budget ₹45,000">
         <div class="starter-info">
-          <b>✨ Festive Temple Jhumkas</b>
+          <b>Festive Temple Jhumkas</b>
           <span>22k Gold • Bell Dome & Pearls</span>
         </div>
         <div class="starter-price-pill">₹45,000</div>
@@ -1188,14 +1160,14 @@ main {
   <!-- Showroom Header Bar -->
   <div class="showroom-header-bar">
     <div class="category-tabs-group" id="category-tabs">
-      <button class="cat-pill-btn active" data-cat="ring">💍 Rings</button>
-      <button class="cat-pill-btn" data-cat="necklace">📿 Necklaces</button>
-      <button class="cat-pill-btn" data-cat="earrings">✨ Earrings</button>
-      <button class="cat-pill-btn" data-cat="bangle">⭕ Bangles</button>
+      <button class="cat-pill-btn active" data-cat="ring">Rings</button>
+      <button class="cat-pill-btn" data-cat="necklace">Necklaces</button>
+      <button class="cat-pill-btn" data-cat="earrings">Earrings</button>
+      <button class="cat-pill-btn" data-cat="bangle">Bangles</button>
     </div>
     <div class="showroom-quick-links">
       <a class="atelier-nav-link" href="/dashboard.html" target="_blank">Store Analytics ↗</a>
-      <button class="atelier-nav-link" id="btn-top-jobcard">Workshop Job Card 📄</button>
+      <button class="atelier-nav-link" id="btn-top-jobcard">Workshop Job Card</button>
     </div>
   </div>
 
@@ -1227,10 +1199,10 @@ const inr = n => '₹' + new Intl.NumberFormat('en-IN').format(Math.round(n || 0
 const esc = t => String(t ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
 const METALS = {
-  gold_24k: ['#F9E79F', '#D4AF37', '24k Fine Gold (999)'],
-  gold_22k: ['#F3E5AB', '#B98A25', '22k Standard Gold (916 BIS)'],
-  gold_18k: ['#EDCF8E', '#A67C2E', '18k Bridal Gold (750)'],
-  gold_14k: ['#EADBB6', '#9B7E3E', '14k Everyday Gold (585)']
+  gold_24k: ['#DFB135', '#B8860B', '24k Fine Gold (999)'],
+  gold_22k: ['#C99E32', '#997318', '22k Standard Gold (916 BIS)'],
+  gold_18k: ['#B88B4A', '#8C6328', '18k Bridal Gold (750)'],
+  gold_14k: ['#AA8555', '#7A5B32', '14k Everyday Gold (585)']
 };
 
 const STONES = {
@@ -1312,10 +1284,10 @@ function renderRingSVG(sp) {
       </linearGradient>
     </defs>
     <circle cx="100" cy="126" r="58" fill="none" stroke="url(#${id})" stroke-width="${sw}"/>
-    <circle cx="100" cy="126" r="${58 - sw/2 + 1}" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0.35"/>
+    <circle cx="100" cy="126" r="${58 - sw/2 + 1}" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.6"/>
     ${hasStone ? `
-      <polygon points="${100-r*0.65},${cy-r*0.75} ${100+r*0.65},${cy-r*0.75} ${100+r},${cy-r*0.15} 100,${cy+r*0.85} ${100-r},${cy-r*0.15}" fill="#E8F4FD" stroke="#93C5FD" stroke-width="1.5"/>
-      <path d="M${100-r},${cy-r*0.15}H${100+r} M${100-r*0.65},${cy-r*0.75}L100,${cy+r*0.85}L${100+r*0.65},${cy-r*0.75} M${100-r*0.35},${cy-r*0.15}L100,${cy-r*0.75}L${100+r*0.35},${cy-r*0.15}" stroke="#BFDBFE" stroke-width="1" fill="none"/>
+      <polygon points="${100-r*0.65},${cy-r*0.75} ${100+r*0.65},${cy-r*0.75} ${100+r},${cy-r*0.15} 100,${cy+r*0.85} ${100-r},${cy-r*0.15}" fill="#F0F7FF" stroke="#60A5FA" stroke-width="1.2"/>
+      <path d="M${100-r},${cy-r*0.15}H${100+r} M${100-r*0.65},${cy-r*0.75}L100,${cy+r*0.85}L${100+r*0.65},${cy-r*0.75} M${100-r*0.35},${cy-r*0.15}L100,${cy-r*0.75}L${100+r*0.35},${cy-r*0.15}" stroke="#93C5FD" stroke-width="0.8" fill="none"/>
       <circle cx="${100-r*0.7}" cy="${cy-r*0.7}" r="2" fill="${b}"/><circle cx="${100+r*0.7}" cy="${cy-r*0.7}" r="2" fill="${b}"/>
     ` : ''}
   </svg>`;
@@ -1331,7 +1303,7 @@ function renderNecklaceSVG(sp) {
     <path d="M 30,25 Q 100,125 170,25" fill="none" stroke="url(#${id})" stroke-width="4.5" stroke-dasharray="2,2"/>
     <rect x="96" y="88" width="8" height="14" rx="3" fill="${b}" stroke="${a}"/>
     <circle cx="100" cy="118" r="${pr + 6}" fill="url(#${id})" stroke="${b}" stroke-width="2"/>
-    ${hasStone ? `<polygon points="${100-pr*0.7},${118-pr*0.7} ${100+pr*0.7},${118-pr*0.7} ${100+pr},${118} 100,${118+pr} ${100-pr},${118}" fill="#E8F4FD" stroke="#93C5FD"/>` : `<circle cx="100" cy="118" r="${pr}" fill="${b}"/>`}
+    ${hasStone ? `<polygon points="${100-pr*0.7},${118-pr*0.7} ${100+pr*0.7},${118-pr*0.7} ${100+pr},${118} 100,${118+pr} ${100-pr},${118}" fill="#F0F7FF" stroke="#60A5FA"/>` : `<circle cx="100" cy="118" r="${pr}" fill="${b}"/>`}
     <circle cx="100" cy="${118 + pr + 12}" r="3.5" fill="${a}" stroke="${b}"/>
   </svg>`;
 }
@@ -1354,7 +1326,7 @@ function renderBangleSVG(sp) {
   const [a, b] = METALS[sp.metal] || METALS.gold_22k;
   return `<svg viewBox="0 0 200 200" role="img"><defs><linearGradient id="${id}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${a}"/><stop offset="50%" stop-color="${b}"/><stop offset="100%" stop-color="${a}"/></linearGradient></defs>
     <ellipse cx="100" cy="100" rx="72" ry="54" fill="none" stroke="url(#${id})" stroke-width="12"/>
-    <ellipse cx="100" cy="100" rx="66" ry="49" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.4"/>
+    <ellipse cx="100" cy="100" rx="66" ry="49" fill="none" stroke="#FFFFFF" stroke-width="1.2" opacity="0.6"/>
   </svg>`;
 }
 
@@ -1377,7 +1349,7 @@ function toast(msg) {
   const el = $('#toast-notice');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2800);
+  setTimeout(() => el.classList.remove('show'), 2600);
 }
 
 function appendChat(text, type = 'bot') {
@@ -1397,14 +1369,14 @@ function renderWelcomeStage() {
   $('#dynamic-stage-view').innerHTML = `
     <div class="atelier-welcome-stage">
       <div class="welcome-plinth-card">
-        <img src="${photo}" alt="Haute Joaillerie Atelier piece" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
-        <div style="margin-top:14px; font-family:var(--font-serif); font-size:18px; color:var(--gold-light);">
-          Bespoke Indian Masterpiece
+        <img src="${photo}" alt="Bespoke Jewellery Masterpiece" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+        <div style="margin-top:14px; font-family:var(--font-serif); font-size:17px; color:var(--text-primary); font-weight:600;">
+          Bespoke Atelier Collection
         </div>
       </div>
       <div class="welcome-narrative">
         <h2>Intelligent Design for Exceptional Jewellery</h2>
-        <p>Welcome to the private digital atelier. Select a curated collection or state your personal occasion, motif, and budget. Our AI co-creates bespoke heirloom jewellery, calculates exact hallmarking prices, and verifies local store availability.</p>
+        <p>Welcome to the private digital atelier. Select a curated collection or describe your personal occasion, motif, and target budget. Our AI co-creates bespoke heirloom pieces, calculates certified BIS hallmarking prices, and verifies local store availability.</p>
         <div class="welcome-metrics-strip">
           <div class="metric-pill">
             <b>BIS 916 / 750</b>
@@ -1436,7 +1408,7 @@ function renderGalleryView() {
       </div>
     </div>
     <div class="trend-alert-pill" id="trend-bar">
-      <b>✨ Live Market Trends:</b> <span id="trend-text">Grounding with Google Search retail cues...</span>
+      <b>Live Market Trends:</b> <span id="trend-text">Grounding with Google Search retail cues...</span>
     </div>
     <div class="gallery-cards-grid" id="cards-grid"></div>
     <div id="showroom-inventory-dock"></div>
@@ -1470,7 +1442,7 @@ function renderGalleryView() {
       <div class="card-price-row">
         <div class="card-price">${inr(p.total)}</div>
         <span class="budget-status-tag ${isOver ? 'status-over' : 'status-fits'}">
-          ${isOver ? inr(p.over_by) + ' over budget' : 'Fits Budget'}
+          ${isOver ? inr(p.over_by) + ' over budget' : 'Within Target Budget'}
         </span>
       </div>
       <div class="card-specs-list">
@@ -1536,8 +1508,8 @@ function openCustomizer(sp, initialIdx = 1) {
       <button class="atelier-nav-link" id="btn-back-gallery">
         &larr; Back to 3 Variations
       </button>
-      <div style="font-size:13px; color:var(--gold-light);">
-        Bespoke Workshop Studio &bull; Job ID #${State.reqId || 'DRAFT'}
+      <div style="font-size:13px; color:var(--text-secondary); font-weight:500;">
+        Workshop Specimen &bull; Job ID #${State.reqId || 'DRAFT'}
       </div>
     </div>
     <div class="customizer-split-grid">
@@ -1547,8 +1519,8 @@ function openCustomizer(sp, initialIdx = 1) {
           <div class="panel-headline">
             <span>Visual Specimen</span>
             <div style="display:flex; gap:6px;">
-              <button class="atelier-nav-link" id="cust-toggle-photo" style="font-size:11px;">Studio Photo</button>
-              <button class="atelier-nav-link" id="cust-toggle-cad" style="font-size:11px;">CAD Blueprint</button>
+              <button class="atelier-nav-link" id="cust-toggle-photo" style="font-size:11.5px;">Studio Photo</button>
+              <button class="atelier-nav-link" id="cust-toggle-cad" style="font-size:11.5px;">CAD Blueprint</button>
             </div>
           </div>
           <div class="jewel-stage-plinth" id="cust-stage-plinth">
@@ -1558,12 +1530,12 @@ function openCustomizer(sp, initialIdx = 1) {
             </div>
             <img src="${photo}" alt="Haute Joaillerie Atelier Specimen" id="cust-main-img" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-            <div style="font-size:11.5px; color:var(--text-muted);" id="cust-caption-note">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+            <div style="font-size:12px; color:var(--text-muted);" id="cust-caption-note">
               High-Definition Atelier Specimen
             </div>
-            <button class="atelier-nav-link" id="btn-trigger-ai-render" style="font-size:11px;">
-              ⚡ Render with Flux AI
+            <button class="atelier-nav-link" id="btn-trigger-ai-render" style="font-size:11.5px;">
+              Render with Flux AI
             </button>
           </div>
 
@@ -1580,8 +1552,8 @@ function openCustomizer(sp, initialIdx = 1) {
         <!-- In-Stock Showroom Matches in Customizer -->
         <div class="showroom-matches-shelf" id="cust-matches-shelf">
           <div class="shelf-header">
-            <h4>🏬 Showroom Ready Matches</h4>
-            <span style="font-size:12px; color:var(--gold-light)">Immediate delivery in-store</span>
+            <h4>Ready in Showroom Today</h4>
+            <span style="font-size:12px; color:var(--gold-dark); font-weight:600;">Immediate in-store delivery</span>
           </div>
           <div class="shelf-grid" id="cust-matches-grid">Loading local inventory...</div>
         </div>
@@ -1592,7 +1564,7 @@ function openCustomizer(sp, initialIdx = 1) {
         <div class="atelier-panel">
           <div class="panel-headline">
             <span>Artisan Parameters</span>
-            <span style="font-size:12px; color:var(--gold-light); text-transform:uppercase;">${esc(s.category)}</span>
+            <span style="font-size:12px; color:var(--gold-dark); text-transform:uppercase; font-weight:700;">${esc(s.category)}</span>
           </div>
 
           <div class="control-row">
@@ -1652,7 +1624,7 @@ function openCustomizer(sp, initialIdx = 1) {
                 <option value="jhumka">Temple Bell Jhumka</option>
                 <option value="stud">Solitaire Stud</option>
                 <option value="drop">Modern Drop</option>
-                <option value="hoop">Pavé Hoop (Bali)</option>
+                <option value="hoop">Pave Hoop (Bali)</option>
               </select>
             </div>
           ` : ''}
@@ -1698,15 +1670,15 @@ function openCustomizer(sp, initialIdx = 1) {
           <!-- Actions Dual Grid -->
           <div class="actions-dual-grid">
             <a class="btn-gold-primary" id="btn-cust-whatsapp" target="_blank" href="#">
-              📲 WhatsApp Karigar
+              WhatsApp Karigar Quote
             </a>
             <button class="btn-outline-glass" id="btn-cust-jobcard">
-              📋 Workshop Job Card
+              Workshop Job Card
             </button>
           </div>
           <div style="margin-top:10px;">
             <button class="btn-gold-primary" id="btn-order-confirm" style="width:100%;">
-              🛍️ Confirm & Queue Bespoke Order
+              Confirm & Queue Bespoke Order
             </button>
           </div>
         </div>
@@ -1748,7 +1720,7 @@ function openCustomizer(sp, initialIdx = 1) {
       if (data.image) {
         const img = $('#cust-main-img');
         if (img) img.src = data.image;
-        toast("Flux AI render completed!");
+        toast("Flux AI render completed.");
       } else if (data.fallback) {
         const img = $('#cust-main-img');
         if (img) img.src = data.fallback;
@@ -1880,17 +1852,17 @@ function updateCustomizer() {
       if (isOver) {
         track.classList.add('over');
         prog.style.width = '100%';
-        $('#meter-text').innerHTML = `<span style="color:#F87171">${inr(p.total - budget)} Over Target Budget</span>`;
+        $('#meter-text').innerHTML = `<span style="color:var(--ruby); font-weight:600;">${inr(p.total - budget)} Over Target Budget</span>`;
       } else {
         track.classList.remove('over');
         prog.style.width = Math.min(100, Math.round((p.total / budget) * 100)) + '%';
-        $('#meter-text').innerHTML = `<span style="color:#34D399">${inr(budget - p.total)} Under Target Budget</span>`;
+        $('#meter-text').innerHTML = `<span style="color:var(--emerald); font-weight:600;">${inr(budget - p.total)} Under Target Budget</span>`;
       }
 
       // Budget Levers
       const leversShelf = $('#levers-shelf');
       if (isOver && data.suggestions && data.suggestions.length) {
-        leversShelf.innerHTML = `<div style="font-size:12px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">💡 AI Budget Adjustments:</div>`;
+        leversShelf.innerHTML = `<div style="font-size:12px; font-weight:700; color:var(--gold-dark); margin-bottom:6px;">Suggested Budget Optimizations:</div>`;
         data.suggestions.slice(0, 3).forEach(sug => {
           const btn = document.createElement('button');
           btn.className = 'lever-card-btn';
@@ -1948,8 +1920,8 @@ async function fetchShowroomMatches(spec, targetSelector) {
       target.innerHTML = `
         <div class="showroom-matches-shelf">
           <div class="shelf-header">
-            <h4>🏬 Ready in Showroom Today (${matches.length} pieces)</h4>
-            <span style="font-size:12px; color:var(--gold-light)">Immediate delivery in-store</span>
+            <h4>Ready in Showroom Today (${matches.length} pieces)</h4>
+            <span style="font-size:12px; color:var(--gold-dark); font-weight:600;">Immediate in-store delivery</span>
           </div>
           <div class="shelf-grid">
             ${matches.map(m => `
@@ -1959,7 +1931,7 @@ async function fetchShowroomMatches(spec, targetSelector) {
                   <span>${m.stock_qty || m.in_stock} in stock</span>
                 </div>
                 <div class="shelf-item-name">${esc(m.title || m.description)}</div>
-                <div style="font-size:11px; color:var(--text-muted);">${esc(m.style)} &bull; ${m.weight_g}g</div>
+                <div style="font-size:11.5px; color:var(--text-muted);">${esc(m.style)} &bull; ${m.weight_g}g</div>
                 <div class="shelf-item-price">${inr(m.price_inr)}</div>
               </div>
             `).join('')}
@@ -2004,18 +1976,18 @@ async function triggerJobCardModal(sp) {
   try {
     const job = await api('/api/artisan/job-card', sp);
     body.innerHTML = `
-      <div style="background:var(--obsidian); border:1px solid var(--border-subtle); border-radius:14px; padding:20px; margin-bottom:16px;">
+      <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:20px; margin-bottom:16px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div>
-            <div style="font-size:11px; color:var(--gold-primary); font-weight:700;">JOB CARD ID</div>
-            <div style="font-weight:700; font-size:20px; color:#fff;">${esc(job.job_id)}</div>
+            <div style="font-size:11px; color:var(--gold-dark); font-weight:700;">JOB CARD ID</div>
+            <div style="font-weight:700; font-size:20px; color:var(--text-primary);">${esc(job.job_id)}</div>
           </div>
           <div style="text-align:right;">
             <div style="font-size:11px; color:var(--text-muted);">BIS HALLMARK</div>
-            <div style="font-weight:700; color:#34D399;">${esc(job.hallmarking_grade || '916 BIS')}</div>
+            <div style="font-weight:700; color:var(--emerald);">${esc(job.hallmarking_grade || '916 BIS')}</div>
           </div>
         </div>
-        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; font-size:13px; border-top:1px solid var(--border-subtle); padding-top:12px;">
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; font-size:13px; border-top:1px solid var(--border-light); padding-top:12px;">
           <div><span style="color:var(--text-muted)">Category:</span> <b>${esc(job.category)}</b></div>
           <div><span style="color:var(--text-muted)">Alloy:</span> <b>${esc(job.metal && job.metal.type ? job.metal.type : sp.metal)}</b></div>
           <div><span style="color:var(--text-muted)">Gross Wt:</span> <b>${job.estimated_gross_weight_g || '-'} g</b></div>
@@ -2024,13 +1996,13 @@ async function triggerJobCardModal(sp) {
           <div><span style="color:var(--text-muted)">Making Target:</span> <b>${inr(job.cost_breakdown ? job.cost_breakdown.making : 5000)}</b></div>
         </div>
       </div>
-      <div style="font-size:13px; line-height:1.6; color:var(--text-ivory); margin-bottom:14px;">
-        <b style="color:var(--gold-light)">Goldsmith Instructions:</b><br>
+      <div style="font-size:13px; line-height:1.6; color:var(--text-secondary); margin-bottom:14px;">
+        <b style="color:var(--text-primary)">Goldsmith Instructions:</b><br>
         ${esc(job.karigar_instructions || 'Standard hand-crafted casting with high mirror polish.')}
       </div>
     `;
   } catch (e) {
-    body.innerHTML = `<div style="color:#F87171">Failed to generate job sheet: ${esc(e.message)}</div>`;
+    body.innerHTML = `<div style="color:var(--ruby)">Failed to generate job sheet: ${esc(e.message)}</div>`;
   }
 }
 
@@ -2043,7 +2015,7 @@ async function registerConfirmedOrder() {
     });
     State.reqId = res.id;
     toast("Order queued for Workshop!");
-    appendChat(`Your bespoke ${(State.cur || State.spec).category} design has been transmitted to our master karigar with Job ID #${res.id}. A WhatsApp confirmation link has been prepared!`, 'bot');
+    appendChat(`Your bespoke ${(State.cur || State.spec).category} design has been transmitted to our master karigar with Job ID #${res.id}. A WhatsApp confirmation link has been prepared.`, 'bot');
   } catch (e) {
     toast("Order error: " + e.message);
   }
@@ -2091,7 +2063,7 @@ async function handleImageFile(file) {
     $('#vision-category').textContent = ana.category + ' (' + (ana.motif || ana.style) + ')';
     $('#vision-details').textContent = `${ana.detected_metal || 'Gold'} &bull; ${ana.stone_setting || 'Prong set'}. Occasion: ${ana.occasion_suggestion || 'Heirloom'}`;
 
-    thinking.textContent = `I detected a ${ana.detected_metal || 'gold'} ${ana.category} with a ${ana.motif || ana.style} motif. Calibrated 3 options for you!`;
+    thinking.textContent = `I detected a ${ana.detected_metal || 'gold'} ${ana.category} with a ${ana.motif || ana.style} motif. Calibrated 3 options for you.`;
 
     State.spec = data.spec;
     setCategoryActive(data.spec.category);
@@ -2100,7 +2072,7 @@ async function handleImageFile(file) {
     State.variants = vRes.variants;
     renderGalleryView();
 
-    toast(`Vision analyzed ${ana.category}!`);
+    toast(`Vision analyzed ${ana.category}`);
   } catch (err) {
     thinking.className = 'chat-msg err';
     thinking.textContent = 'Vision notice: ' + err.message + '. Generating preliminary designs with default parameters.';
@@ -2196,7 +2168,7 @@ function handleStarterSelection(prompt, cat) {
       }
     })
     .catch(e => {
-      const fallbackReply = `Delighted to co-create your bespoke ${cat}! I have calibrated 3 master craftsman variations against today's gold rate.`;
+      const fallbackReply = `Delighted to co-create your bespoke ${cat}. I have calibrated 3 master craftsman variations against today's gold rate.`;
       botMsg.textContent = fallbackReply;
       State.msgs.push({ role: 'assistant', content: fallbackReply });
     });
@@ -2245,7 +2217,7 @@ $('#btn-close-job-modal').onclick = () => $('#job-card-modal').classList.remove(
     $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
   } catch (e) {}
 
-  appendChat("Namaste. Welcome to Jewel-AI Atelier. Describe your special occasion, aesthetic taste, and budget — or select a masterpiece collection below.", 'bot');
+  appendChat("Welcome to Jewel-AI Atelier. Describe your special occasion, aesthetic taste, and target budget — or select a curated masterpiece below.", 'bot');
   renderWelcomeStage();
 })();
 </script>

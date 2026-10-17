@@ -112,3 +112,36 @@ def test_digital_certificate_and_huid():
     r = c.post("/api/certificate/generate", json={"spec": spec.model_dump(), "patron_name": "Rohan Mehta"}).json()
     assert len(r["huid_number"]) == 6
     assert "verification_url" in r
+
+
+def test_vto_ai_portrait_api_and_fallback():
+    spec = DesignSpec(category="necklace", metal="gold_18k", style="choker", stone=Stone(type="none", carat=0, count=0))
+    # Test endpoint
+    payload = {"spec": spec.model_dump(), "skin_tone": "warm olive", "lighting": "studio softbox"}
+    r = c.post("/api/vto/ai-portrait", json=payload).json()
+    assert "image" in r
+    assert r["image"].startswith("data:image/") or r["image"].startswith("http")
+    assert r["source"] in ["flux_neural_synthesis", "curated_editorial_atelier"]
+
+
+def test_vto_ai_portrait_with_uploaded_image():
+    spec = DesignSpec(category="necklace", metal="gold_22k", style="temple floral")
+    fake_b64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+    payload = {
+        "spec": spec.model_dump(),
+        "skin_tone": "deep bronze",
+        "lighting": "golden hour warmth",
+        "user_image_base64": fake_b64,
+        "user_image_mime": "image/png"
+    }
+    r = c.post("/api/vto/ai-portrait", json=payload).json()
+    assert "image" in r
+    assert r["image"].startswith("data:image/") or r["image"].startswith("http")
+    assert r["source"] in [
+        "flux_neural_synthesis_uploaded",
+        "flux_neural_synthesis",
+        "curated_editorial_uploaded_colorimetry",
+        "curated_editorial_atelier"
+    ]
+
+

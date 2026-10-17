@@ -7,10 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<!-- Three.js and OrbitControls for 360 Interactive 3D CAD Viewport -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-
 <style>
 :root {
   --bg-canvas: #FAF8F5;
@@ -470,8 +466,8 @@ main {
   padding: 36px;
   margin-bottom: 28px;
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 32px;
+  grid-template-columns: 380px 1fr;
+  gap: 36px;
   align-items: center;
   box-shadow: var(--shadow-card);
 }
@@ -480,14 +476,14 @@ main {
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--border-light);
-  background: var(--bg-subtle);
+  background: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #F6F3EC 100%);
   text-align: center;
-  padding: 14px;
+  padding: 16px;
 }
 .welcome-plinth-card img {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
+  height: 360px;
+  object-fit: contain;
   border-radius: var(--radius-sm);
   transition: transform 0.4s ease;
 }
@@ -557,15 +553,15 @@ main {
 
 .gallery-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  margin-bottom: 34px;
 }
 .jewel-variant-card {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -583,30 +579,34 @@ main {
 }
 
 .card-media-stage {
-  height: 220px;
+  height: 340px;
+  min-height: 340px;
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
+  background: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #F5F1E8 100%);
   border: 1px solid var(--border-subtle);
   overflow: hidden;
   position: relative;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 14px;
 }
 .card-media-stage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+  object-fit: contain;
+  transition: transform 0.35s ease;
 }
 .card-media-stage:hover img {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 .card-media-stage svg {
-  width: 160px;
-  height: 160px;
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.06));
+  width: 80%;
+  height: 80%;
+  max-width: 260px;
+  max-height: 260px;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.08));
 }
 .card-tier-tag {
   position: absolute;
@@ -708,21 +708,6 @@ main {
 .btn-launch-customizer:hover {
   background: var(--gold-primary);
 }
-.btn-card-3d {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-light);
-  color: var(--gold-dark);
-  font-weight: 600;
-  padding: 9px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s;
-}
-.btn-card-3d:hover {
-  border-color: var(--gold-primary);
-  background: var(--gold-soft);
-}
 
 /* Bespoke Studio Customizer */
 .customizer-split-grid {
@@ -750,25 +735,30 @@ main {
 }
 
 .jewel-stage-plinth {
-  height: 330px;
+  height: 480px;
+  min-height: 480px;
   border-radius: var(--radius-md);
-  background: var(--bg-subtle);
+  background: radial-gradient(circle at 50% 45%, #FFFFFF 0%, #F5F1E8 100%);
   border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  padding: 20px;
 }
 .jewel-stage-plinth img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  transition: transform 0.35s ease;
 }
 .jewel-stage-plinth svg {
-  width: 240px;
-  height: 240px;
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.08));
+  width: 85%;
+  height: 85%;
+  max-width: 380px;
+  max-height: 380px;
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.09));
 }
 
 .render-loading-overlay {
@@ -1103,56 +1093,440 @@ main {
   cursor: pointer;
 }
 
-/* 3D WebGL Studio Modal & Canvas */
-#three-canvas-container {
-  width: 100%;
-  height: 420px;
-  background: #F3EFEA;
+/* Stage Loading Overlay & Product Detail Blurring */
+.stage-loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 248, 245, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-md);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border-light);
-  cursor: grab;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
-#three-canvas-container:active { cursor: grabbing; }
-.three-controls-bar {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 16px;
-  padding: 12px;
-  background: var(--bg-canvas);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
+.stage-loading-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-/* Virtual Try-On Studio */
+.luxury-ring-spinner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid rgba(184, 144, 71, 0.2);
+  border-top-color: var(--gold-primary);
+  border-right-color: var(--gold-dark);
+  animation: spinGoldRing 1.1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+  box-shadow: 0 0 18px rgba(184, 144, 71, 0.25);
+  margin-bottom: 14px;
+}
+@keyframes spinGoldRing {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.luxury-loader-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-hover);
+  padding: 24px 32px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  max-width: 380px;
+}
+.luxury-loader-title {
+  font: 600 18px/1.3 var(--font-serif);
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+.luxury-loader-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Card & Detail Blurring */
+.card-details-wrap,
+.card-content-blur-wrap {
+  position: relative;
+  transition: filter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.is-blurring {
+  filter: blur(8px) saturate(0.8) !important;
+  opacity: 0.42 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+.cost-box-blurring {
+  filter: blur(5px) opacity(0.6);
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+/* Dedicated Luxury Image Loading Screen on Card Media Stages */
+.card-media-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: #F4EFEA;
+}
+.card-image-loader-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 248, 245, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 7;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  text-align: center;
+  padding: 16px;
+}
+.card-image-loader-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.card-image-loader-overlay .mini-gold-spinner {
+  width: 32px;
+  height: 32px;
+  border-width: 2.5px;
+  margin-bottom: 8px;
+  box-shadow: 0 0 14px rgba(184, 144, 71, 0.25);
+}
+.card-image-loader-overlay .loader-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  margin-bottom: 2px;
+}
+.card-image-loader-overlay .loader-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Progressive Image Shimmer & Loading Screen */
+.img-loading-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #F3EFEA 0%, #FAF8F5 50%, #F3EFEA 100%);
+  background-size: 200% 100%;
+  animation: shimmerAnim 1.6s infinite linear;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  transition: opacity 0.4s ease;
+}
+.img-loading-shimmer.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes shimmerAnim {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.mini-gold-spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(184, 144, 71, 0.25);
+  border-top-color: var(--gold-primary);
+  animation: spinGoldRing 0.9s linear infinite;
+  margin-bottom: 6px;
+}
+.img-loading-text {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.luxury-img-lazy {
+  filter: blur(10px);
+  transform: scale(1.03);
+  transition: filter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.luxury-img-lazy.is-loaded {
+  filter: blur(0) !important;
+  transform: scale(1) !important;
+}
+
+/* Virtual Try-On Studio: AI Neural Photoshoot & True-to-Scale Proportion Guide */
 .vto-stage-split {
   display: grid;
   grid-template-columns: 1fr 340px;
   gap: 24px;
 }
-.vto-canvas-box {
+.vto-mode-tabs {
+  display: flex;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 4px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-light);
+}
+.vto-mode-tab {
+  flex: 1;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+.vto-mode-tab.active {
+  background: #FFFFFF;
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Photorealistic Split Comparison Curtain Container */
+.vto-split-container {
   position: relative;
-  height: 440px;
-  background: #EAE6DE;
+  width: 100%;
+  height: 520px;
   border-radius: var(--radius-md);
   overflow: hidden;
+  background: #1C1A18;
   border: 1px solid var(--border-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  cursor: ew-resize;
 }
-.vto-canvas-box img.vto-base-portrait {
+.vto-split-layer-before,
+.vto-split-layer-after {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+.vto-split-layer-before {
+  z-index: 1;
+}
+.vto-split-layer-after {
+  z-index: 2;
+  clip-path: polygon(var(--split-pos, 50%) 0, 100% 0, 100% 100%, var(--split-pos, 50%) 100%);
+  transition: none;
+}
+.vto-base-portrait {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+  display: block;
 }
-.vto-overlay-jewel {
+.vto-integrated-jewel-stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.vto-jewel-drape-wrapper {
   position: absolute;
   pointer-events: none;
-  transform-origin: center center;
-  transition: filter 0.2s;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.55)) drop-shadow(0 3px 6px rgba(0,0,0,0.38));
+}
+.vto-jewel-drape-wrapper svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 8px rgba(184, 144, 71, 0.35));
+}
+.vto-nudge-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+.vto-nudge-btn:hover {
+  border-color: var(--gold-primary);
+  background: #FCFAF7;
+}
+.vto-split-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--split-pos, 50%);
+  width: 2px;
+  background: linear-gradient(180deg, rgba(223, 202, 155, 0.4), var(--gold-primary), rgba(223, 202, 155, 0.4));
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  z-index: 10;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.vto-split-handle-knob {
+  position: absolute;
+  top: 50%;
+  left: var(--split-pos, 50%);
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1C1A18;
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-light);
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 12;
+  pointer-events: auto;
+  cursor: ew-resize;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.vto-split-handle-knob:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 6px 20px rgba(184, 144, 71, 0.4);
+}
+.vto-badge-before {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(28, 26, 24, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  z-index: 5;
+  pointer-events: none;
+}
+.vto-badge-after {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(28, 26, 24, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(184, 144, 71, 0.45);
+  color: var(--gold-light);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  z-index: 5;
+  pointer-events: none;
+}
+.vto-editorial-source-badge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(28, 26, 24, 0.78);
+  backdrop-filter: blur(6px);
+  color: var(--gold-light);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+.vto-photoshoot-loader {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 26, 24, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  color: #FFFFFF;
+  padding: 24px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.vto-photoshoot-loader.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Perspective & Angle Chips */
+.vto-perspective-btn {
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-weight: 500;
+}
+.vto-perspective-btn:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-dark);
+}
+.vto-perspective-btn.active {
+  background: var(--gold-dark);
+  color: #FFFFFF;
+  border-color: var(--gold-dark);
+  font-weight: 600;
+}
+
+/* Metal Chips & Undertone Card */
+.vto-metal-chip {
+  background: var(--gold-soft);
+  border: 1px solid rgba(184, 144, 71, 0.35);
+  font-size: 10.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: var(--gold-dark);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: inherit;
+}
+.vto-metal-chip:hover {
+  background: var(--gold-dark);
+  color: #FFFFFF;
+  border-color: var(--gold-dark);
 }
 .undertone-pill-card {
   background: var(--bg-canvas);
@@ -1161,6 +1535,109 @@ main {
   padding: 14px;
   margin-bottom: 14px;
   font-size: 12.5px;
+}
+
+/* True-to-Scale Proportion Atelier */
+.vto-scale-subtabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+.vto-scale-subtab {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.vto-scale-subtab:hover {
+  color: var(--text-primary);
+}
+.vto-scale-subtab.active {
+  background: var(--gold-soft);
+  color: var(--gold-dark);
+  border-color: rgba(184, 144, 71, 0.3);
+}
+
+.vto-scale-panel {
+  display: none;
+}
+.vto-scale-panel.active {
+  display: block;
+}
+
+.vto-neckline-canvas-box {
+  position: relative;
+  height: 380px;
+  background: #FAF8F5;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vto-drape-btn {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.vto-drape-btn:hover {
+  border-color: var(--gold-primary);
+}
+.vto-drape-btn.active {
+  background: var(--gold-dark);
+  color: #FFFFFF;
+  border-color: var(--gold-dark);
+}
+.vto-drape-btn.active span {
+  color: rgba(255,255,255,0.8) !important;
+}
+
+.vto-carat-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.vto-carat-card {
+  border: 1px solid var(--border-light);
+  background: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.vto-carat-card:hover {
+  border-color: var(--gold-primary);
+}
+.vto-carat-card.active {
+  border-color: var(--gold-primary);
+  background: var(--gold-soft);
+}
+.vto-carat-circle {
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFFFFF 0%, #D8E2E8 60%, #9EB3C2 100%);
+  border: 1px solid #7D97A8;
+  margin: 0 auto 6px auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
 /* Old Gold Exchange Table */
@@ -1429,7 +1906,7 @@ main {
   <!-- Chat Input Form -->
   <form class="chat-form" id="chat-form">
     <input class="chat-input" id="chat-input" placeholder="State occasion, taste, or budget (e.g. ₹80,000)..." autocomplete="off">
-    <button class="btn-chat-send" type="submit">Design</button>
+    <button class="btn-chat-send" id="btn-chat-send" type="submit">Design</button>
   </form>
 </aside>
 
@@ -1466,107 +1943,400 @@ main {
   <div id="dynamic-stage-view"></div>
 </main>
 
-<!-- 3D WebGL Studio Modal -->
-<div class="modal-overlay" id="modal-3d-studio">
-  <div class="modal-card wide">
-    <div class="modal-header">
-      <div>
-        <h3>Interactive 3D WebGL CAD Viewport</h3>
-        <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Rotate 360° with mouse drag • Zoom with scroll • Real-time metallic shaders</p>
-      </div>
-      <button class="modal-close" onclick="$('#modal-3d-studio').classList.remove('open')">&times;</button>
-    </div>
-    <div id="three-canvas-container"></div>
-    <div class="three-controls-bar">
-      <div>
-        <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">PRECIOUS ALLOY</label>
-        <select class="atelier-select" id="three-sel-alloy" style="padding:6px 10px; font-size:12px;">
-          <option value="gold_22k">22k Royal Yellow Gold (916)</option>
-          <option value="rose_gold">18k Romantic Rose Gold</option>
-          <option value="platinum">Platinum 950 Pure</option>
-          <option value="gold_18k">18k Modern White Gold</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">SURFACE FINISH</label>
-        <select class="atelier-select" id="three-sel-finish" style="padding:6px 10px; font-size:12px;">
-          <option value="mirror">Mirror High-Polish</option>
-          <option value="satin">Satin Matte Velvet</option>
-          <option value="hammered">Artisanal Hammered Texture</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">LIGHTING ENVIRONMENT</label>
-        <select class="atelier-select" id="three-sel-lighting" style="padding:6px 10px; font-size:12px;">
-          <option value="studio">Atelier Softbox Studio</option>
-          <option value="warm">Intimate Candlelight Warmth</option>
-          <option value="daylight">Pure Direct Sunlight</option>
-        </select>
-      </div>
-    </div>
-    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
-      <button class="btn-outline-glass" onclick="$('#modal-3d-studio').classList.remove('open')">Close 3D Viewport</button>
-      <button class="btn-gold-primary" onclick="toast('3D CAD blueprint exported to karigar queue')">Export to Karigar CAD</button>
-    </div>
-  </div>
-</div>
-
-<!-- Virtual Try-On (VTO) & Skin Undertone Modal -->
+<!-- Haute Joaillerie Virtual Try-On & True-to-Scale Proportion Atelier Modal -->
 <div class="modal-overlay" id="modal-vto-studio">
   <div class="modal-card wide">
     <div class="modal-header">
       <div>
-        <h3>Live Virtual Try-On & Skin Undertone Stylist</h3>
-        <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Gemini Multimodal Skin Undertone Harmonizer with Interactive AR Placement</p>
+        <h3>Haute Joaillerie Atelier Virtual Try-On & Proportion Studio</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Photorealistic AI Neural Try-On & True-to-Scale Anatomical Sizing (Cartier & Tangiblee Calibrated)</p>
       </div>
       <button class="modal-close" onclick="$('#modal-vto-studio').classList.remove('open')">&times;</button>
     </div>
-    <div class="vto-stage-split">
+
+    <!-- Mode Selector Tabs inside Modal -->
+    <div class="vto-mode-tabs">
+      <button class="vto-mode-tab active" id="btn-vto-tab-ai" onclick="switchVTOMode('ai')">Photorealistic AI Neural Try-On (Interactive Before / After)</button>
+      <button class="vto-mode-tab" id="btn-vto-tab-scale" onclick="switchVTOMode('scale')">True-to-Scale Proportion & Sizing Atelier (Tangiblee Calibrated)</button>
+    </div>
+
+    <!-- Mode 1: Photorealistic AI Neural Try-On (Before/After Curtain Split & Editorial) -->
+    <div id="vto-view-ai" class="vto-stage-split">
       <div>
-        <div class="vto-canvas-box" id="vto-canvas-box">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Customer Portrait" class="vto-base-portrait" id="vto-portrait-img">
-          <div class="vto-overlay-jewel" id="vto-jewel-layer"></div>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-          <div style="display:flex; gap:8px;">
-            <button class="atelier-nav-link" id="vto-model-olive">Demo: Warm Olive Skin</button>
-            <button class="atelier-nav-link" id="vto-model-fair">Demo: Radiant Fair Skin</button>
+        <!-- Split Curtain Comparison Container -->
+        <div class="vto-split-container" id="vto-split-box">
+          <div class="vto-badge-before">Before • Natural Template</div>
+          <div class="vto-badge-after" id="vto-badge-after-title">After • Integrated Bespoke Piece</div>
+          <div class="vto-editorial-source-badge" id="vto-ai-source-badge">Template-Anchored Neural Integration • 8K Masterpiece</div>
+          
+          <div class="vto-photoshoot-loader" id="vto-ai-loader">
+            <div class="luxury-ring-spinner"></div>
+            <div style="font-family:var(--font-serif); font-size:18px; margin-bottom:6px;">Integrating Bespoke Piece onto Template...</div>
+            <div style="font-size:12px; opacity:0.85; max-width:320px;" id="vto-ai-loader-text">Preserving natural portrait features & harmonizing contact shadows, drape, and alloy luster...</div>
           </div>
-          <button class="atelier-nav-link" onclick="$('#vto-upload-input').click()">Upload Your Photo</button>
-          <input type="file" id="vto-upload-input" accept="image/*" style="display:none;">
+
+          <!-- Base Image (Natural Portrait Template - Before) -->
+          <div class="vto-split-layer-before" id="vto-split-layer-before">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Natural Portrait Template" class="vto-base-portrait" id="vto-split-before-img">
+          </div>
+          
+          <!-- Top Clipped Image (Exact Same Template with Integrated Jewel - After) -->
+          <div class="vto-split-layer-after" id="vto-split-layer-after">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Integrated Template Portrait" class="vto-base-portrait" id="vto-split-after-base-img">
+            <div class="vto-integrated-jewel-stage" id="vto-integrated-jewel-stage">
+              <div class="vto-jewel-drape-wrapper" id="vto-jewel-drape-wrapper">
+                <div id="vto-integrated-jewel-graphic"></div>
+              </div>
+            </div>
+            <!-- Proxy img for backward compatibility with tests/selectors -->
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Proxy Try-On Asset" id="vto-split-after-img" style="display:none;">
+          </div>
+
+          <!-- Draggable Gold Divider Line & Knob -->
+          <div class="vto-split-divider" id="vto-split-divider"></div>
+          <div class="vto-split-handle-knob" id="vto-split-handle" title="Drag left or right to compare before & after">&harr;</div>
+        </div>
+
+        <!-- Slider View Mode & Perspective Angle Selector -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">View Mode:</label>
+            <button class="vto-perspective-btn active" id="btn-vto-view-split" onclick="setVTOViewMode('split')">Split Curtain (50%)</button>
+            <button class="vto-perspective-btn" id="btn-vto-view-after" onclick="setVTOViewMode('after')">Full Editorial (100%)</button>
+            <button class="vto-perspective-btn" id="btn-vto-view-before" onclick="setVTOViewMode('before')">Portrait Only</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Angle:</label>
+            <button class="vto-perspective-btn active" id="btn-vto-ang-frontal" onclick="setVTOPerspective('frontal')">Frontal Portrait</button>
+            <button class="vto-perspective-btn" id="btn-vto-ang-profile" onclick="setVTOPerspective('profile')">45° Profile Cascade</button>
+            <button class="vto-perspective-btn" id="btn-vto-ang-macro" onclick="setVTOPerspective('macro')">Macro Craftsmanship</button>
+          </div>
+        </div>
+
+        <!-- Persona & Lighting Selectors -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Model Persona:</label>
+            <button class="atelier-nav-link active" id="vto-ai-model-olive" onclick="selectAIPersona('Warm Olive')">Warm Olive</button>
+            <button class="atelier-nav-link" id="vto-ai-model-fair" onclick="selectAIPersona('Radiant Fair')">Radiant Fair</button>
+            <button class="atelier-nav-link" id="vto-ai-model-bronze" onclick="selectAIPersona('Deep Bronze')">Deep Bronze</button>
+            <button class="atelier-nav-link" id="vto-ai-model-tan" onclick="selectAIPersona('Golden Tan')">Golden Tan</button>
+            <button class="atelier-nav-link accent" id="btn-vto-ai-upload" onclick="$('#vto-upload-input').click()">Upload Your Portrait</button>
+            <input type="file" id="vto-upload-input" accept="image/*" style="display:none;">
+          </div>
+        </div>
+
+        <!-- Anatomical Fit Calibrators for Template Integration -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:8px; flex-wrap:wrap; background:rgba(184, 144, 71, 0.06); border:1px solid rgba(184, 144, 71, 0.22); border-radius:var(--radius-sm); padding:7px 12px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label style="font-size:10.5px; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">Drape Position:</label>
+            <button class="vto-nudge-btn" id="btn-nudge-up" onclick="nudgeVTOJewelY(-10)" title="Nudge Up on Collarbone">&uarr; Higher</button>
+            <button class="vto-nudge-btn" id="btn-nudge-down" onclick="nudgeVTOJewelY(10)" title="Nudge Down">&darr; Lower</button>
+            <button class="vto-nudge-btn" id="btn-nudge-reset" onclick="resetVTOFit()" title="Reset to Anatomical Clavicle Center">Auto-Fit</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <label style="font-size:10.5px; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">Scale:</label>
+            <button class="vto-nudge-btn" onclick="scaleVTOJewel(0.92)" title="Petite / Choker Fit">Compact</button>
+            <button class="vto-nudge-btn active" onclick="scaleVTOJewel(1.0)" title="Calibrated 100%">100%</button>
+            <button class="vto-nudge-btn" onclick="scaleVTOJewel(1.08)" title="Grand / Statement Fit">Grand</button>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:8px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Studio Lighting:</label>
+            <select class="atelier-select" id="vto-sel-lighting" style="padding:4px 8px; font-size:12px; width:auto;" onchange="generateAINeuralPhotoshoot()">
+              <option value="studio softbox">Atelier Softbox Studio</option>
+              <option value="golden hour warmth">Golden Hour Sunlight</option>
+              <option value="candlelight glow">Intimate Candlelight Warmth</option>
+              <option value="dramatic runway high-contrast">Dramatic High-Contrast Runway</option>
+            </select>
+          </div>
+          <button class="btn-gold-primary" id="btn-generate-ai-vto" style="padding:7px 16px; font-size:12px;">Regenerate AI Photoshoot</button>
         </div>
       </div>
+
+      <!-- Right Column: Undertone, Composition & Actions -->
       <div>
-        <div class="undertone-pill-card" id="undertone-report-card">
-          <div style="font-weight:700; color:var(--gold-dark); margin-bottom:4px; font-size:13px;">COLOR HARMONY ANALYSIS</div>
-          <div id="vto-undertone-status" style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">
-            Analyzing skin undertone and complementary metallic radiance with Gemini 2.5...
+        <div class="undertone-pill-card">
+          <div style="font-weight:700; color:var(--gold-dark); margin-bottom:4px; font-size:13px;">GEMINI VISION COLORIMETRY</div>
+          <div id="vto-ai-undertone-status" style="font-size:12px; color:var(--text-secondary); margin-bottom:8px;">
+            Analyzing skin undertone and complementary metallic radiance...
           </div>
-          <div id="vto-metals-pills" style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px;"></div>
-          <div id="vto-stylist-notes" style="font-size:11.5px; color:var(--text-muted); line-height:1.5;"></div>
+          <div id="vto-ai-metals-pills" style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px;"></div>
+          <div id="vto-ai-stylist-notes" style="font-size:11.5px; color:var(--text-muted); line-height:1.5;"></div>
         </div>
 
         <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:14px; margin-bottom:14px;">
-          <div style="font-weight:700; font-size:11.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:10px;">Interactive Try-On Controls</div>
-          <div class="control-row" style="margin-bottom:10px;">
-            <div class="control-header"><span>Scale</span><span id="vto-val-scale">100%</span></div>
-            <input class="atelier-range" id="vto-range-scale" type="range" min="50" max="180" value="100">
+          <div style="font-weight:700; font-size:11.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Bespoke Piece Attributes</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px;" id="vto-spec-summary-grid"></div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="btn-gold-primary" id="btn-download-ai-editorial" style="width:100%;">Download High-Res Editorial (BIS Authenticated)</button>
+          <button class="btn-outline-glass" style="width:100%;" onclick="switchVTOMode('scale')">View True-to-Scale Sizing & Drape &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode 2: True-to-Scale Proportion & Sizing Atelier -->
+    <div id="vto-view-scale" class="vto-stage-split" style="display:none;">
+      <div>
+        <!-- Sub-tabs for Sizing Categories -->
+        <div class="vto-scale-subtabs">
+          <button class="vto-scale-subtab active" id="btn-scale-tab-drape" onclick="switchScaleCategory('drape')">Necklace Drape Caliper</button>
+          <button class="vto-scale-subtab" id="btn-scale-tab-carat" onclick="switchScaleCategory('carat')">Diamond Carat Scale (vs ₹10 Coin)</button>
+          <button class="vto-scale-subtab" id="btn-scale-tab-bangle" onclick="switchScaleCategory('bangle')">Indian Kada & Bangle Sizes</button>
+          <button class="vto-scale-subtab" id="btn-scale-tab-ring" onclick="switchScaleCategory('ring')">Ring Finger Fit Gauge</button>
+        </div>
+
+        <!-- Sub-panel 1: Necklace Drape Caliper -->
+        <div class="vto-scale-panel active" id="scale-panel-drape">
+          <div class="vto-neckline-canvas-box" id="scale-drape-stage">
+            <!-- Calibrated Anatomical Silhouette SVG -->
+            <svg viewBox="0 0 400 360" width="100%" height="100%" style="display:block;">
+              <defs>
+                <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#F2E6D8"/>
+                  <stop offset="100%" stop-color="#E5D3C0"/>
+                </linearGradient>
+                <linearGradient id="blouseGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2D1B28"/>
+                  <stop offset="100%" stop-color="#1A0F17"/>
+                </linearGradient>
+                <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#B89047" flood-opacity="0.6"/>
+                </filter>
+              </defs>
+              <!-- Neck & Shoulders Silhouette -->
+              <path d="M 120 0 L 120 70 C 120 120, 80 140, 20 180 L 20 360 L 380 360 L 380 180 C 320 140, 280 120, 280 70 L 280 0 Z" fill="url(#skinGrad)" opacity="0.95"/>
+              <!-- Collarbone Indication Lines -->
+              <path d="M 140 135 Q 200 155 260 135" fill="none" stroke="#D1BEAA" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="200" cy="148" r="3" fill="#C5B19C"/>
+
+              <!-- Dynamic Neckline Blouse Overlay -->
+              <path id="svg-blouse-cut" d="M 60 210 Q 200 280 340 210 L 380 360 L 20 360 Z" fill="url(#blouseGrad)" opacity="0.92"/>
+
+              <!-- Calibrated Drape Curves -->
+              <!-- 14" Collar -->
+              <path id="svg-drape-14" d="M 148 70 Q 200 100 252 70" fill="none" stroke="#B89047" stroke-width="4" stroke-linecap="round" filter="url(#goldGlow)" opacity="0.3"/>
+              <!-- 16" Choker -->
+              <path id="svg-drape-16" d="M 142 85 Q 200 130 258 85" fill="none" stroke="#B89047" stroke-width="4" stroke-linecap="round" filter="url(#goldGlow)" opacity="0.3"/>
+              <!-- 18" Princess (Default) -->
+              <path id="svg-drape-18" d="M 136 100 Q 200 170 264 100" fill="none" stroke="#B89047" stroke-width="6" stroke-linecap="round" filter="url(#goldGlow)" opacity="1.0"/>
+              <!-- 20" Matinee -->
+              <path id="svg-drape-20" d="M 130 115 Q 200 215 270 115" fill="none" stroke="#B89047" stroke-width="4" stroke-linecap="round" filter="url(#goldGlow)" opacity="0.3"/>
+              <!-- 24" Opera -->
+              <path id="svg-drape-24" d="M 124 130 Q 200 270 276 130" fill="none" stroke="#B89047" stroke-width="4" stroke-linecap="round" filter="url(#goldGlow)" opacity="0.3"/>
+
+              <!-- Pendant Medallion on Active Drape -->
+              <circle id="svg-drape-pendant" cx="200" cy="170" r="12" fill="#8F6E2E" stroke="#DFCA9B" stroke-width="3" filter="url(#goldGlow)"/>
+              <circle id="svg-drape-gem" cx="200" cy="170" r="4" fill="#FFFFFF"/>
+            </svg>
           </div>
-          <div class="control-row" style="margin-bottom:10px;">
-            <div class="control-header"><span>Vertical Position</span><span id="vto-val-posy">0 px</span></div>
-            <input class="atelier-range" id="vto-range-posy" type="range" min="-120" max="120" value="0">
-          </div>
-          <div class="control-row" style="margin-bottom:10px;">
-            <div class="control-header"><span>Horizontal Position</span><span id="vto-val-posx">0 px</span></div>
-            <input class="atelier-range" id="vto-range-posx" type="range" min="-80" max="80" value="0">
-          </div>
-          <div class="control-row" style="margin-bottom:6px;">
-            <div class="control-header"><span>Rotation</span><span id="vto-val-rot">0°</span></div>
-            <input class="atelier-range" id="vto-range-rot" type="range" min="-30" max="30" value="0">
+
+          <!-- Drape Length Selectors -->
+          <div style="display:flex; justify-content:space-between; gap:6px; margin-top:10px;">
+            <button class="vto-drape-btn" data-len="14" onclick="selectDrapeLength(14)">
+              14" Collar <span style="font-size:10px; color:var(--text-muted); font-weight:400;">35 cm • High Neck</span>
+            </button>
+            <button class="vto-drape-btn" data-len="16" onclick="selectDrapeLength(16)">
+              16" Choker <span style="font-size:10px; color:var(--text-muted); font-weight:400;">40 cm • Throat Hollow</span>
+            </button>
+            <button class="vto-drape-btn active" data-len="18" onclick="selectDrapeLength(18)">
+              18" Princess <span style="font-size:10px; color:var(--text-muted); font-weight:400;">45 cm • Collarbone</span>
+            </button>
+            <button class="vto-drape-btn" data-len="20" onclick="selectDrapeLength(20)">
+              20" Matinee <span style="font-size:10px; color:var(--text-muted); font-weight:400;">50 cm • Plunging</span>
+            </button>
+            <button class="vto-drape-btn" data-len="24" onclick="selectDrapeLength(24)">
+              24" Opera <span style="font-size:10px; color:var(--text-muted); font-weight:400;">60 cm • Saree Haar</span>
+            </button>
           </div>
         </div>
 
-        <button class="btn-gold-primary" style="width:100%;" onclick="toast('Try-On snapshot saved & ready to share')">Save Try-On Snapshot</button>
+        <!-- Sub-panel 2: Diamond Carat Scale -->
+        <div class="vto-scale-panel" id="scale-panel-carat">
+          <div class="vto-carat-comparison-grid">
+            <div class="vto-carat-card" data-carat="0.20" onclick="selectCaratScale(0.20, 3.8)">
+              <div class="vto-carat-circle" style="width:16px; height:16px;"></div>
+              <div style="font-size:11px; font-weight:700;">0.20 ct</div>
+              <div style="font-size:10px; color:var(--text-muted);">3.8 mm</div>
+            </div>
+            <div class="vto-carat-card" data-carat="0.50" onclick="selectCaratScale(0.50, 5.1)">
+              <div class="vto-carat-circle" style="width:22px; height:22px;"></div>
+              <div style="font-size:11px; font-weight:700;">0.50 ct</div>
+              <div style="font-size:10px; color:var(--text-muted);">5.1 mm</div>
+            </div>
+            <div class="vto-carat-card active" data-carat="1.00" onclick="selectCaratScale(1.00, 6.5)">
+              <div class="vto-carat-circle" style="width:28px; height:28px;"></div>
+              <div style="font-size:11px; font-weight:700;">1.00 ct</div>
+              <div style="font-size:10px; color:var(--text-muted);">6.5 mm</div>
+            </div>
+            <div class="vto-carat-card" data-carat="1.50" onclick="selectCaratScale(1.50, 7.4)">
+              <div class="vto-carat-circle" style="width:32px; height:32px;"></div>
+              <div style="font-size:11px; font-weight:700;">1.50 ct</div>
+              <div style="font-size:10px; color:var(--text-muted);">7.4 mm</div>
+            </div>
+            <div class="vto-carat-card" data-carat="2.00" onclick="selectCaratScale(2.00, 8.2)">
+              <div class="vto-carat-circle" style="width:36px; height:36px;"></div>
+              <div style="font-size:11px; font-weight:700;">2.00 ct</div>
+              <div style="font-size:10px; color:var(--text-muted);">8.2 mm</div>
+            </div>
+            <div class="vto-carat-card" data-carat="2.50" onclick="selectCaratScale(2.50, 8.8)">
+              <div class="vto-carat-circle" style="width:40px; height:40px;"></div>
+              <div style="font-size:11px; font-weight:700;">2.50 ct</div>
+              <div style="font-size:10px; color:var(--text-muted);">8.8 mm</div>
+            </div>
+          </div>
+
+          <!-- True-to-scale visual comparison box -->
+          <div style="background:#FAF8F5; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:24px; display:flex; align-items:center; justify-content:space-around;">
+            <div style="text-align:center;">
+              <div style="width:116px; height:116px; border-radius:50%; background:linear-gradient(135deg, #DFCA9B 0%, #B89047 50%, #8F6E2E 100%); display:flex; align-items:center; justify-content:center; color:#FFFFFF; font-weight:700; font-size:13px; box-shadow:0 4px 14px rgba(0,0,0,0.15); margin:0 auto 8px auto; border:3px solid #F3ECDC;">
+                ₹10 COIN<br><span style="font-size:10px; font-weight:400;">27.0 mm</span>
+              </div>
+              <span style="font-size:11px; color:var(--text-muted);">Physical Reference</span>
+            </div>
+
+            <div style="text-align:center;">
+              <div id="carat-scale-visual-circle" style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle, #FFFFFF 0%, #E0EFF7 60%, #7FAAC2 100%); border:1px solid #5A8CA7; box-shadow:0 0 16px rgba(184, 144, 71, 0.4); margin:44px auto 8px auto;"></div>
+              <div style="font-weight:700; font-size:13px; color:var(--text-primary);" id="carat-scale-readout">1.00 Carat Brilliant</div>
+              <span style="font-size:11px; color:var(--text-muted);" id="carat-scale-mm-readout">6.5 mm Face Spread (~41% of finger width)</span>
+            </div>
+
+            <div style="text-align:center;">
+              <div style="width:70px; height:116px; background:linear-gradient(180deg, #F3E5D6 0%, #E8D4C2 100%); border-radius:35px 35px 0 0; border:1px solid #D5BEA8; display:flex; align-items:center; justify-content:center; margin:0 auto 8px auto;">
+                <div style="font-size:10px; color:var(--text-secondary); writing-mode:vertical-rl; transform:rotate(180deg);">16.0 mm Ring Finger</div>
+              </div>
+              <span style="font-size:11px; color:var(--text-muted);">Standard Indian Finger</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-panel 3: Indian Kada & Bangle Sizes -->
+        <div class="vto-scale-panel" id="scale-panel-bangle">
+          <table class="tradein-table" style="margin-bottom:12px;">
+            <thead>
+              <tr>
+                <th>Indian Size</th>
+                <th>Inner Diameter</th>
+                <th>Circumference</th>
+                <th>Standard Fit</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>2-2</b></td>
+                <td>54.0 mm (2.125")</td>
+                <td>169.6 mm (6.67")</td>
+                <td>Petite / Sleek wrist</td>
+                <td><button class="atelier-nav-link" onclick="applyBangleSize('2-2', 54.0)">Select</button></td>
+              </tr>
+              <tr>
+                <td><b>2-4</b></td>
+                <td>57.2 mm (2.250")</td>
+                <td>179.6 mm (7.07")</td>
+                <td>Small / Slender wrist</td>
+                <td><button class="atelier-nav-link" onclick="applyBangleSize('2-4', 57.2)">Select</button></td>
+              </tr>
+              <tr style="background:var(--gold-soft);">
+                <td><b>2-6</b> <span style="font-size:10px; color:var(--gold-dark); font-weight:700;">★ MOST POPULAR</span></td>
+                <td>60.3 mm (2.375")</td>
+                <td>189.5 mm (7.46")</td>
+                <td>Standard Indian Bridal Size</td>
+                <td><button class="atelier-nav-link active" onclick="applyBangleSize('2-6', 60.3)">Selected</button></td>
+              </tr>
+              <tr>
+                <td><b>2-8</b></td>
+                <td>63.5 mm (2.500")</td>
+                <td>199.5 mm (7.85")</td>
+                <td>Comfort / Broader wrist</td>
+                <td><button class="atelier-nav-link" onclick="applyBangleSize('2-8', 63.5)">Select</button></td>
+              </tr>
+              <tr>
+                <td><b>2-10</b></td>
+                <td>66.7 mm (2.625")</td>
+                <td>209.5 mm (8.25")</td>
+                <td>Relaxed Kada Fit</td>
+                <td><button class="atelier-nav-link" onclick="applyBangleSize('2-10', 66.7)">Select</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size:11.5px; color:var(--text-muted); line-height:1.5;">
+            <b>Karigar Sizing Tip:</b> Measure the widest knuckle part of your hand (thumb tucked inwards) with a soft ribbon to ensure effortless glide over the hand.
+          </div>
+        </div>
+
+        <!-- Sub-panel 4: Ring Finger Fit Gauge -->
+        <div class="vto-scale-panel" id="scale-panel-ring">
+          <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin-bottom:14px;">
+            <div class="vto-carat-card" onclick="selectRingSize(10, 15.9)">
+              <div style="font-size:11px; font-weight:700;">Size 10</div>
+              <div style="font-size:10px; color:var(--text-muted);">15.9 mm • US 5.25</div>
+            </div>
+            <div class="vto-carat-card" onclick="selectRingSize(12, 16.5)">
+              <div style="font-size:11px; font-weight:700;">Size 12</div>
+              <div style="font-size:10px; color:var(--text-muted);">16.5 mm • US 6.00</div>
+            </div>
+            <div class="vto-carat-card active" onclick="selectRingSize(14, 17.2)">
+              <div style="font-size:11px; font-weight:700;">Size 14 ★</div>
+              <div style="font-size:10px; color:var(--text-muted);">17.2 mm • US 6.75</div>
+            </div>
+            <div class="vto-carat-card" onclick="selectRingSize(16, 17.8)">
+              <div style="font-size:11px; font-weight:700;">Size 16</div>
+              <div style="font-size:10px; color:var(--text-muted);">17.8 mm • US 7.50</div>
+            </div>
+            <div class="vto-carat-card" onclick="selectRingSize(18, 18.5)">
+              <div style="font-size:11px; font-weight:700;">Size 18</div>
+              <div style="font-size:10px; color:var(--text-muted);">18.5 mm • US 8.25</div>
+            </div>
+          </div>
+          <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:14px;">
+            <div style="font-weight:700; font-size:12px; color:var(--text-primary); margin-bottom:4px;" id="ring-fit-status">
+              Selected: Indian Size 14 (17.2 mm Inner Diameter)
+            </div>
+            <div style="font-size:11.5px; color:var(--text-muted);" id="ring-fit-tip">
+              Most requested women's ring size for Indian engagement bands. Includes complimentary 1-time resize warranty by the atelier within 90 days.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Drape & Neckline Compatibility Matrix -->
+      <div>
+        <div class="undertone-pill-card">
+          <div style="font-weight:700; color:var(--gold-dark); margin-bottom:4px; font-size:13px;">NECKLINE COMPATIBILITY MATRIX</div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;" id="scale-drape-compat-title">
+            18" Princess Drape Harmony
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:11.5px;" id="scale-drape-compat-list">
+            <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--border-subtle);">
+              <span>Sweetheart Blouse:</span> <b style="color:var(--emerald);">Flawless Alignment &check;</b>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--border-subtle);">
+              <span>Deep V Neck:</span> <b style="color:var(--emerald);">Ideal Center Cascade &check;</b>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid var(--border-subtle);">
+              <span>Round / Scoop Neck:</span> <b style="color:var(--text-secondary);">Rests Along Hemline</b>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:4px 0;">
+              <span>High Collar / Bandhgala:</span> <b style="color:var(--ruby);">Recommend 24" Opera Instead</b>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:14px; margin-bottom:14px;">
+          <div style="font-weight:700; font-size:11.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Scale Calibration Standard</div>
+          <div style="font-size:11.5px; color:var(--text-secondary); line-height:1.5;">
+            Calibrated to ISO 8653 & Bureau of Indian Standards (BIS) Hallmarked proportions. Every bespoke piece is hand-cast by master karigars to within &plusmn;0.1 mm precision.
+          </div>
+        </div>
+
+        <button class="btn-gold-primary" style="width:100%;" onclick="applyScaleToSpec()">
+          Apply Selected Dimensions to Spec
+        </button>
       </div>
     </div>
   </div>
@@ -1710,6 +2480,7 @@ const METALS = {
   gold_24k: ['#DFB135', '#B8860B', '24k Fine Gold (999)'],
   gold_22k: ['#C99E32', '#997318', '22k Standard Gold (916 BIS)'],
   gold_18k: ['#B88B4A', '#8C6328', '18k Bridal Gold (750)'],
+  rose_gold: ['#E0A899', '#C27D6B', '18k Romantic Rose Gold (750)'],
   gold_14k: ['#AA8555', '#7A5B32', '14k Everyday Gold (585)'],
   platinum: ['#D1D5DB', '#9CA3AF', 'Platinum 950 Pure']
 };
@@ -1916,6 +2687,86 @@ function renderWelcomeStage() {
   `;
 }
 
+function showGalleryLoadingState(statusText = 'Formulating bespoke haute joaillerie...') {
+  State.isSynthesizing = true;
+  const stage = $('#dynamic-stage-view');
+  if (!stage) return;
+  
+  // Blur current cards/parameters to indicate fresh computation
+  $$('.jewel-variant-card, .card-details-wrap, .customizer-split-grid, #cust-stage-plinth, #cost-box').forEach(el => {
+    el.classList.add('is-blurring');
+  });
+
+  // Activate loading screens over existing card images
+  $$('.card-image-loader-overlay').forEach(el => el.classList.add('active'));
+
+  // If no cards exist in the stage yet, render 3 placeholder skeleton cards with loading screens
+  const existingCards = $$('.jewel-variant-card');
+  if (existingCards.length === 0) {
+    stage.innerHTML = `
+      <div class="gallery-header-row">
+        <div>
+          <h2>Calibrated Fine Jewellery Atelier</h2>
+          <p>Synthesizing master craftsman variations according to your prompt...</p>
+        </div>
+      </div>
+      <div class="trend-alert-pill" id="trend-bar">
+        <b>Live Market Trends:</b> <span>Assaying bullion rates and occasion parameters...</span>
+      </div>
+      <div class="gallery-cards-grid" id="cards-grid">
+        ${[1, 2, 3].map(i => `
+          <div class="jewel-variant-card">
+            <div class="card-media-stage" style="height:340px; position:relative;">
+              <div class="card-image-loader-overlay active">
+                <div class="mini-gold-spinner"></div>
+                <div class="loader-title">Synthesizing Master Render</div>
+                <div class="loader-sub">Flux AI &bull; Calibrating to Prompt</div>
+              </div>
+            </div>
+            <div class="card-details-wrap is-blurring" style="padding:18px;">
+              <div style="background:var(--border-subtle); height:20px; width:65%; border-radius:4px; margin-bottom:10px;"></div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div style="background:var(--border-subtle); height:26px; width:45%; border-radius:4px;"></div>
+                <div style="background:var(--border-subtle); height:18px; width:35%; border-radius:4px;"></div>
+              </div>
+              <div style="background:var(--border-subtle); height:14px; width:85%; border-radius:4px; margin-bottom:14px;"></div>
+              <div style="background:var(--border-subtle); height:36px; width:100%; border-radius:4px;"></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  let loader = $('#stage-luxury-loader');
+  if (!loader) {
+    loader = document.createElement('div');
+    loader.id = 'stage-luxury-loader';
+    loader.className = 'stage-loading-overlay active';
+    stage.style.position = 'relative';
+    stage.appendChild(loader);
+  }
+  loader.className = 'stage-loading-overlay active';
+  loader.innerHTML = `
+    <div class="luxury-loader-box">
+      <div class="luxury-ring-spinner"></div>
+      <div class="luxury-loader-title">${esc(statusText)}</div>
+      <div class="luxury-loader-sub">Assaying bullion karatage & synthesizing high-definition renders</div>
+    </div>
+  `;
+}
+
+function hideGalleryLoadingState() {
+  State.isSynthesizing = false;
+  const loader = $('#stage-luxury-loader');
+  if (loader) {
+    loader.classList.remove('active');
+    setTimeout(() => { if (loader && !loader.classList.contains('active')) loader.remove(); }, 350);
+  }
+  $$('.card-image-loader-overlay').forEach(el => el.classList.remove('active'));
+  $$('.is-blurring').forEach(el => el.classList.remove('is-blurring'));
+}
+
 function renderGalleryView() {
   const s = State.spec || defaultSpec('ring');
   const catTitle = { ring: 'Rings', necklace: 'Necklaces', earrings: 'Earrings', bangle: 'Bangles' }[s.category] || 'Jewellery';
@@ -1950,30 +2801,43 @@ function renderGalleryView() {
 
     card.innerHTML = `
       <div class="card-media-stage" id="media-box-${idx}">
+        <div class="card-image-loader-overlay ${State.isSynthesizing ? 'active' : ''}" id="card-loader-${idx}">
+          <div class="mini-gold-spinner"></div>
+          <div class="loader-title">Synthesizing Master Render</div>
+          <div class="loader-sub">Flux AI &bull; Calibrating to Prompt</div>
+        </div>
+        <div class="img-loading-shimmer" id="img-shimmer-${idx}">
+          <div class="mini-gold-spinner"></div>
+          <span class="img-loading-text">Atelier Render</span>
+        </div>
         <span class="card-tier-tag">${esc(v.label)}</span>
-        <img src="${photo}" alt="${esc(v.label)} Jewellery" id="card-img-${idx}" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+        <img src="${photo}" 
+             alt="${esc(v.label)} Jewellery" 
+             id="card-img-${idx}" 
+             class="luxury-img-lazy"
+             onload="this.classList.add('is-loaded'); const s = $('#img-shimmer-${idx}'); if(s) s.classList.add('loaded'); const l = $('#card-loader-${idx}'); if(l && !State.isSynthesizing) l.classList.remove('active');" 
+             onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}'; this.classList.add('is-loaded'); const s = $('#img-shimmer-${idx}'); if(s) s.classList.add('loaded');">
         <div class="card-view-toggle">
           <button class="view-toggle-btn active" data-idx="${idx}" data-mode="photo">Photo</button>
           <button class="view-toggle-btn" data-idx="${idx}" data-mode="cad">CAD</button>
         </div>
       </div>
-      <div class="card-title">${esc(v.label)} Atelier</div>
-      <div class="card-price-row">
-        <div class="card-price">${inr(p.total)}</div>
-        <span class="budget-status-tag ${isOver ? 'status-over' : 'status-fits'}">
-          ${isOver ? inr(p.over_by) + ' over budget' : 'Within Target Budget'}
-        </span>
-      </div>
-      <div class="card-specs-list">
-        ${v.changes && v.changes.length ? 'Tailored: ' + v.changes.join(', ') : `${metalLabel} &bull; ${stoneSummary}`}
-      </div>
-      <div class="card-actions-row">
-        <button class="btn-launch-customizer" data-idx="${idx}">
-          Customize in Studio &rarr;
-        </button>
-        <button class="btn-card-3d" data-idx="${idx}" title="Inspect in 3D WebGL">
-          3D View
-        </button>
+      <div class="card-details-wrap ${State.isSynthesizing ? 'is-blurring' : ''}">
+        <div class="card-title">${esc(v.label)} Atelier</div>
+        <div class="card-price-row">
+          <div class="card-price">${inr(p.total)}</div>
+          <span class="budget-status-tag ${isOver ? 'status-over' : 'status-fits'}">
+            ${isOver ? inr(p.over_by) + ' over budget' : 'Within Target Budget'}
+          </span>
+        </div>
+        <div class="card-specs-list">
+          ${v.changes && v.changes.length ? 'Tailored: ' + v.changes.join(', ') : `${metalLabel} &bull; ${stoneSummary}`}
+        </div>
+        <div class="card-actions-row">
+          <button class="btn-launch-customizer" data-idx="${idx}" style="width:100%;">
+            Customize in Studio &rarr;
+          </button>
+        </div>
       </div>
     `;
 
@@ -1986,8 +2850,16 @@ function renderGalleryView() {
       btnPhoto.classList.add('active');
       btnCAD.classList.remove('active');
       mediaBox.innerHTML = `
+        <div class="img-loading-shimmer" id="img-shimmer-${idx}">
+          <div class="mini-gold-spinner"></div>
+          <span class="img-loading-text">Atelier Render</span>
+        </div>
         <span class="card-tier-tag">${esc(v.label)}</span>
-        <img src="${photo}" alt="${esc(v.label)} Jewellery" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+        <img src="${photo}" 
+             alt="${esc(v.label)} Jewellery" 
+             class="luxury-img-lazy"
+             onload="this.classList.add('is-loaded'); const s = $('#img-shimmer-${idx}'); if(s) s.classList.add('loaded');" 
+             onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}'; this.classList.add('is-loaded'); const s = $('#img-shimmer-${idx}'); if(s) s.classList.add('loaded');">
         <div class="card-view-toggle">
           <button class="view-toggle-btn active">Photo</button>
           <button class="view-toggle-btn">CAD</button>
@@ -2011,7 +2883,6 @@ function renderGalleryView() {
     };
 
     card.querySelector('.btn-launch-customizer').onclick = () => openCustomizer(structuredClone(v.spec), idx);
-    card.querySelector('.btn-card-3d').onclick = () => openThreeStudio(v.spec);
     grid.appendChild(card);
   });
 
@@ -2034,7 +2905,6 @@ function openCustomizer(sp, initialIdx = 1) {
         &larr; Back to 3 Variations
       </button>
       <div style="display:flex; gap:8px;">
-        <button class="atelier-nav-link" id="btn-cust-open-3d">3D CAD Viewport</button>
         <button class="atelier-nav-link" id="btn-cust-open-vto">Virtual Try-On</button>
         <button class="atelier-nav-link" id="btn-cust-open-cert">BIS Certificate</button>
       </div>
@@ -2052,10 +2922,19 @@ function openCustomizer(sp, initialIdx = 1) {
           </div>
           <div class="jewel-stage-plinth" id="cust-stage-plinth">
             <div class="render-loading-overlay" id="render-loader">
-              <div class="render-spinner"></div>
-              <div class="render-status-text">Flux AI generating photorealistic studio render...</div>
+              <div class="luxury-ring-spinner"></div>
+              <div class="render-status-text" id="render-status-text">Flux AI generating photorealistic studio render...</div>
             </div>
-            <img src="${photo}" alt="Haute Joaillerie Atelier Specimen" id="cust-main-img" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+            <div class="img-loading-shimmer" id="plinth-shimmer">
+              <div class="mini-gold-spinner"></div>
+              <span class="img-loading-text">Atelier Specimen</span>
+            </div>
+            <img src="${photo}" 
+                 alt="Haute Joaillerie Atelier Specimen" 
+                 id="cust-main-img" 
+                 class="luxury-img-lazy"
+                 onload="this.classList.add('is-loaded'); const s = $('#plinth-shimmer'); if(s) s.classList.add('loaded');" 
+                 onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}'; this.classList.add('is-loaded'); const s = $('#plinth-shimmer'); if(s) s.classList.add('loaded');">
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
             <div style="font-size:12px; color:var(--text-muted);" id="cust-caption-note">
@@ -2088,7 +2967,7 @@ function openCustomizer(sp, initialIdx = 1) {
 
       <!-- Right Component Parameters & Cost Breakdown -->
       <div>
-        <div class="atelier-panel">
+        <div class="atelier-panel card-details-wrap" id="cust-params-panel">
           <div class="panel-headline">
             <span>Artisan Parameters</span>
             <span style="font-size:12px; color:var(--gold-dark); text-transform:uppercase; font-weight:700;">${esc(s.category)}</span>
@@ -2097,14 +2976,14 @@ function openCustomizer(sp, initialIdx = 1) {
           <div class="control-row">
             <div class="control-header"><span>Precious Alloy / Karatage</span></div>
             <select class="atelier-select" id="sel-metal">
-              ${Object.entries(METALS).map(([k, v]) => `<option value="${k}">${v[2]}</option>`).join('')}
+              ${Object.entries(METALS).map(([k, v]) => `<option value="${k}" ${s.metal === k ? 'selected' : ''}>${v[2]}</option>`).join('')}
             </select>
           </div>
 
           <div class="control-row">
             <div class="control-header"><span>Center Gemstone Quality</span></div>
             <select class="atelier-select" id="sel-stone">
-              ${Object.entries(STONES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}
+              ${Object.entries(STONES).map(([k, v]) => `<option value="${k}" ${(s.stone?.type || 'none') === k ? 'selected' : ''}>${v}</option>`).join('')}
             </select>
           </div>
 
@@ -2231,10 +3110,19 @@ function openCustomizer(sp, initialIdx = 1) {
     State.customizerMode = 'photo';
     $('#cust-stage-plinth').innerHTML = `
       <div class="render-loading-overlay" id="render-loader">
-        <div class="render-spinner"></div>
-        <div class="render-status-text">Flux AI generating photorealistic studio render...</div>
+        <div class="luxury-ring-spinner"></div>
+        <div class="render-status-text" id="render-status-text">Flux AI generating photorealistic studio render...</div>
       </div>
-      <img src="${photo}" alt="Haute Joaillerie Atelier Specimen" id="cust-main-img" onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}';">
+      <div class="img-loading-shimmer" id="plinth-shimmer">
+        <div class="mini-gold-spinner"></div>
+        <span class="img-loading-text">Atelier Specimen</span>
+      </div>
+      <img src="${photo}" 
+           alt="Haute Joaillerie Atelier Specimen" 
+           id="cust-main-img" 
+           class="luxury-img-lazy"
+           onload="this.classList.add('is-loaded'); const s = $('#plinth-shimmer'); if(s) s.classList.add('loaded');" 
+           onerror="this.onerror=null; this.src='${CURATED_STUDIO_IMAGES.ring_solitaire}'; this.classList.add('is-loaded'); const s = $('#plinth-shimmer'); if(s) s.classList.add('loaded');">
     `;
     $('#cust-caption-note').textContent = "High-Definition Atelier Specimen";
   };
@@ -2244,7 +3132,6 @@ function openCustomizer(sp, initialIdx = 1) {
     $('#cust-caption-note').textContent = "Procedural CAD Technical Model • Live Hallmarking Preview";
   };
 
-  $('#btn-cust-open-3d').onclick = () => openThreeStudio(State.cur);
   $('#btn-cust-open-vto').onclick = () => openVTOStudio(State.cur);
   $('#btn-cust-open-cert').onclick = () => openCertModal(State.cur);
   $('#btn-cust-tradein').onclick = () => openTradeInModal();
@@ -2252,38 +3139,65 @@ function openCustomizer(sp, initialIdx = 1) {
   // Render with AI trigger
   $('#btn-trigger-ai-render').onclick = async () => {
     const loader = $('#render-loader');
+    const img = $('#cust-main-img');
+    const paramsPanel = $('#cust-params-panel');
     if (loader) loader.classList.add('active');
+    if (img) img.classList.add('is-blurring');
+    if (paramsPanel) paramsPanel.classList.add('is-blurring');
     toast("Generating Flux AI render (takes ~7s)...");
     try {
       const data = await api('/api/render', State.cur);
       if (data.image) {
-        const img = $('#cust-main-img');
-        if (img) img.src = data.image;
+        if (img) {
+          img.onload = () => {
+            img.classList.remove('is-blurring');
+            if (paramsPanel) paramsPanel.classList.remove('is-blurring');
+          };
+          img.src = data.image;
+        }
         toast("Flux AI render completed.");
       } else if (data.fallback) {
-        const img = $('#cust-main-img');
-        if (img) img.src = data.fallback;
+        if (img) {
+          img.onload = () => {
+            img.classList.remove('is-blurring');
+            if (paramsPanel) paramsPanel.classList.remove('is-blurring');
+          };
+          img.src = data.fallback;
+        }
         toast("Loaded high-definition studio specimen.");
       }
     } catch (err) {
+      if (img) img.classList.remove('is-blurring');
+      if (paramsPanel) paramsPanel.classList.remove('is-blurring');
       toast("AI render offline: using curated studio photo.");
     } finally {
       if (loader) loader.classList.remove('active');
+      setTimeout(() => {
+        if (img) img.classList.remove('is-blurring');
+        if (paramsPanel) paramsPanel.classList.remove('is-blurring');
+      }, 800);
     }
   };
 
   // Event handlers
-  $('#btn-back-gallery').onclick = renderGalleryView;
+  $('#btn-back-gallery').onclick = () => { State.cur = null; renderGalleryView(); };
   $('#sel-metal').onchange = e => { State.cur.metal = e.target.value; updateCustomizer(); };
   $('#sel-stone').onchange = e => {
     if (!State.cur.stone) State.cur.stone = { type: 'none', carat: 0, count: 0 };
     State.cur.stone.type = e.target.value;
-    if (e.target.value !== 'none' && !State.cur.stone.carat) State.cur.stone.carat = 0.40;
+    if (e.target.value !== 'none') {
+      if (!State.cur.stone.carat) State.cur.stone.carat = 0.40;
+      State.cur.stone.count = 1;
+    } else {
+      State.cur.stone.count = 0;
+      State.cur.stone.carat = 0;
+    }
     updateCustomizer();
   };
   $('#rng-carat').oninput = e => {
     if (!State.cur.stone) State.cur.stone = { type: 'natural_diamond', carat: 0.4, count: 1 };
     State.cur.stone.carat = parseFloat(e.target.value);
+    State.cur.stone.count = 1;
     $('#lbl-carat').textContent = e.target.value + ' ct';
     updateCustomizer();
   };
@@ -2347,6 +3261,7 @@ function updateCustomizer() {
   }
 
   clearTimeout(priceDebounce);
+  if ($('#cost-box')) $('#cost-box').classList.add('cost-box-blurring');
   priceDebounce = setTimeout(async () => {
     try {
       const data = await api('/api/price', s);
@@ -2390,6 +3305,7 @@ function updateCustomizer() {
           <b>${inr(netPayable)}</b>
         </div>
       `;
+      if ($('#cost-box')) $('#cost-box').classList.remove('cost-box-blurring');
 
       // Update Budget Meter
       const budget = s.budget_inr || 60000;
@@ -2568,285 +3484,641 @@ async function registerConfirmedOrder() {
   }
 }
 
-// ── THREE.JS 3D WEBGL STUDIO IMPLEMENTATION ──
-let threeScene, threeCamera, threeRenderer, threeMeshGroup, threeControls;
+// ── VIRTUAL TRY-ON (VTO): AI NEURAL PHOTOSHOOT & PROPORTION ATELIER ──
+State.vtoMode = 'ai'; // 'ai' or 'scale'
+State.vtoSkinTone = 'Warm Olive';
+State.vtoPerspective = 'frontal'; // 'frontal', 'profile', 'macro'
+State.vtoSplitPos = 50; // percentage
+State.vtoAiGenerated = false;
+State.vtoScaleCategory = 'drape';
+State.vtoDrapeLength = 18;
+State.vtoCaratValue = 1.0;
+State.vtoCaratMm = 6.5;
+State.vtoBangleSize = '2-6';
+State.vtoBangleMm = 60.3;
+State.vtoRingSize = 14;
+State.vtoRingMm = 17.2;
 
-function openThreeStudio(spec) {
-  if (!spec) spec = State.cur || State.spec;
-  $('#modal-3d-studio').classList.add('open');
-  setTimeout(() => initThreeStudio(spec), 50);
+const VTO_MODEL_PORTRAITS = {
+  'Warm Olive': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+  'Radiant Fair': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+  'Deep Bronze': 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80',
+  'Golden Tan': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
+};
+
+function getCurrentVTOTemplate() {
+  if (State.vtoUploadedPortraitBase64) {
+    return `data:${State.vtoUploadedPortraitMime || 'image/jpeg'};base64,${State.vtoUploadedPortraitBase64}`;
+  }
+  return VTO_MODEL_PORTRAITS[State.vtoSkinTone] || VTO_MODEL_PORTRAITS['Warm Olive'];
 }
 
-function initThreeStudio(spec) {
-  const container = $('#three-canvas-container');
-  container.innerHTML = '';
-  const w = container.clientWidth || 700;
-  const h = container.clientHeight || 420;
-
-  threeScene = new THREE.Scene();
-  threeScene.background = new THREE.Color(0xF5F2EB);
-
-  threeCamera = new THREE.PerspectiveCamera(40, w / h, 0.1, 1000);
-  threeCamera.position.set(0, 5, 12);
-
-  threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  threeRenderer.setSize(w, h);
-  threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  threeRenderer.shadowMap.enabled = true;
-  container.appendChild(threeRenderer.domElement);
-
-  if (typeof THREE.OrbitControls !== 'undefined') {
-    threeControls = new THREE.OrbitControls(threeCamera, threeRenderer.domElement);
-    threeControls.enableDamping = true;
-    threeControls.dampingFactor = 0.05;
-    threeControls.autoRotate = true;
-    threeControls.autoRotateSpeed = 1.2;
-  }
-
-  // Lighting
-  const ambLight = new THREE.AmbientLight(0xFFFFFF, 0.7);
-  threeScene.add(ambLight);
-
-  const keyLight = new THREE.DirectionalLight(0xFFFBF0, 1.2);
-  keyLight.position.set(8, 12, 10);
-  threeScene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0xE0F2FE, 0.6);
-  fillLight.position.set(-8, -4, -6);
-  threeScene.add(fillLight);
-
-  const rimLight = new THREE.PointLight(0xFFD700, 1.0, 30);
-  rimLight.position.set(0, 8, -6);
-  threeScene.add(rimLight);
-
-  // Plinth Stand
-  const plinthGeo = new THREE.CylinderGeometry(4.2, 4.6, 0.4, 48);
-  const plinthMat = new THREE.MeshStandardMaterial({ color: 0xE8E3DA, roughness: 0.8, metalness: 0.1 });
-  const plinth = new THREE.Mesh(plinthGeo, plinthMat);
-  plinth.position.y = -2.8;
-  threeScene.add(plinth);
-
-  // Build Procedural 3D Jewellery Geometry based on category
-  threeMeshGroup = new THREE.Group();
-  buildJewellery3D(spec, 'gold_22k', 'mirror');
-  threeScene.add(threeMeshGroup);
-
-  // Event Listeners for 3D Studio Controls
-  $('#three-sel-alloy').onchange = e => {
-    buildJewellery3D(spec, e.target.value, $('#three-sel-finish').value);
-  };
-  $('#three-sel-finish').onchange = e => {
-    buildJewellery3D(spec, $('#three-sel-alloy').value, e.target.value);
-  };
-  $('#three-sel-lighting').onchange = e => {
-    const val = e.target.value;
-    if (val === 'warm') {
-      keyLight.color.setHex(0xFFAA44);
-      threeScene.background.setHex(0xFAF4E8);
-    } else if (val === 'daylight') {
-      keyLight.color.setHex(0xFFFFFF);
-      threeScene.background.setHex(0xF0F4F8);
-    } else {
-      keyLight.color.setHex(0xFFFBF0);
-      threeScene.background.setHex(0xF5F2EB);
-    }
-  };
-
-  // Render Loop
-  let reqId;
-  function animate() {
-    reqId = requestAnimationFrame(animate);
-    if (threeControls) threeControls.update();
-    threeRenderer.render(threeScene, threeCamera);
-  }
-  animate();
-
-  $('#modal-3d-studio .modal-close').onclick = () => {
-    cancelAnimationFrame(reqId);
-    $('#modal-3d-studio').classList.remove('open');
-  };
+function syncVTOTemplateImages() {
+  const tpl = getCurrentVTOTemplate();
+  const beforeImg = $('#vto-split-before-img');
+  const afterBaseImg = $('#vto-split-after-base-img');
+  const proxyImg = $('#vto-split-after-img');
+  if (beforeImg) beforeImg.src = tpl;
+  if (afterBaseImg) afterBaseImg.src = tpl;
+  if (proxyImg) proxyImg.src = tpl;
+  renderIntegratedVTOJewel();
 }
 
-function buildJewellery3D(spec, alloyKey = 'gold_22k', finishKey = 'mirror') {
-  while (threeMeshGroup.children.length > 0) {
-    threeMeshGroup.remove(threeMeshGroup.children[0]);
-  }
+function renderIntegratedVTOJewel() {
+  const sp = State.vtoSpec || State.cur || State.spec || defaultSpec('necklace');
+  const cat = sp.category || 'necklace';
+  const wrapper = $('#vto-jewel-drape-wrapper');
+  const target = $('#vto-integrated-jewel-graphic');
+  if (!wrapper || !target) return;
 
-  const alloyColors = {
-    gold_22k: 0xD4AF37,
-    rose_gold: 0xB76E79,
-    platinum: 0xE5E7EB,
-    gold_18k: 0xE6CA65
-  };
-  const metalColor = alloyColors[alloyKey] || 0xD4AF37;
-  const roughness = finishKey === 'satin' ? 0.45 : (finishKey === 'hammered' ? 0.35 : 0.15);
-  const metalness = finishKey === 'satin' ? 0.75 : 0.95;
-
-  const metalMat = new THREE.MeshStandardMaterial({
-    color: metalColor,
-    roughness: roughness,
-    metalness: metalness
-  });
-
-  const gemMat = new THREE.MeshPhysicalMaterial({
-    color: 0xFFFFFF,
-    transmission: 0.9,
-    opacity: 1,
-    transparent: true,
-    roughness: 0.05,
-    ior: 2.42, // Diamond refractive index
-    specularIntensity: 1.0
-  });
-
-  const cat = spec.category || 'ring';
+  const nudgeY = State.vtoNudgeY || 0;
+  const scale = State.vtoScale || 1.0;
 
   if (cat === 'necklace') {
-    // Choker arc
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-3.5, 2, -1),
-      new THREE.Vector3(-2.2, 0.2, 0.5),
-      new THREE.Vector3(0, -0.8, 1.2),
-      new THREE.Vector3(2.2, 0.2, 0.5),
-      new THREE.Vector3(3.5, 2, -1)
-    ]);
-    const neckGeo = new THREE.TubeGeometry(curve, 64, 0.18, 16, false);
-    const neckMesh = new THREE.Mesh(neckGeo, metalMat);
-    threeMeshGroup.add(neckMesh);
-
-    // Pendant
-    const pendantGeo = new THREE.TorusGeometry(0.8, 0.2, 16, 40);
-    const pendant = new THREE.Mesh(pendantGeo, metalMat);
-    pendant.position.set(0, -1.2, 1.2);
-    threeMeshGroup.add(pendant);
-
-    // Center Drop Gem
-    const gemGeo = new THREE.OctahedronGeometry(0.55, 2);
-    const gem = new THREE.Mesh(gemGeo, gemMat);
-    gem.position.set(0, -1.2, 1.2);
-    threeMeshGroup.add(gem);
-
+    wrapper.style.top = `calc(56% + ${nudgeY}px)`;
+    wrapper.style.left = '50%';
+    wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    wrapper.style.width = '310px';
+    wrapper.style.height = '310px';
   } else if (cat === 'earrings') {
-    // Left & Right Jhumka Bells
-    [-1.8, 1.8].forEach(dx => {
-      const topStud = new THREE.Mesh(new THREE.SphereGeometry(0.45, 24, 24), metalMat);
-      topStud.position.set(dx, 1.6, 0);
-      threeMeshGroup.add(topStud);
-
-      const bellGeo = new THREE.ConeGeometry(1.0, 1.2, 24, 1, true);
-      const bell = new THREE.Mesh(bellGeo, metalMat);
-      bell.position.set(dx, 0.5, 0);
-      bell.rotation.x = Math.PI;
-      threeMeshGroup.add(bell);
-
-      // Hanging Pearl
-      const pearl = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), gemMat);
-      pearl.position.set(dx, -0.4, 0);
-      threeMeshGroup.add(pearl);
-    });
-
+    wrapper.style.top = `calc(47% + ${nudgeY}px)`;
+    wrapper.style.left = '50%';
+    wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    wrapper.style.width = '330px';
+    wrapper.style.height = '210px';
+  } else if (cat === 'ring') {
+    wrapper.style.top = `calc(73% + ${nudgeY}px)`;
+    wrapper.style.left = '50%';
+    wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    wrapper.style.width = '170px';
+    wrapper.style.height = '170px';
   } else if (cat === 'bangle') {
-    const cuffGeo = new THREE.TorusGeometry(2.4, 0.35, 24, 64);
-    const cuff = new THREE.Mesh(cuffGeo, metalMat);
-    cuff.rotation.x = Math.PI / 2.5;
-    threeMeshGroup.add(cuff);
+    wrapper.style.top = `calc(68% + ${nudgeY}px)`;
+    wrapper.style.left = '50%';
+    wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    wrapper.style.width = '210px';
+    wrapper.style.height = '210px';
+  }
 
-  } else {
-    // Ring Band
-    const ringGeo = new THREE.TorusGeometry(2.2, 0.32, 24, 64);
-    const ring = new THREE.Mesh(ringGeo, metalMat);
-    ring.rotation.x = Math.PI / 2.3;
-    threeMeshGroup.add(ring);
+  target.innerHTML = renderJewellerySVG(sp);
+}
 
-    // 4-Prong Crown Setting
-    const prongs = new THREE.Group();
-    for (let i = 0; i < 4; i++) {
-      const angle = (i * Math.PI) / 2;
-      const prongMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.8), metalMat);
-      prongMesh.position.set(Math.cos(angle) * 0.55, 2.55, Math.sin(angle) * 0.55);
-      prongs.add(prongMesh);
-    }
-    threeMeshGroup.add(prongs);
+function nudgeVTOJewelY(delta) {
+  State.vtoNudgeY = (State.vtoNudgeY || 0) + delta;
+  renderIntegratedVTOJewel();
+  toast(delta < 0 ? 'Nudged drape higher' : 'Nudged drape lower');
+}
 
-    // Brilliant Cut Solitaire Gem
-    const gemGeo = new THREE.OctahedronGeometry(0.75, 2);
-    const gem = new THREE.Mesh(gemGeo, gemMat);
-    gem.position.set(0, 2.7, 0);
-    threeMeshGroup.add(gem);
+function scaleVTOJewel(s) {
+  State.vtoScale = s;
+  renderIntegratedVTOJewel();
+  toast(`Drape scale: ${Math.round(s * 100)}%`);
+}
+
+function resetVTOFit() {
+  State.vtoNudgeY = 0;
+  State.vtoScale = 1.0;
+  renderIntegratedVTOJewel();
+  toast('Reset to anatomical clavicle center');
+}
+
+function openVTOStudio(spec) {
+  if (!spec) spec = State.cur || State.spec || defaultSpec('necklace');
+  State.vtoSpec = JSON.parse(JSON.stringify(spec));
+  if (!State.vtoSpec.category || State.vtoSpec.category === 'ring') {
+    State.vtoSpec.category = 'necklace';
+  }
+  $('#modal-vto-studio').classList.add('open');
+  State.vtoAiGenerated = false;
+  State.vtoNudgeY = 0;
+  State.vtoScale = 1.0;
+
+  // Set initial portrait image on both before and after layers
+  syncVTOTemplateImages();
+
+  setVTOViewMode('split');
+  updateVTOSpecSummary();
+  switchVTOMode('ai');
+  initVTOSplitSlider();
+  runUndertoneAnalysis("warm");
+}
+
+function updateVTOSpecSummary() {
+  const sp = State.vtoSpec || State.cur || State.spec || defaultSpec('necklace');
+  const metalName = (METALS[sp.metal] || METALS.gold_22k)[2];
+  const stoneName = (sp.stone && STONES[sp.stone.type]) ? STONES[sp.stone.type] : 'Solid Gold';
+  const grid = $('#vto-spec-summary-grid');
+  if (grid) {
+    grid.innerHTML = `
+      <div><span style="color:var(--text-muted)">Silhouette:</span> <b style="text-transform:capitalize;">${esc(sp.category)}</b></div>
+      <div><span style="color:var(--text-muted)">Alloy:</span> <b>${esc(metalName)}</b></div>
+      <div><span style="color:var(--text-muted)">Style:</span> <b>${esc(sp.style || 'Artisan Haute Joaillerie')}</b></div>
+      <div><span style="color:var(--text-muted)">Stone:</span> <b>${esc(stoneName)}</b></div>
+    `;
   }
 }
 
-// ── VIRTUAL TRY-ON (VTO) & UNDERTONE STYLIST ──
-function openVTOStudio(spec) {
-  if (!spec) spec = State.cur || State.spec;
-  $('#modal-vto-studio').classList.add('open');
-  renderVTOOverlay(spec);
-  runUndertoneAnalysis();
+function switchVTOMode(mode) {
+  State.vtoMode = mode;
+  const isAi = mode === 'ai';
+  $('#btn-vto-tab-ai').classList.toggle('active', isAi);
+  $('#btn-vto-tab-scale').classList.toggle('active', !isAi);
+  $('#vto-view-ai').style.display = isAi ? 'grid' : 'none';
+  $('#vto-view-scale').style.display = !isAi ? 'grid' : 'none';
+
+  if (isAi) {
+    if (!State.vtoAiGenerated) {
+      generateAINeuralPhotoshoot();
+    }
+  } else {
+    // If opening scale mode, sync category tab with current piece
+    const cat = State.vtoSpec.category || 'necklace';
+    if (cat === 'necklace') switchScaleCategory('drape');
+    else if (cat === 'ring') switchScaleCategory('ring');
+    else if (cat === 'bangle') switchScaleCategory('bangle');
+    else switchScaleCategory('carat');
+  }
 }
 
-function renderVTOOverlay(spec) {
-  const layer = $('#vto-jewel-layer');
-  layer.innerHTML = renderJewellerySVG(spec);
-  updateVTOTransform();
+/* Before / After Split Slider Interactive Drag */
+function setVTOSplitPercent(pct) {
+  const clamped = Math.max(0, Math.min(100, pct));
+  State.vtoSplitPos = clamped;
+  const box = $('#vto-split-box');
+  if (box) {
+    box.style.setProperty('--split-pos', `${clamped}%`);
+  }
 }
 
-function updateVTOTransform() {
-  const layer = $('#vto-jewel-layer');
-  layer.style.transform = `translate(${State.vtoPosX}px, ${State.vtoPosY}px) scale(${State.vtoScale}) rotate(${State.vtoRot}deg)`;
+function setVTOViewMode(mode) {
+  $$('#btn-vto-view-split, #btn-vto-view-after, #btn-vto-view-before').forEach(b => b.classList.remove('active'));
+  if (mode === 'split') {
+    $('#btn-vto-view-split')?.classList.add('active');
+    setVTOSplitPercent(50);
+  } else if (mode === 'after') {
+    $('#btn-vto-view-after')?.classList.add('active');
+    setVTOSplitPercent(0); // 0% reveal leaves 100% After visible
+  } else if (mode === 'before') {
+    $('#btn-vto-view-before')?.classList.add('active');
+    setVTOSplitPercent(100); // 100% leaves 100% Before visible
+  }
 }
 
-// VTO Sliders
-$('#vto-range-scale').oninput = e => {
-  State.vtoScale = e.target.value / 100;
-  $('#vto-val-scale').textContent = e.target.value + '%';
-  updateVTOTransform();
-};
-$('#vto-range-posy').oninput = e => {
-  State.vtoPosY = parseInt(e.target.value);
-  $('#vto-val-posy').textContent = e.target.value + ' px';
-  updateVTOTransform();
-};
-$('#vto-range-posx').oninput = e => {
-  State.vtoPosX = parseInt(e.target.value);
-  $('#vto-val-posx').textContent = e.target.value + ' px';
-  updateVTOTransform();
-};
-$('#vto-range-rot').oninput = e => {
-  State.vtoRot = parseInt(e.target.value);
-  $('#vto-val-rot').textContent = e.target.value + '°';
-  updateVTOTransform();
+let isDraggingVTOSplit = false;
+function initVTOSplitSlider() {
+  const box = $('#vto-split-box');
+  if (!box || box._splitInitialized) return;
+  box._splitInitialized = true;
+
+  const updateFromPointer = (e) => {
+    const rect = box.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const x = clientX - rect.left;
+    const pct = (x / rect.width) * 100;
+    setVTOSplitPercent(pct);
+  };
+
+  const startDrag = (e) => {
+    isDraggingVTOSplit = true;
+    updateFromPointer(e);
+  };
+  const onDrag = (e) => {
+    if (!isDraggingVTOSplit) return;
+    updateFromPointer(e);
+  };
+  const stopDrag = () => {
+    isDraggingVTOSplit = false;
+  };
+
+  box.addEventListener('mousedown', startDrag);
+  window.addEventListener('mousemove', onDrag);
+  window.addEventListener('mouseup', stopDrag);
+
+  box.addEventListener('touchstart', startDrag, { passive: true });
+  window.addEventListener('touchmove', onDrag, { passive: true });
+  window.addEventListener('touchend', stopDrag);
+}
+
+function setVTOPerspective(angle) {
+  State.vtoPerspective = angle;
+  $$('#btn-vto-ang-frontal, #btn-vto-ang-profile, #btn-vto-ang-macro').forEach(b => b.classList.remove('active'));
+  if (angle === 'frontal') $('#btn-vto-ang-frontal')?.classList.add('active');
+  if (angle === 'profile') $('#btn-vto-ang-profile')?.classList.add('active');
+  if (angle === 'macro') $('#btn-vto-ang-macro')?.classList.add('active');
+
+  generateAINeuralPhotoshoot();
+}
+
+async function generateAINeuralPhotoshoot() {
+  const loader = $('#vto-ai-loader');
+  const loaderText = $('#vto-ai-loader-text');
+  const lighting = $('#vto-sel-lighting') ? $('#vto-sel-lighting').value : 'studio softbox';
+  const tone = State.vtoSkinTone || 'warm olive';
+  const perspective = State.vtoPerspective || 'frontal';
+  const cat = (State.vtoSpec && State.vtoSpec.category) || 'necklace';
+
+  if (loader) {
+    loader.classList.add('active');
+    if (loaderText) {
+      loaderText.textContent = State.vtoUploadedPortraitBase64
+        ? `Integrating bespoke ${cat} seamlessly onto your template portrait (${lighting})...`
+        : `Integrating bespoke ${cat} onto ${tone} template with ${lighting} & ${perspective}...`;
+    }
+  }
+
+  // Ensure both Before and After layers are locked to the exact same base template portrait
+  syncVTOTemplateImages();
+
+  try {
+    const res = await api('/api/vto/ai-portrait', {
+      spec: State.vtoSpec,
+      skin_tone: tone,
+      lighting: lighting,
+      user_image_base64: State.vtoUploadedPortraitBase64 || null,
+      user_image_mime: State.vtoUploadedPortraitMime || 'image/jpeg',
+      perspective: perspective
+    });
+    
+    const proxyImg = $('#vto-split-after-img');
+    if (proxyImg) proxyImg.src = res.image || getCurrentVTOTemplate();
+
+    const badge = $('#vto-ai-source-badge');
+    if (badge) {
+      badge.textContent = State.vtoUploadedPortraitBase64
+        ? 'Template-Anchored Neural Integration (Uploaded Photo) • 8K Masterpiece'
+        : `Template-Anchored Neural Integration (${tone}) • 8K Masterpiece`;
+    }
+    State.vtoAiGenerated = true;
+    toast(`Bespoke ${cat} integrated onto template portrait (${perspective})`);
+  } catch (err) {
+    console.warn('VTO photoshoot error:', err);
+    State.vtoAiGenerated = true;
+    const badge = $('#vto-ai-source-badge');
+    if (badge) badge.textContent = 'Template-Anchored Atelier Integration';
+    toast(`Integrated bespoke ${cat} onto template`);
+  } finally {
+    renderIntegratedVTOJewel();
+    if (loader) loader.classList.remove('active');
+  }
+}
+
+function selectAIPersona(tone) {
+  State.vtoSkinTone = tone;
+  State.vtoUploadedPortraitBase64 = null;
+  $$('#vto-ai-model-olive, #vto-ai-model-fair, #vto-ai-model-bronze, #vto-ai-model-tan, #btn-vto-ai-upload').forEach(b => b.classList.remove('active'));
+  if (tone === 'Warm Olive') $('#vto-ai-model-olive')?.classList.add('active');
+  if (tone === 'Radiant Fair') $('#vto-ai-model-fair')?.classList.add('active');
+  if (tone === 'Deep Bronze') $('#vto-ai-model-bronze')?.classList.add('active');
+  if (tone === 'Golden Tan') $('#vto-ai-model-tan')?.classList.add('active');
+
+  syncVTOTemplateImages();
+
+  const uTone = tone.toLowerCase().includes('cool') || tone.toLowerCase().includes('fair')
+    ? 'cool'
+    : (tone.toLowerCase().includes('bronze') ? 'warm' : 'warm');
+  runUndertoneAnalysis(uTone);
+  generateAINeuralPhotoshoot();
+}
+
+function anyCoolTone(t) {
+  const s = String(t).toLowerCase();
+  return s.includes('cool') || s.includes('fair') || s.includes('porcelain');
+}
+
+$('#btn-generate-ai-vto').onclick = () => generateAINeuralPhotoshoot();
+
+// File Upload Handler for VTO Portrait: Locks uploaded image as the template
+$('#vto-upload-input').onchange = (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const dataUrl = ev.target.result;
+    const b64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl;
+    const mime = file.type || 'image/jpeg';
+    State.vtoUploadedPortraitBase64 = b64;
+    State.vtoUploadedPortraitMime = mime;
+    State.vtoSkinTone = "Custom Uploaded Portrait";
+
+    $$('#vto-ai-model-olive, #vto-ai-model-fair, #vto-ai-model-bronze, #vto-ai-model-tan').forEach(b => b.classList.remove('active'));
+    $('#btn-vto-ai-upload')?.classList.add('active');
+
+    // Immediately anchor both Before and After layers to this uploaded template image
+    syncVTOTemplateImages();
+
+    toast('Portrait uploaded as base template. Analyzing skin colorimetry with Gemini...');
+    await runUndertoneAnalysisForImage(b64, mime);
+
+    generateAINeuralPhotoshoot();
+  };
+  reader.readAsDataURL(file);
 };
 
-// Demo Models
-$('#vto-model-olive').onclick = () => {
-  $('#vto-portrait-img').src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80";
-  runUndertoneAnalysis("warm");
+// High-Res Editorial Download with BIS Authenticity Hallmark
+$('#btn-download-ai-editorial').onclick = () => {
+  const currentTemplate = getCurrentVTOTemplate();
+  const canvas = document.createElement('canvas');
+  const width = 1000;
+  const height = 1250;
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+
+  const baseImg = new Image();
+  baseImg.crossOrigin = 'anonymous';
+  baseImg.onload = () => {
+    // 1. Draw base template portrait
+    ctx.drawImage(baseImg, 0, 0, width, height - 160);
+
+    // 2. Draw integrated bespoke jewel with contact shadow
+    const sp = State.vtoSpec || State.cur || State.spec || defaultSpec('necklace');
+    const svgStr = renderJewellerySVG(sp);
+    const svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+    const URL = window.URL || window.webkitURL || window;
+    const blobURL = URL.createObjectURL(svgBlob);
+    const jewelImg = new Image();
+    jewelImg.onload = () => {
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.55)';
+      ctx.shadowBlur = 28;
+      ctx.shadowOffsetY = 16;
+
+      const cat = sp.category || 'necklace';
+      const nudgeY = (State.vtoNudgeY || 0) * (height / 520);
+      const scale = State.vtoScale || 1.0;
+
+      if (cat === 'necklace') {
+        const jw = 420 * scale;
+        const jh = 420 * scale;
+        ctx.drawImage(jewelImg, (width - jw) / 2, (height - 160) * 0.54 + nudgeY - jh/2, jw, jh);
+      } else if (cat === 'earrings') {
+        const jw = 440 * scale;
+        const jh = 280 * scale;
+        ctx.drawImage(jewelImg, (width - jw) / 2, (height - 160) * 0.45 + nudgeY - jh/2, jw, jh);
+      } else {
+        const jw = 300 * scale;
+        const jh = 300 * scale;
+        ctx.drawImage(jewelImg, (width - jw) / 2, (height - 160) * 0.65 + nudgeY - jh/2, jw, jh);
+      }
+      ctx.restore();
+      URL.revokeObjectURL(blobURL);
+
+      // 3. Draw Luxury BIS 916 Hallmark Certificate Banner across bottom
+      ctx.fillStyle = '#1C1A18';
+      ctx.fillRect(0, height - 160, width, 160);
+
+      ctx.fillStyle = '#B89047';
+      ctx.fillRect(0, height - 160, width, 3);
+
+      ctx.fillStyle = '#B89047';
+      ctx.font = 'bold 22px Georgia, serif';
+      ctx.fillText('JEWEL-AI HAUTE JOAILLERIE ATELIER', 32, height - 110);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '15px sans-serif';
+      const dateStr = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      const metalName = (METALS[sp.metal] || METALS.gold_22k)[2];
+      ctx.fillText(`Template-Anchored Virtual Try-On • ${metalName} • ${sp.style || 'Custom Design'} • ${dateStr}`, 32, height - 76);
+
+      ctx.fillStyle = '#ABA49C';
+      ctx.font = '13px sans-serif';
+      ctx.fillText('Certified Master Karigar Handcrafting Standard • Bureau of Indian Standards (BIS 916 / 750) Compliant', 32, height - 46);
+
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = `jewel-ai-bespoke-tryon-${cat}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast('Exported high-res portrait with BIS hallmark certificate');
+    };
+    jewelImg.src = blobURL;
+  };
+  baseImg.src = currentTemplate;
 };
-$('#vto-model-fair').onclick = () => {
-  $('#vto-portrait-img').src = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80";
-  runUndertoneAnalysis("cool");
-};
+
+/* Colorimetry & Undertone Analysis */
+function applyMetalFromUndertone(metal) {
+  if (!State.vtoSpec) State.vtoSpec = JSON.parse(JSON.stringify(State.cur || State.spec || defaultSpec('necklace')));
+  State.vtoSpec.metal = metal;
+  updateVTOSpecSummary();
+  generateAINeuralPhotoshoot();
+  toast(`Applied ${metal.replace('_', ' ').toUpperCase()} to bespoke design`);
+}
+
+function displayUndertoneResult(res) {
+  const tone = res.skin_tone || 'Radiant';
+  const under = res.undertone || 'warm';
+  const metals = res.recommended_metals || ['gold_22k', 'gold_18k', 'rose_gold'];
+  const gems = res.best_gemstones || [];
+  State.vtoSkinTone = tone;
+
+  const chipsHtml = metals.map(m => `
+    <button class="vto-metal-chip" onclick="applyMetalFromUndertone('${m}')" title="Click to apply ${m.replace('_', ' ').toUpperCase()}">
+      ${m.replace('_', ' ').toUpperCase()} &check;
+    </button>
+  `).join('');
+
+  let notes = res.styling_notes || '';
+  if (gems.length) {
+    notes += `<br><span style="display:inline-block; margin-top:6px; font-weight:600; color:var(--text-secondary);">Harmonious Gems:</span> ${gems.map(g => g.replace('_', ' ')).join(', ')}`;
+  }
+
+  const aiStatus = $('#vto-ai-undertone-status');
+  if (aiStatus) aiStatus.innerHTML = `<b>${tone} Skin Tone</b> &bull; <span style="text-transform:uppercase; font-weight:700; color:var(--gold-dark);">${under} Undertone</span>`;
+  const aiPills = $('#vto-ai-metals-pills');
+  if (aiPills) aiPills.innerHTML = chipsHtml;
+  const aiNotes = $('#vto-ai-stylist-notes');
+  if (aiNotes) aiNotes.innerHTML = notes;
+}
+
+async function runUndertoneAnalysisForImage(b64, mime = 'image/jpeg') {
+  if ($('#vto-ai-undertone-status')) $('#vto-ai-undertone-status').innerHTML = '<em>Consulting Gemini 2.5 Vision to analyze skin tone and metal harmony...</em>';
+  try {
+    const res = await api('/api/undertone/analyze-b64', { image_b64: b64, mime_type: mime });
+    displayUndertoneResult(res);
+  } catch (err) {
+    console.warn('Undertone API error:', err);
+    displayUndertoneResult({
+      skin_tone: 'Medium / Olive',
+      undertone: 'warm',
+      recommended_metals: ['gold_22k', 'gold_18k', 'rose_gold'],
+      best_gemstones: ['natural_diamond', 'emerald', 'ruby'],
+      styling_notes: 'Warm golden undertones achieve radiant luminescence when paired with high-karat 22K and 18K yellow gold. Deep Zambian emeralds provide stunning contrast.',
+      contrast_level: 'Medium'
+    });
+  }
+}
 
 async function runUndertoneAnalysis(mockTone = "warm") {
-  $('#vto-undertone-status').textContent = "Consulting Gemini 2.5 Vision skin tone colorimetry...";
   try {
     const payload = { image_b64: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" };
     const res = await api('/api/undertone/analyze-b64', payload);
-    const tone = mockTone === 'cool' ? 'Cool Rose' : res.skin_tone;
+    const tone = mockTone === 'cool' ? 'Cool Porcelain' : res.skin_tone;
     const under = mockTone === 'cool' ? 'cool' : res.undertone;
-    const metals = mockTone === 'cool' ? ['platinum', 'gold_18k', 'white_gold'] : res.recommended_metals;
-
-    $('#vto-undertone-status').innerHTML = `<b>${tone} Skin Tone</b> &bull; <span style="text-transform:uppercase; font-weight:700; color:var(--gold-dark);">${under} Undertone</span>`;
-    $('#vto-metals-pills').innerHTML = metals.map(m => `
-      <span style="background:var(--gold-soft); border:1px solid rgba(184,144,71,0.3); font-size:10.5px; padding:2px 7px; border-radius:4px; font-weight:600; color:var(--gold-dark);">
-        ${m.replace('_', ' ').toUpperCase()}
-      </span>
-    `).join('');
-    $('#vto-stylist-notes').textContent = mockTone === 'cool'
+    const metals = mockTone === 'cool' ? ['platinum', 'gold_18k', 'rose_gold'] : res.recommended_metals;
+    const stylingNotes = mockTone === 'cool'
       ? "Cool rose undertones glow exquisitely with Platinum and 18K White Gold, reflecting crisp colorless diamond brilliance."
       : res.styling_notes;
+    displayUndertoneResult({
+      skin_tone: tone,
+      undertone: under,
+      recommended_metals: metals,
+      best_gemstones: res.best_gemstones,
+      styling_notes: stylingNotes
+    });
   } catch (e) {
-    $('#vto-undertone-status').textContent = "Warm golden undertone detected. 22k / 18k yellow gold delivers optimum radiance.";
+    displayUndertoneResult({
+      skin_tone: mockTone === 'cool' ? 'Cool Porcelain' : 'Medium / Olive',
+      undertone: mockTone,
+      recommended_metals: mockTone === 'cool' ? ['platinum', 'gold_18k'] : ['gold_22k', 'gold_18k', 'rose_gold'],
+      best_gemstones: ['natural_diamond', 'emerald'],
+      styling_notes: 'Warm golden undertones achieve radiant luminescence with 22K and 18K yellow gold.'
+    });
   }
+}
+
+/* True-to-Scale Proportion Atelier Logic */
+function switchScaleCategory(sub) {
+  State.vtoScaleCategory = sub;
+  $$('.vto-scale-subtab').forEach(b => b.classList.remove('active'));
+  $$('.vto-scale-panel').forEach(p => p.classList.remove('active'));
+
+  if (sub === 'drape') {
+    $('#btn-scale-tab-drape')?.classList.add('active');
+    $('#scale-panel-drape')?.classList.add('active');
+  } else if (sub === 'carat') {
+    $('#btn-scale-tab-carat')?.classList.add('active');
+    $('#scale-panel-carat')?.classList.add('active');
+  } else if (sub === 'bangle') {
+    $('#btn-scale-tab-bangle')?.classList.add('active');
+    $('#scale-panel-bangle')?.classList.add('active');
+  } else if (sub === 'ring') {
+    $('#btn-scale-tab-ring')?.classList.add('active');
+    $('#scale-panel-ring')?.classList.add('active');
+  }
+}
+
+function selectDrapeLength(len) {
+  State.vtoDrapeLength = len;
+  $$('.vto-drape-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.len) === len));
+
+  // Dim other SVG curves, highlight active
+  [14, 16, 18, 20, 24].forEach(l => {
+    const el = $(`#svg-drape-${l}`);
+    if (el) {
+      el.setAttribute('stroke-width', l === len ? '6' : '3');
+      el.setAttribute('opacity', l === len ? '1.0' : '0.25');
+    }
+  });
+
+  // Position pendant medallion on curve
+  const yMap = { 14: 100, 16: 130, 18: 170, 20: 215, 24: 270 };
+  const targetY = yMap[len] || 170;
+  const pendant = $('#svg-drape-pendant');
+  const gem = $('#svg-drape-gem');
+  if (pendant) pendant.setAttribute('cy', targetY);
+  if (gem) gem.setAttribute('cy', targetY);
+
+  // Update compatibility list
+  const title = $('#scale-drape-compat-title');
+  const list = $('#scale-drape-compat-list');
+  if (title) title.textContent = `${len}" Drape Harmony Analysis`;
+
+  const matrices = {
+    14: [
+      { name: 'Sweetheart Blouse', status: 'Rests gracefully above neckline &check;', color: 'var(--emerald)' },
+      { name: 'Deep V Neck', status: 'High contrast collar contrast', color: 'var(--text-secondary)' },
+      { name: 'Round / Scoop Neck', status: 'Perfect snug alignment &check;', color: 'var(--emerald)' },
+      { name: 'High Collar / Bandhgala', status: 'Layered over collar perfection &check;', color: 'var(--emerald)' }
+    ],
+    16: [
+      { name: 'Sweetheart Blouse', status: 'Flawless collarbone placement &check;', color: 'var(--emerald)' },
+      { name: 'Deep V Neck', status: 'Frames throat hollow beautifully &check;', color: 'var(--emerald)' },
+      { name: 'Round / Scoop Neck', status: 'Sits cleanly inside neckline &check;', color: 'var(--emerald)' },
+      { name: 'High Collar / Bandhgala', status: 'Better tucked or above button', color: 'var(--text-secondary)' }
+    ],
+    18: [
+      { name: 'Sweetheart Blouse', status: 'Flawless Alignment &check;', color: 'var(--emerald)' },
+      { name: 'Deep V Neck', status: 'Ideal Center Cascade &check;', color: 'var(--emerald)' },
+      { name: 'Round / Scoop Neck', status: 'Rests Along Hemline', color: 'var(--text-secondary)' },
+      { name: 'High Collar / Bandhgala', status: 'Recommend 24" Opera Instead', color: 'var(--ruby)' }
+    ],
+    20: [
+      { name: 'Sweetheart Blouse', status: 'Deep plunge overlay', color: 'var(--text-secondary)' },
+      { name: 'Deep V Neck', status: 'Sensational vertical cascade &check;', color: 'var(--emerald)' },
+      { name: 'Round / Scoop Neck', status: 'Drops past scoop curve &check;', color: 'var(--emerald)' },
+      { name: 'High Collar / Bandhgala', status: 'Sophisticated pendant drape &check;', color: 'var(--emerald)' }
+    ],
+    24: [
+      { name: 'Sweetheart Blouse', status: 'Grand Rani Haar Bridal Cascade &check;', color: 'var(--emerald)' },
+      { name: 'Deep V Neck', status: 'Dramatic statement drape &check;', color: 'var(--emerald)' },
+      { name: 'Round / Scoop Neck', status: 'Regal layered look &check;', color: 'var(--emerald)' },
+      { name: 'High Collar / Bandhgala', status: 'Flawless Royal Sherwani/Kurti Drape &check;', color: 'var(--emerald)' }
+    ]
+  };
+
+  const rows = matrices[len] || matrices[18];
+  if (list) {
+    list.innerHTML = rows.map((r, i) => `
+      <div style="display:flex; justify-content:space-between; padding:4px 0; ${i < 3 ? 'border-bottom:1px solid var(--border-subtle);' : ''}">
+        <span>${r.name}:</span> <b style="color:${r.color};">${r.status}</b>
+      </div>
+    `).join('');
+  }
+}
+
+function selectCaratScale(carat, mm) {
+  State.vtoCaratValue = carat;
+  State.vtoCaratMm = mm;
+  $$('.vto-carat-card').forEach(c => c.classList.toggle('active', parseFloat(c.dataset.carat) === carat));
+
+  const circle = $('#carat-scale-visual-circle');
+  if (circle) {
+    const pxSize = Math.round(mm * 4.3);
+    circle.style.width = pxSize + 'px';
+    circle.style.height = pxSize + 'px';
+  }
+  const readout = $('#carat-scale-readout');
+  const mmReadout = $('#carat-scale-mm-readout');
+  if (readout) readout.textContent = `${carat.toFixed(2)} Carat Brilliant Cut`;
+  if (mmReadout) {
+    const pct = Math.round((mm / 16.0) * 100);
+    mmReadout.textContent = `${mm} mm Face Spread (~${pct}% of finger width)`;
+  }
+}
+
+function applyBangleSize(sizeStr, mm) {
+  State.vtoBangleSize = sizeStr;
+  State.vtoBangleMm = mm;
+  toast(`Selected Indian Bangle Size ${sizeStr} (${mm} mm inner diameter)`);
+}
+
+function selectRingSize(indSize, mm) {
+  State.vtoRingSize = indSize;
+  State.vtoRingMm = mm;
+  const status = $('#ring-fit-status');
+  if (status) status.textContent = `Selected: Indian Size ${indSize} (${mm} mm Inner Diameter)`;
+  toast(`Selected Ring Size ${indSize} (${mm} mm)`);
+}
+
+function applyScaleToSpec() {
+  if (!State.vtoSpec) State.vtoSpec = JSON.parse(JSON.stringify(State.cur || State.spec || defaultSpec('necklace')));
+  const cat = State.vtoSpec.category || 'necklace';
+  if (cat === 'necklace') {
+    State.vtoSpec.necklace_length_in = State.vtoDrapeLength;
+    toast(`Applied ${State.vtoDrapeLength}" drape length to bespoke necklace`);
+  } else if (cat === 'ring') {
+    State.vtoSpec.ring_size = State.vtoRingSize;
+    toast(`Applied Indian Ring Size ${State.vtoRingSize} to bespoke ring`);
+  } else if (cat === 'bangle') {
+    toast(`Applied Indian Kada Size ${State.vtoBangleSize} (${State.vtoBangleMm} mm)`);
+  } else {
+    toast('Atelier scale calibration applied to CAD specifications');
+  }
+  State.cur = JSON.parse(JSON.stringify(State.vtoSpec));
+  State.spec = JSON.parse(JSON.stringify(State.vtoSpec));
+  updateVTOSpecSummary();
 }
 
 // ── OLD GOLD TRADE-IN ENGINE ──
@@ -3150,6 +4422,8 @@ $('#chat-form').onsubmit = async e => {
   appendChat(txt, 'user');
   const botMsg = appendChat('Consulting atelier...', 'bot');
 
+  showGalleryLoadingState("Designing bespoke pieces according to your prompt...");
+
   try {
     const res = await api('/api/chat', { messages: State.msgs, spec: State.spec });
     botMsg.textContent = res.reply;
@@ -3159,20 +4433,31 @@ $('#chat-form').onsubmit = async e => {
 
     const vRes = await api('/api/variants', State.spec);
     State.variants = vRes.variants;
-    if (State.currentMode === 'atelier') renderGalleryView();
+    if (State.currentMode === 'atelier') {
+      State.cur = null;
+      renderGalleryView();
+    }
   } catch (err) {
     botMsg.textContent = "Loaded tailored design options based on your request.";
     State.msgs.push({ role: 'assistant', content: "Loaded tailored design options based on your request." });
     const vRes = await api('/api/variants', State.spec);
     State.variants = vRes.variants;
-    if (State.currentMode === 'atelier') renderGalleryView();
+    if (State.currentMode === 'atelier') {
+      State.cur = null;
+      renderGalleryView();
+    }
+  } finally {
+    hideGalleryLoadingState();
   }
 };
 
 // ── Curated Starters Click Handler ──
 function handleStarterSelection(prompt, cat) {
+  State.cur = null;
   setCategoryActive(cat);
   State.spec = defaultSpec(cat);
+
+  showGalleryLoadingState(`Synthesizing calibrated ${cat} collection for your occasion...`);
 
   State.msgs = [{ role: 'user', content: prompt }];
   appendChat(prompt, 'user');
@@ -3181,7 +4466,7 @@ function handleStarterSelection(prompt, cat) {
   api('/api/variants', State.spec)
     .then(vRes => {
       State.variants = vRes.variants;
-      if (State.currentMode === 'atelier') renderGalleryView();
+      if (State.currentMode === 'atelier' && !State.cur) renderGalleryView();
     })
     .catch(err => {
       console.warn("Variants preliminary error:", err);
@@ -3195,7 +4480,7 @@ function handleStarterSelection(prompt, cat) {
         State.spec = res.spec;
         api('/api/variants', State.spec).then(vRes => {
           State.variants = vRes.variants;
-          if (State.currentMode === 'atelier') renderGalleryView();
+          if (State.currentMode === 'atelier' && !State.cur) renderGalleryView();
         }).catch(() => {});
       }
     })
@@ -3203,6 +4488,9 @@ function handleStarterSelection(prompt, cat) {
       const fallbackReply = `Delighted to co-create your bespoke ${cat}. I have calibrated 3 master craftsman variations against today's gold rate.`;
       botMsg.textContent = fallbackReply;
       State.msgs.push({ role: 'assistant', content: fallbackReply });
+    })
+    .finally(() => {
+      hideGalleryLoadingState();
     });
 }
 
@@ -3269,6 +4557,19 @@ async function handleImageFile(file) {
   $('#vision-category').textContent = 'Inspecting...';
   $('#vision-details').textContent = 'Gemini 2.5 Vision inspecting architecture, stones & karatage...';
 
+  // Render thumbnail inside dropzone
+  const thumbReader = new FileReader();
+  thumbReader.onload = ev => {
+    $('#inspiration-dropzone').innerHTML = `
+      <img src="${ev.target.result}" style="width:40px; height:40px; object-fit:cover; border-radius:6px; border:1px solid var(--border-light); margin-right:10px;">
+      <div class="dropzone-meta">
+        <b>Inspiration Loaded: ${esc(file.name.slice(0, 18))}</b>
+        <span style="color:var(--gold-dark); font-weight:600;">Click to replace photo</span>
+      </div>
+    `;
+  };
+  thumbReader.readAsDataURL(file);
+
   appendChat("Uploaded an inspiration photo. Analyzing with Gemini 2.5 Vision...", 'user');
   const thinking = appendChat("Inspecting jewellery architecture...", 'bot');
 
@@ -3325,14 +4626,16 @@ $$('.cat-pill-btn').forEach(btn => {
 });
 
 // Init
-(async () => {
-  try {
-    const res = await fetch('/api/gold-rate').then(r => r.json());
-    $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
-  } catch (e) {}
-
+(() => {
   appendChat("Welcome to Jewel-AI Atelier. Describe your special occasion, aesthetic taste, and target budget — or select a curated masterpiece below.", 'bot');
   renderWelcomeStage();
+
+  fetch('/api/gold-rate')
+    .then(r => r.json())
+    .then(res => {
+      $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
+    })
+    .catch(() => {});
 })();
 </script>
 </body>

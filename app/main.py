@@ -212,11 +212,43 @@ class UndertoneB64Req(BaseModel):
 def analyze_undertone_b64(req: UndertoneB64Req):
     """Analyze base64-encoded portrait image for skin undertone."""
     try:
-        data = base64.b64decode(req.image_b64)
+        raw = req.image_b64
+        if "," in raw:
+            raw = raw.split(",", 1)[1]
+        data = base64.b64decode(raw.strip())
         result = undertone.analyze_skin_undertone(data, req.mime_type)
         return result.model_dump()
     except Exception as e:
         raise HTTPException(503, f"Undertone analysis failed: {e}")
+
+
+class VTOReq(BaseModel):
+    spec: DesignSpec
+    skin_tone: str = "warm olive"
+    lighting: str = "studio softbox"
+    user_image_base64: str | None = None
+    user_image_mime: str = "image/jpeg"
+    perspective: str = "frontal"
+
+
+@app.post("/api/vto/ai-portrait")
+def vto_ai_portrait(req: VTOReq):
+    """Generate or retrieve a photorealistic AI editorial try-on photoshoot image."""
+    from . import render
+    img = render.render_vto_image(
+        req.spec,
+        req.skin_tone,
+        req.lighting,
+        req.user_image_base64,
+        req.user_image_mime,
+        req.perspective
+    )
+    if img:
+        src = "flux_neural_synthesis_uploaded" if req.user_image_base64 else "flux_neural_synthesis"
+        return {"image": img, "source": src}
+    fallback = render.get_curated_vto_image(req.spec, req.skin_tone, req.perspective)
+    src = "curated_editorial_uploaded_colorimetry" if req.user_image_base64 else "curated_editorial_atelier"
+    return {"image": fallback, "source": src}
 
 
 @app.post("/api/tradein/appraise")

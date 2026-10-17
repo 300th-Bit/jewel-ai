@@ -70,3 +70,26 @@ Return strictly valid JSON conforming to the requested schema.
     except Exception as e:
         print(f"Undertone analysis fallback due to: {e}")
         return fallback_undertone_analysis()
+
+
+def describe_portrait_features(image_bytes: bytes, mime_type: str = "image/jpeg") -> str:
+    """Extract a concise luxury persona description from uploaded portrait for AI photoshoot synthesis."""
+    if not API_KEY or genai is None:
+        return "an elegant Indian woman with warm glowing complexion and natural radiance"
+
+    try:
+        client = genai.Client(api_key=API_KEY)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
+                "In 1 concise sentence (under 15 words), describe this person's key visual appearance for fine jewelry portrait photography (complexion, hair, posture). Do not use names."
+            ]
+        )
+        desc = (response.text or "").strip().rstrip(".")
+        if desc and len(desc) > 5:
+            return f"an elegant subject resembling {desc}"
+    except Exception as e:
+        print(f"Portrait feature extraction fallback: {e}")
+
+    return "an elegant woman with glowing skin and natural grace"

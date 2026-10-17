@@ -10,11 +10,11 @@ import re
 from dataclasses import dataclass
 from .models import DesignSpec
 
-PURITY = {"gold_24k": 1.0, "gold_22k": 0.916, "gold_18k": 0.75, "gold_14k": 0.585}
-DENSITY = {"gold_24k": 19.3, "gold_22k": 17.7, "gold_18k": 15.6, "gold_14k": 13.5}  # g/cm3
+PURITY = {"gold_24k": 1.0, "gold_22k": 0.916, "gold_18k": 0.75, "gold_14k": 0.585, "rose_gold": 0.75, "platinum": 0.95}
+DENSITY = {"gold_24k": 19.3, "gold_22k": 17.7, "gold_18k": 15.6, "gold_14k": 13.5, "rose_gold": 15.4, "platinum": 21.45}  # g/cm3
 STONE_PER_CT = {"none": 0, "cz": 1500, "moissanite": 12000,
                 "lab_diamond": 40000, "natural_diamond": 150000}  # INR/ct placeholders
-HALLMARK = {"gold_24k": "999", "gold_22k": "916", "gold_18k": "750", "gold_14k": "585"}
+HALLMARK = {"gold_24k": "999", "gold_22k": "916", "gold_18k": "750", "gold_14k": "585", "rose_gold": "750", "platinum": "950"}
 
 # Indian bangle inner diameter (mm) by standard size
 BANGLE_DIAM = {"2-2": 54, "2-4": 57.15, "2-6": 60.3, "2-8": 63.5, "2-10": 66.7}

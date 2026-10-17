@@ -214,3 +214,28 @@ def _procurement_advice(gold_g: float, carats: float, seasonal: float) -> str:
     elif urgency == "low":
         lines.append("💡 Lean season — focus on clearing existing inventory and custom orders")
     return ". ".join(lines) + "." if lines else "Insufficient data for procurement advice."
+
+
+def export_bigquery_records() -> list[dict]:
+    """Export customer design requests formatted for Google Cloud BigQuery retail table."""
+    c = conn()
+    rows = [dict(r) for r in c.execute("select * from requests order by ts asc")]
+    c.close()
+
+    records = []
+    for r in rows:
+        records.append({
+            "request_id": r["id"],
+            "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(r["ts"])),
+            "category": r.get("category") or "ring",
+            "style": r.get("style") or "classic solitaire",
+            "metal": r.get("metal") or "gold_22k",
+            "stone_type": r.get("stone") or "natural_diamond",
+            "stone_carat": float(r.get("carat") or 0.3),
+            "budget_inr": int(r.get("budget") or 50000),
+            "occasion": r.get("occasion") or "Engagement",
+            "customer_name": r.get("customer_name") or "Valued Patron",
+            "status": "sent_to_workshop" if r.get("status") == "sent" else "designed"
+        })
+    return records
+

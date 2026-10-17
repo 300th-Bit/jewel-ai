@@ -1,4 +1,5 @@
 import os
+import json
 import base64
 from typing import Literal, Optional
 from fastapi import FastAPI, HTTPException, UploadFile, File
@@ -290,6 +291,35 @@ class CertReq(BaseModel):
 def generate_certificate(req: CertReq):
     """Generate tamper-proof digital certificate of authenticity with 6-digit BIS HUID."""
     return certification.issue_certificate(req.spec, req.patron_name).model_dump()
+
+
+@app.get("/api/merchant/bigquery/export")
+def export_bigquery_data():
+    """Export design telemetry formatted for Google Cloud BigQuery retail warehousing."""
+    records = store.export_bigquery_records()
+    return {
+        "dataset": "retail_jewel_ai",
+        "table": "design_requests",
+        "record_count": len(records),
+        "records": records,
+        "jsonl_sample": [json.dumps(r) for r in records[:5]],
+        "ddl_location": "data/bigquery_schema.sql"
+    }
+
+
+@app.get("/api/merchant/bigquery/schema")
+def get_bigquery_schema():
+    """Retrieve BigQuery DDL schema and analytical queries."""
+    sql_path = os.path.join("data", "bigquery_schema.sql")
+    sql_content = ""
+    if os.path.exists(sql_path):
+        with open(sql_path, "r", encoding="utf-8") as f:
+            sql_content = f.read()
+    return {
+        "dataset": "retail_jewel_ai",
+        "sql": sql_content
+    }
+
 
 
 if os.path.isdir("static"):  # frontend goes here next

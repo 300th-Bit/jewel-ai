@@ -145,3 +145,18 @@ def test_vto_ai_portrait_with_uploaded_image():
     ]
 
 
+def test_bigquery_export_and_schema_endpoints():
+    c = TestClient(app)
+    r_exp = c.get("/api/merchant/bigquery/export").json()
+    assert r_exp["dataset"] == "retail_jewel_ai"
+    assert r_exp["table"] == "design_requests"
+    assert r_exp["record_count"] >= 0
+    assert isinstance(r_exp["records"], list)
+
+    r_sch = c.get("/api/merchant/bigquery/schema").json()
+    assert r_sch["dataset"] == "retail_jewel_ai"
+    assert "retail_jewel_ai.design_requests" in r_sch["sql"]
+    assert "retail_jewel_ai.tradein_vouchers" in r_sch["sql"]
+
+
+

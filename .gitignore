@@ -22,7 +22,8 @@ scratch/
 .env.*.local
 
 # SQLite database / local runtime data
-data/
+data/*
+!data/*.sql
 *.db
 *.sqlite3
 

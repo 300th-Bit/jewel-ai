@@ -18,6 +18,17 @@ from . import pricing, store, render, trends, catalog, artisan, undertone, trade
 app = FastAPI(title="Jewel-AI", description="AI design and sales assistant for independent jewellers")
 
 
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    """Enforce OWASP recommended security headers on all responses."""
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+    return response
+
+
 class Msg(BaseModel):
     role: Literal["user", "assistant"]
     content: str
@@ -92,7 +103,7 @@ except Exception as e:  # never block startup on storage
 
 
 class ReqIn(BaseModel):
-    id: Optional[str] = None
+    id: Optional[str] = Field(None, max_length=64, pattern=r"^[a-zA-Z0-9_-]+$")
     status: Literal["designed", "sent"] = "designed"
     spec: DesignSpec
 
@@ -222,13 +233,12 @@ def forecast():
 
 
 @app.get("/api/gold-rate")
-def gold_rate():
-    """Get current gold rate (live grounded or fallback)."""
-    rate = pricing.get_gold_rate()
-    live = pricing.fetch_live_gold_rate()
+def gold_rate(refresh: bool = False):
+    """Get current gold rate (live grounded, financial bullion feed, or calibrated IBJA standard)."""
+    rate, source = pricing.get_live_gold_rate_with_source(refresh=refresh)
     return {
         "gold_rate_24k_per_g": rate,
-        "source": "live_grounded" if live else "fallback_placeholder",
+        "source": source,
         "rates": {m: round(rate * p, 2) for m, p in pricing.PURITY.items()},
     }
 
@@ -243,6 +253,8 @@ async def analyze_undertone_file(file: UploadFile = File(...)):
         mime = file.content_type or "image/jpeg"
         if not mime.startswith("image/"):
             raise HTTPException(400, "Upload must be an image file")
+        if len(data) > 10 * 1024 * 1024:
+            raise HTTPException(400, "Image too large (max 10MB)")
         result = undertone.analyze_skin_undertone(data, mime)
         return result.model_dump()
     except HTTPException:
@@ -259,6 +271,8 @@ class UndertoneB64Req(BaseModel):
 @app.post("/api/undertone/analyze-b64")
 def analyze_undertone_b64(req: UndertoneB64Req):
     """Analyze base64-encoded portrait image for skin undertone."""
+    if len(req.image_b64) > 15 * 1024 * 1024:
+        raise HTTPException(400, "Payload too large (max 15MB)")
     try:
         raw = req.image_b64
         if "," in raw:
@@ -266,6 +280,8 @@ def analyze_undertone_b64(req: UndertoneB64Req):
         data = base64.b64decode(raw.strip())
         result = undertone.analyze_skin_undertone(data, req.mime_type)
         return result.model_dump()
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(503, f"Undertone analysis failed: {e}")
 

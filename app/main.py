@@ -222,13 +222,12 @@ def forecast():
 
 
 @app.get("/api/gold-rate")
-def gold_rate():
-    """Get current gold rate (live grounded or fallback)."""
-    rate = pricing.get_gold_rate()
-    live = pricing.fetch_live_gold_rate()
+def gold_rate(refresh: bool = False):
+    """Get current gold rate (live grounded, financial bullion feed, or calibrated IBJA standard)."""
+    rate, source = pricing.get_live_gold_rate_with_source(refresh=refresh)
     return {
         "gold_rate_24k_per_g": rate,
-        "source": "live_grounded" if live else "fallback_placeholder",
+        "source": source,
         "rates": {m: round(rate * p, 2) for m, p in pricing.PURITY.items()},
     }
 

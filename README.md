@@ -133,8 +133,8 @@ python -m uvicorn app.main:app --port 8080 --host 127.0.0.1 --reload
 ```
 
 Access the interfaces:
-- **Haute Joaillerie Atelier Studio**: [http://localhost:8080](http://localhost:8080)
-- **Store Demand and Intelligence Dashboard**: [http://localhost:8080/dashboard.html](http://localhost:8080/dashboard.html)
+- **Haute Joaillerie Atelier & Merchant Salon Portal**: [http://localhost:8080](http://localhost:8080)
+  *(Switch between Patron Atelier and Merchant Intelligence Command Center via the top navigation controls)*
 - **Interactive OpenAPI Documentation (Swagger)**: [http://localhost:8080/docs](http://localhost:8080/docs)
 
 ---

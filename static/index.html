@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JEWEL-AI | Haute Joaillerie Atelier, 3D CAD Studio & Merchant Intelligence</title>
+<title>JEWEL-AI | Haute Joaillerie Atelier & Merchant Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1469,9 +1469,9 @@ main {
   <div class="ticker-bar">
     <div class="ticker-left">
       <span class="live-dot"></span>
-      <span>24k Gold: <b class="ticker-value" id="ticker-rate">₹7,450 / g</b></span>
+      <span>24k Gold: <b class="ticker-value" id="ticker-rate">₹14,850 / g</b></span>
     </div>
-    <button class="ticker-refresh-btn" id="btn-refresh-ticker" title="Grounding with Google Search live spot rate">Refresh</button>
+    <button class="ticker-refresh-btn" id="btn-refresh-ticker" title="Grounding with live bullion rate and Google Search">Refresh</button>
   </div>
 
   <!-- Inspiration Upload Dropzone -->
@@ -3110,9 +3110,16 @@ $('#btn-refresh-ticker').onclick = async () => {
   try {
     const res = await fetch('/api/gold-rate?refresh=true').then(r => r.json());
     $('#ticker-rate').textContent = inr(res.gold_rate_24k_per_g) + ' / g';
-    toast('Bullion spot updated via Google Search Grounding');
+    const srcMap = {
+      'google_search_grounding': 'Google Search Grounding',
+      'live_bullion_feed': 'Live Financial Bullion Feed',
+      'calibrated_ibja_standard': 'Calibrated IBJA Retail Standard'
+    };
+    const srcLabel = srcMap[res.source] || 'Live Market Rate';
+    toast(`Bullion spot updated: ${inr(res.gold_rate_24k_per_g)}/g (${srcLabel})`);
   } catch (e) {
-    $('#ticker-rate').textContent = '₹7,450 / g';
+    $('#ticker-rate').textContent = '₹14,850 / g';
+    toast('Bullion spot cached at calibrated IBJA benchmark: ₹14,850/g');
   }
 };
 

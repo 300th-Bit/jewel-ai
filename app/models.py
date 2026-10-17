@@ -16,7 +16,7 @@ class Stone(BaseModel):
 class DesignSpec(BaseModel):
     """Single source of truth: drives BOTH the price and the image prompt."""
     category: Category = "ring"
-    style: str = "classic solitaire"
+    style: str = Field("classic solitaire", max_length=150)
     metal: Metal = "gold_22k"
     
     # Ring specific
@@ -33,13 +33,13 @@ class DesignSpec(BaseModel):
     earring_type: EarringType = "stud"
     
     stone: Stone = Field(default_factory=Stone)
-    occasion: Optional[str] = None
+    occasion: Optional[str] = Field(None, max_length=100)
     budget_inr: Optional[int] = Field(None, ge=0)
-    notes: Optional[str] = None
+    notes: Optional[str] = Field(None, max_length=1000)
     
     # Commerce & Karigar metadata
-    customer_name: Optional[str] = None
-    customer_phone: Optional[str] = None
-    artisan_notes: Optional[str] = None
-    matched_inventory_sku: Optional[str] = None
+    customer_name: Optional[str] = Field(None, max_length=100)
+    customer_phone: Optional[str] = Field(None, max_length=30)
+    artisan_notes: Optional[str] = Field(None, max_length=1000)
+    matched_inventory_sku: Optional[str] = Field(None, max_length=50)
 
